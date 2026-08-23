@@ -112,28 +112,22 @@
     <main class="flex-1 flex flex-col min-w-0">
 
         <!-- HEADER TOP BAR -->
-        <header class="h-16 border-b border-brand-border px-8 flex items-center justify-between">
-            <!-- Search Bar -->
-            <div class="relative w-80">
-                <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400"></i>
+        @include('partials.topbar', [
+            'left' => '<div style="display:flex;align-items:center;gap:8px;background:#131916;border:1px solid #1f2622;border-radius:20px;padding:8px 16px;width:320px;">
+                <i class="fa-solid fa-magnifying-glass" style="color:#6b7280;font-size:12px;"></i>
                 <input type="text" placeholder="Search anything, tasks, issues..."
-                    class="w-full bg-brand-card text-sm text-gray-200 placeholder-gray-500 rounded-full pl-10 pr-4 py-2 border border-brand-border focus:outline-none focus:border-brand-lime transition">
-            </div>
-
-            <!-- Header Actions -->
-            <div class="flex items-center gap-4">
-                <a href="{{ url('/projects/create') }}" class="bg-brand-lime text-black font-semibold text-sm px-4 py-2 rounded-full flex items-center gap-1.5 hover:bg-opacity-90 transition shadow-lg shadow-lime-500/10">
-                    <i data-lucide="plus" class="w-4 h-4"></i>
-                    Create Project
-                </a>
-                <div class="flex items-center gap-2 border-l border-brand-border pl-4">
-                    <button class="p-2 text-gray-400 hover:text-white bg-brand-card rounded-full border border-brand-border"><i data-lucide="bell" class="w-4 h-4"></i></button>
-                    <button class="p-2 text-gray-400 hover:text-white bg-brand-card rounded-full border border-brand-border"><i data-lucide="sun" class="w-4 h-4"></i></button>
-                    <button class="p-2 text-gray-400 hover:text-white bg-brand-card rounded-full border border-brand-border"><i data-lucide="help-circle" class="w-4 h-4"></i></button>
-                    <img src="https://i.pravatar.cc/100?img=33" class="w-8 h-8 rounded-full border border-brand-lime ml-2" alt="User Avatar">
-                </div>
-            </div>
-        </header>
+                    style="background:transparent;border:none;outline:none;color:#d1d5db;font-size:13px;width:100%;font-family:inherit;"
+                    placeholder-color="#6b7280">
+            </div>',
+            'extra' => '<a href="' . url('/projects/create') . '" style="
+                background:#ccff00;color:#000;font-weight:600;font-size:13px;
+                padding:8px 16px;border-radius:20px;text-decoration:none;
+                display:flex;align-items:center;gap:6px;white-space:nowrap;
+                font-family:inherit;
+            ">
+                <i class="fa-solid fa-plus" style="font-size:11px;"></i> Create Project
+            </a>'
+        ])
 
         <!-- PAGE CONTENT CONTAINER -->
         <div class="p-8 space-y-6 overflow-y-auto">

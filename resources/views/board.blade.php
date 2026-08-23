@@ -792,45 +792,13 @@
     <div class="main">
 
         <!-- ─── TOPBAR ─── -->
-        <header class="topbar">
-            <div class="topbar-breadcrumb">
-                <a href="{{ url('/dashboard') }}" class="breadcrumb-link">Boards</a>
-                <span class="breadcrumb-sep">›</span>
-                <span class="breadcrumb-current">Sprint 42 Board</span>
-            </div>
-            <div class="topbar-actions">
-                <button class="icon-btn" title="Notifications">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-                        <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-                    </svg>
-                    <span class="notif-dot"></span>
-                </button>
-                <button class="icon-btn" title="Toggle theme">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="5" />
-                        <line x1="12" y1="1" x2="12" y2="3" />
-                        <line x1="12" y1="21" x2="12" y2="23" />
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-                        <line x1="1" y1="12" x2="3" y2="12" />
-                        <line x1="21" y1="12" x2="23" y2="12" />
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
-                    </svg>
-                </button>
-                <button class="icon-btn" title="Help">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="10" />
-                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
-                        <line x1="12" y1="17" x2="12.01" y2="17" />
-                    </svg>
-                </button>
-                <div class="avatar-sm color-d" title="{{ session('user')->name ?? session('user')->nama ?? 'User' }}">
-                    {{ strtoupper(substr(session('user')->name ?? session('user')->nama ?? 'U', 0, 2)) }}
-                </div>
-            </div>
-        </header>
+        @include('partials.topbar', [
+            'left' => '<div style="display:flex;align-items:center;gap:6px;font-size:13px;">
+                <a href="' . url('/dashboard') . '" style="color:#9ca3af;text-decoration:none;">Boards</a>
+                <span style="color:#5a5a5a;font-size:12px;">›</span>
+                <span style="color:#e8ead4;font-weight:500;">Sprint 42 Board</span>
+            </div>'
+        ])
 
         <!-- ─── BOARD AREA ─── -->
         <div class="board-area">

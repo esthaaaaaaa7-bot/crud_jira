@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 
 <head>
@@ -99,33 +99,19 @@
     <div class="flex-1 flex flex-col h-screen overflow-hidden bg-[#0e100f]">
 
         <!-- TOPBAR -->
-        <header class="h-20 border-b border-[#171c19] flex items-center justify-between px-8 bg-[#0e100f] flex-shrink-0">
-            <!-- Search bar -->
-            <div class="relative w-96">
-                <span class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-gray-500">
-                    <i class="fa-solid fa-magnifying-glass text-sm"></i>
+        @include('partials.topbar', [
+            'left' => '<div class="relative" style="width:380px;">
+                <span style="position:absolute;top:50%;left:16px;transform:translateY(-50%);color:#6b7280;pointer-events:none;">
+                    <i class="fa-solid fa-magnifying-glass" style="font-size:13px;"></i>
                 </span>
-                <input type="text" placeholder="Search anything, tasks, issues..." class="w-full bg-[#131916] text-sm text-gray-300 pl-11 pr-4 py-2.5 rounded-2xl border border-[#1f2622] focus:outline-none focus:border-[#ccff00] transition">
-            </div>
-
-            <!-- Top Right Icons -->
-            <div class="flex items-center gap-4">
-
-                <button class="w-10 h-10 rounded-xl bg-[#131916] border border-[#1f2622] flex items-center justify-center text-gray-400 hover:text-white transition relative">
-                    <i class="fa-regular fa-bell text-sm"></i>
-                    <span class="absolute top-2.5 right-2.5 w-2 h-2 bg-neon rounded-full"></span>
-                </button>
-                <button class="w-10 h-10 rounded-xl bg-[#131916] border border-[#1f2622] flex items-center justify-center text-gray-400 hover:text-white transition">
-                    <i class="fa-regular fa-sun text-sm"></i>
-                </button>
-                <button class="w-10 h-10 rounded-xl bg-[#131916] border border-[#1f2622] flex items-center justify-center text-gray-400 hover:text-white transition">
-                    <i class="fa-regular fa-circle-question text-sm"></i>
-                </button>
-                <div class="ml-1">
-                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop&crop=faces" alt="Profile" class="w-10 h-10 rounded-xl object-cover border border-[#1f2622]">
-                </div>
-            </div>
-        </header>
+                <input type="text" placeholder="Search anything, tasks, issues..."
+                    style="width:100%;background:#131916;color:#d1d5db;font-size:13px;
+                           padding:9px 16px 9px 42px;border-radius:20px;
+                           border:1px solid #1f2622;outline:none;font-family:inherit;"
+                    onfocus="this.style.borderColor=\'#ccff00\'"
+                    onblur="this.style.borderColor=\'#1f2622\'">
+            </div>'
+        ])
 
         <!-- DASHBOARD CONTAINER -->
         <main class="flex-1 overflow-y-auto p-8 bg-[#0e100f]">
