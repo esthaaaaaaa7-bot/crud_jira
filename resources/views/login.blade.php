@@ -144,6 +144,7 @@
                             <span class="absolute left-4 text-gray-400">
                               <i class="fa-solid fa-lock text-sm"></i>
                             </span>
+                             <!-- inti nya ini tuh fungsi buat input user dan pwrd jadi pas di klik tuh muncul warna ijo ijo di border nya -->
                         <input 
                         type="password" 
                         name="password" 
