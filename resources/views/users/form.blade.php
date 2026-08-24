@@ -309,10 +309,10 @@
         {{-- Logo --}}
         <div class="logo-icon">
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="3" y="3" width="7" height="7" rx="1.5" fill="#0a0a0a" />
-                <rect x="14" y="3" width="7" height="7" rx="1.5" fill="#0a0a0a" />
-                <rect x="3" y="14" width="7" height="7" rx="1.5" fill="#0a0a0a" />
-                <rect x="14" y="14" width="7" height="7" rx="1.5" fill="#0a0a0a" />
+                <rect x="3" y="3" width="7" height="7" rx="1.5" stroke="#0a0a0a" stroke-width="2.2" fill="none" />
+                <rect x="14" y="3" width="7" height="7" rx="1.5" stroke="#0a0a0a" stroke-width="2.2" fill="none" />
+                <rect x="3" y="14" width="7" height="7" rx="1.5" stroke="#0a0a0a" stroke-width="2.2" fill="none" />
+                <rect x="14" y="14" width="7" height="7" rx="1.5" stroke="#0a0a0a" stroke-width="2.2" fill="none" />
             </svg>
         </div>
 
