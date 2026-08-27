@@ -74,7 +74,7 @@
     }
 
     </style>
- <!-- kartu utama pada tampilan -->
+ 
 <body>
     <div class="min-h-screen w-screen flex flex-col justify-center items-center py-16">
           <div class="w-full max-w-[370px] bg-[#151515] border border-[#303030] rounded-[18px] pt-10 pb-6 px-7 flex flex-col items-center shadow-2xl">
