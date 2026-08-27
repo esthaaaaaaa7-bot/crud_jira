@@ -111,9 +111,9 @@
     
     </aside>
 
-    <main class="flex-1 p-8 pt-6 overflow-y-auto bg-gradient-glow">
+    <main class="flex-1 p-8 pt-0 overflow-y-auto bg-gradient-glow">
 
-        <header class="flex items-center justify-between pb-6 mb-8 border-b border-white/10 -mx-8 px-8 sticky top-0 z-10 bg-transparent backdrop-blur-lg">
+        <header class="flex items-center justify-between pt-5 pb-6 mb-8 border-b border-white/10 -mx-8 px-8 sticky top-0 z-10 bg-transparent backdrop-blur-lg">
 
             <div class="relative w-96">
                 <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-white/50"></i>
