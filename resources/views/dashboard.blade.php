@@ -43,9 +43,9 @@
 <body class="flex h-screen bg-[#080808] font-sans">
 
     <aside class="w-64 bg-[#080808] text-white flex flex-col p-5 shadow-lg border-r border-white/10">
-
-        <div class="flex items-center gap-3 px-2 pb-4 mb-6 mt-2">
-
+               
+        <div class="flex items-center gap-3 mx-4 px-8 pb-6 mb-4 mt-1 border-b border-white/30">
+           
             <div class="w-8 h-8 bg-[#C7FF3D] rounded-[9px] flex items-center justify-center shrink-0">
                 <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect x="3" y="3" width="7" height="7" rx="1.5" stroke="#0a0a0a" stroke-width="2.2" fill="none" />
@@ -182,7 +182,7 @@
                     @php
                     $totalSemuaTask = $activeTasks + $completedTasks;
                     @endphp
-                    <p class="text-xs text-[#C7FF3D] font-medium">{{ $completedTasks }}/{{ $totalSemuaTask}} Complete</p>
+                    <p class="text-xs text-[#C7FF3D] font-medium">{{ $completedTasks }}/{{ $totalSemuaTask }} Task</p>
                 </div>
             </div>
 
