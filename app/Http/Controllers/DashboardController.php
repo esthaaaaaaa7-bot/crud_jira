@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Project;
 use App\Models\ProjectUser;
 use App\Models\Task;
+use App\Models\Team;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -24,7 +26,11 @@ class DashboardController extends Controller
 
         // 3. Kueri ke-5 Statistik:
 
-        // a. Total Projects
+        // a. Total Project:
+        $newProjectsThisMonth = Project::whereIn('id', $userProjectIds)
+            ->where('created_at', '>=', Carbon::now()->startOfMonth())
+            ->count();
+
         $totalProjects = $userProjectIds->count();
 
         // b. Active Tasks (Task yang belum 'Done' / status_id != 4)
@@ -44,17 +50,18 @@ class DashboardController extends Controller
             ->count();
 
         // e. Team Members (Jumlah rekan kerja unik di proyek-proyek user ini)
-        $teamMembers = ProjectUser::whereIn('project_id', $userProjectIds)
-            ->distinct('user_id')
-            ->count('user_id');
+        $teamMembers = ProjectUser::whereIn('project_id', $userProjectIds)->distinct('user_id')->count('user_id');
+        $totalTeams = Team::whereIn('project_id', $userProjectIds)->count();
 
         // 4. Kirim variabel ke view dashboard
         return view('dashboard', compact(
             'totalProjects',
+            'newProjectsThisMonth',
             'activeTasks',
             'completedTasks',
             'overdueTasks',
-            'teamMembers'
+            'teamMembers',
+            'totalTeams',
         ));
     }
 }

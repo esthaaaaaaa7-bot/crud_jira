@@ -12,6 +12,7 @@ return new class extends Migration {
             $table->string('key', 10)->unique();
             $table->string('nama_project');
             $table->text('deskripsi')->nullable();
+            $table->enum('role', ['Administrator', 'Member', 'Viewer'])->default('Member');
             $table->date('deadline')->nullable();
             $table->timestamps();
         });

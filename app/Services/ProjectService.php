@@ -26,6 +26,7 @@ class ProjectService
             'key'          => $data['key'],
             'nama_project' => $data['nama_project'],
             'deskripsi'    => $data['deskripsi'] ?? null,
+            'role'       => 'Administrator',
             'deadline'     => $data['deadline'] ?? null,
         ]);
 
@@ -33,7 +34,6 @@ class ProjectService
         ProjectUser::create([
             'project_id' => $project->id,
             'user_id'    => $userId,
-            'role'       => 'Administrator',
         ]);
 
         return $project;
