@@ -24,9 +24,6 @@ class Task extends Model
         'team_id',
     ];
 
-    /**
-     * Accessor untuk mendapatkan kode tiket ala Jira (misal: PROS-01)
-     */
     public function getFormattedKeyAttribute(): string
     {
         $projectKey = $this->project ? $this->project->key : 'TASK';
