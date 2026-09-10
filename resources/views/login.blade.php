@@ -9,94 +9,53 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<script>
         tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Poppins', 'sans-serif']
+                        sans: ['Inter', 'sans-serif']
                     }
                 }
             }
         }
     </script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
- <!-- nge hapus smua jarak bawaan browser-->
-<style>
-    *, *::before, *::after {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
 
-    body {
-        font-family: 'Poppins', sans-serif;
-        min-height: 100vh;
-        display: flex;
-        justify-content: center;
-        background-color: #000000;
-        background-image: radial-gradient(circle at 0% 0%, rgba(199, 255, 61, 0.3) 0%, transparent 30%),
-        radial-gradient(circle at 100% 100%, rgba(199, 255, 61, 0.3) 0%, transparent 30%);
-    
-    }
-    
+ <style>     
 
-    input[type="checkbox"] {
-    appearance: none;
-    -webkit-appearance: none;
-    width: 18px;
-    height: 18px;
-    background: #0a0a0a;        
-    border: 2px solid #C7FF3D;  
-    border-radius: 4px;
-    cursor: pointer;
-    position: relative;
-    flex-shrink: 0;
-    transition: background 0.15s;
-    }
+            body {
+            font-family: 'Inter', sans-serif;
+        }
 
-    input[type="checkbox"]:checked {
-    background: #C7FF3D;
-    }
-
-    input[type="checkbox"]:checked::after {
-    content: '';
-    position: absolute;
-    top: 2px;
-    left: 5px;
-    width: 5px;
-    height: 8px;
-    border: 2px solid #000000ff; 
-    border-top: none;
-    border-left: none;
-    transform: rotate(45deg);
-    }
+            .bg-gradient-glow {
+            background-color: #000000;
+            background-image:
+                radial-gradient(circle at 0% 0%, rgba(199, 255, 61, 0.3) 0%, transparent 30%),
+                radial-gradient(circle at 100% 100%, rgba(199, 255, 61, 0.3) 0%, transparent 30%),
+                radial-gradient(circle at 50% 50%, rgba(199, 255, 61, 0.15) 0%, transparent 60%);
+        }
 
     </style>
  
-<body>
-    <div class="min-h-screen w-screen flex flex-col justify-center items-center py-16">
-          <div class="w-full max-w-[370px] bg-[#151515] border border-[#303030] rounded-[18px] pt-10 pb-6 px-7 flex flex-col items-center shadow-2xl">
+<body class="bg-gradient-glow">
+    <div class="min-h-screen w-screen flex flex-col justify-center items-center">
+          <div class="w-full max-w-[370px] bg-[#151515] border border-[#303030] rounded-[18px] py-6 px-6 flex flex-col items-center shadow-2xl">
               <div class="text-center flex flex-col items-center mb-6">
                 
-                  <div class="w-14 h-14 bg-[#15111B] border border-[#303030] rounded-[16px] flex items-center justify-center mb-3 shadow-lg">
-                      <div class="w-8 h-8 bg-[#C7FF3D] rounded-[9px] flex items-center justify-center">
-                         <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                             <rect x="3" y="3" width="7" height="7" rx="1.5" stroke="#0a0a0a" stroke-width="2.2" fill="none" />
-                             <rect x="14" y="3" width="7" height="7" rx="1.5" stroke="#0a0a0a" stroke-width="2.2" fill="none" />
-                             <rect x="3" y="14" width="7" height="7" rx="1.5" stroke="#0a0a0a" stroke-width="2.2" fill="none" />
-                             <rect x="14" y="14" width="7" height="7" rx="1.5" stroke="#0a0a0a" stroke-width="2.2" fill="none" />
-                         </svg>
+                  <div class="w-12 h-12 bg-[#151515] border border-[#303030] rounded-[16px] flex items-center justify-center mb-2 shadow-lg">
+                      <div class="w-8 h-8 rounded-[9px] flex items-center justify-center shrink-0">
+                        <img src="{{ asset('images/logo_itenas.png') }}" alt="ProSite Logo" class="w-8 h-8 rounded-[9px]">
                       </div>
-                 </div>
+                  </div>
 
-                <span class="text-[11px] font-bold tracking-[0.15em] text-gray-400 uppercase mb-2">ProSite</span>
+                <h2 class="text-lg font-bold text-white tracking-wide pb-6">ItensFlow</h2>
                 <h1 class="text-xl font-bold text-white mb-1.5">Welcome Back</h1>
-                <p class="text-xs text-gray-400">Sign in to continue managing your projects</p>
+                <p class="text-xs text-white/80">Sign in to continue managing your projects</p>
             </div>
 
-             <!-- salah -->
             <div class="w-full">
                 @if(session('error'))
                     <div class="w-full bg-red-950/40 border border-red-500/30 text-red-200 text-xs px-4 py-3 rounded-lg mb-4 flex items-center gap-2">
@@ -105,7 +64,6 @@
                     </div>
                 @endif
 
-                 <!-- lupa -->
                 @if($errors->any())
                     <div class="w-full bg-red-950/40 border border-red-500/30 text-red-200 text-xs px-4 py-3 rounded-lg mb-4 flex flex-col gap-2">
                         @foreach($errors->all() as $error)
@@ -117,7 +75,6 @@
                     </div>
                 @endif
 
-                 <!-- inti nya pas ngirim data langsung ke fungsi login ke server laravel -->
                 <form class="w-full" method="POST" action="{{ url('/login') }}">
                     @csrf
                     <div class="mb-3.5 w-full">
@@ -126,7 +83,7 @@
                             <span class="absolute left-4 text-gray-400">
                                 <i class="fa-regular fa-envelope text-sm"></i>
                             </span>
-                  <!-- fitur klo misal si user udah masukin password atau username jadi kga harus ngisi dari awal -->
+
                         <input 
                         type="text"
                         name="username" 
@@ -144,7 +101,7 @@
                             <span class="absolute left-4 text-gray-400">
                               <i class="fa-solid fa-lock text-sm"></i>
                             </span>
-                             <!-- inti nya ini tuh fungsi buat input user dan pwrd jadi pas di klik tuh muncul warna ijo ijo di border nya -->
+
                         <input 
                         type="password" 
                         name="password" 
@@ -174,7 +131,7 @@
 
                 </form>
 
-                <p class="text-xs text-gray-500 text-center">Don't have an account? 
+                <p class="text-xs text-white/80 text-center">Don't have an account? 
                     <a href="{{ url('/users/create') }}" class="text-[#C7FF3D] font-semibold hover:opacity-75">Sign Up</a></p>
             </div>
         </div>
