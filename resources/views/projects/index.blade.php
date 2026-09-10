@@ -10,239 +10,525 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">    
     <script>
         tailwind.config = {
-            darkMode: 'class',
             theme: {
                 extend: {
                     fontFamily: {
                         sans: ['Inter', 'sans-serif']
-                    },
-                    colors: {
-                        brand: {
-                            lime: '#CCFF00',
-                            dark: '#0e100f',
-                            sidebar: '#090b0a',
-                            card: '#131916',
-                            border: '#1f2622',
-                        }
                     }
                 }
             }
         }
     </script>
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
 
-        .bg-neon {
-            background-color: #ccff00;
-        }
+    <style>     
 
-        .text-neon {
-            color: #ccff00;
+            .bg-gradient-glow {
+            background-color: #000000;
+            background-image:
+                radial-gradient(circle at 0% 0%, rgba(199, 255, 61, 0.3) 0%, transparent 30%),
+                radial-gradient(circle at 100% 100%, rgba(199, 255, 61, 0.3) 0%, transparent 30%),
+                radial-gradient(circle at 50% 50%, rgba(199, 255, 61, 0.15) 0%, transparent 60%);
         }
-
-        /* Efek Glow Hijau di Latar Belakang */
-        .bg-glow {
-            background: radial-gradient(circle at 20% 20%, rgba(204, 255, 0, 0.05) 0%, transparent 40%),
-                radial-gradient(circle at 80% 80%, rgba(204, 255, 0, 0.03) 0%, transparent 40%);
-        }
-    </style>
+    </style>    
+ 
 </head>
 
-<body class="bg-[#0e100f] text-gray-200 font-sans antialiased h-screen overflow-hidden flex m-0 p-0 bg-glow">
+<body class="flex h-screen overflow-hidden bg-[#080808] font-sans">
 
-    <!-- SIDEBAR -->
-    <aside class="w-64 bg-[#090b0a] border-r border-[#171c19] flex flex-col justify-between select-none flex-shrink-0">
-        <div>
-            <!-- Logo -->
-            <div class="flex items-center gap-3 px-6 py-6">
-                <div class="rounded-xl flex items-center justify-center flex-shrink-0 bg-neon" style="width:40px;height:40px;">
-                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:22px;height:22px;">
-                        <rect x="3" y="3" width="7" height="7" rx="1.5" stroke="#0a0a0a" stroke-width="2.2" fill="none" />
-                        <rect x="14" y="3" width="7" height="7" rx="1.5" stroke="#0a0a0a" stroke-width="2.2" fill="none" />
-                        <rect x="3" y="14" width="7" height="7" rx="1.5" stroke="#0a0a0a" stroke-width="2.2" fill="none" />
-                        <rect x="14" y="14" width="7" height="7" rx="1.5" stroke="#0a0a0a" stroke-width="2.2" fill="none" />
-                    </svg>
-                </div>
-                <span class="text-xl font-bold tracking-wide text-white">ProSite</span>
+    <div id="sidebar-backdrop" 
+        class="fixed inset-0 bg-black/60 z-40 lg:hidden hidden backdrop-blur-sm" 
+        onclick="toggleSidebar()">
+    </div>
+
+    <aside id="sidebar" class="fixed lg:relative inset-y-0 left-0 z-50 w-[200px] md:w-56 bg-[#080808] text-white flex flex-col p-5 shadow-lg 
+              border-r border-white/10 -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out">
+               
+        <div class="flex items-center gap-3 mx-4 px-0 md:px-4 pb-4 mb-4 mt-0 border-b border-white/30">
+           
+            <div class="w-8 h-8 rounded-[9px] flex items-center justify-center shrink-0">
+                <img src="{{ asset('images/logo_itenas.png') }}" alt="ProSite Logo" class="w-8 h-8 rounded-[9px]">
             </div>
 
-            <!-- Navigation Links -->
-            <nav class="mt-4 px-3 space-y-1.5">
-                <a href="{{ url('/dashboard') }}" class="flex items-center gap-3 px-4 py-3 rounded-2xl text-gray-400 hover:text-white hover:bg-[#131916] font-medium text-sm transition">
-                    <i class="fa-solid fa-chart-pie text-base"></i> Dashboard
-                </a>
-                <a href="{{ url('/projects') }}" class="flex items-center gap-3 px-4 py-3 rounded-2xl bg-[#17201b] text-white font-medium text-sm">
-                    <i class="fa-regular fa-folder text-base"></i> Project
-                </a>
-                <a href="{{ url('/board') }}" class="flex items-center gap-3 px-4 py-3 rounded-2xl text-gray-400 hover:text-white hover:bg-[#131916] font-medium text-sm transition">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;">
-                        <rect x="3" y="3" width="5" height="18" rx="1" />
-                        <rect x="10" y="3" width="5" height="12" rx="1" />
-                        <rect x="17" y="3" width="4" height="8" rx="1" />
-                    </svg> Board
-                </a>
-                <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-2xl text-gray-400 hover:text-white hover:bg-[#131916] font-medium text-sm transition">
-                    <i class="fa-regular fa-square-check text-base"></i> Task
-                </a>
-                <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-2xl text-gray-400 hover:text-white hover:bg-[#131916] font-medium text-sm transition">
-                    <i class="fa-regular fa-user text-base"></i> Team
-                </a>
-                @if((session('user')->id_jabatan ?? 0) == 1)
-                <a href="{{ url('/users') }}" class="flex items-center gap-3 px-4 py-3 rounded-2xl text-gray-400 hover:text-white hover:bg-[#131916] font-medium text-sm transition">
-                    <i class="fa-solid fa-user-gear text-base"></i> User
-                </a>
-                @endif
-            </nav>
+
+            <h2 class="text-md font-bold text-white tracking-wide">
+                ItensFlow
+            </h2>
         </div>
 
-        <!-- Settings di Bawah Sidebar -->
-        <div class="px-3 pb-6">
-            <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-2xl text-gray-400 hover:text-white hover:bg-[#131916] font-medium text-sm transition">
-                <i class="fa-solid fa-gear text-base"></i> Settings
-            </a>
-        </div>
+        <ul class="space-y-1 flex-1 mt-1">
+
+            <li>
+                <a href="{{ url('/dashboard') }}" class="flex items-center gap-3 py-2 px-4 rounded-lg text-gray-400 hover:bg-[#1a1a1a] hover:text-white transition duration-200">
+                    <i class="fa-solid fa-chart-line text-sm w-5 text-center"></i>
+                    <span class="text-sm">Dashboard</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url('/projects') }}" class="flex items-center gap-3 py-2 px-4 rounded-lg bg-[#1a1a1a] text-white font-medium transition duration-200 border border-[#2a2a2a]">
+                    <i class="fa-regular fa-folder text-sm w-5 text-center"></i>
+                    <span class="text-sm">Projects</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="#" class="flex items-center gap-3 py-2 px-4 rounded-lg text-gray-400 hover:bg-[#1a1a1a] hover:text-white transition duration-200">
+                    <i class="fa-solid fa-table-columns text-sm w-5 text-center"></i>
+                    <span class="text-sm">Boards</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="#" class="flex items-center gap-3 py-2 px-4 rounded-lg text-gray-400 hover:bg-[#1a1a1a] hover:text-white transition duration-200">
+                    <i class="fa-regular fa-square-check text-sm w-5 text-center"></i>
+                    <span class="text-sm">Tasks</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="#" class="flex items-center gap-3 py-2 px-4 rounded-lg text-gray-400 hover:bg-[#1a1a1a] hover:text-white transition duration-200">
+                    <i class="fa-solid fa-user-group text-sm w-5 text-center"></i>
+                    <span class="text-sm">Team</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="#" class="flex items-center gap-3 py-2 px-4 rounded-lg text-gray-400 hover:bg-[#1a1a1a] hover:text-white transition duration-200 mt-2">
+                    <i class="fa-solid fa-gear text-sm w-5 text-center"></i>
+                    <span class="text-sm">Settings</span>
+                </a>
+            </li>
+
+        </ul>
+
+
     </aside>
 
-    <!-- MAIN CONTENT -->
-    <main class="flex-1 flex flex-col min-w-0">
+    <main class="flex-1 p-8 pt-0 overflow-y-auto bg-gradient-glow">
 
-        <!-- HEADER TOP BAR -->
-        @include('partials.topbar', [
-            'left' => '<div style="display:flex;align-items:center;gap:8px;background:#131916;border:1px solid #1f2622;border-radius:20px;padding:8px 16px;width:320px;">
-                <i class="fa-solid fa-magnifying-glass" style="color:#6b7280;font-size:12px;"></i>
-                <input type="text" placeholder="Search anything, tasks, issues..."
-                    style="background:transparent;border:none;outline:none;color:#d1d5db;font-size:13px;width:100%;font-family:inherit;"
-                    placeholder-color="#6b7280">
-            </div>',
-            'extra' => '<a href="' . url('/projects/create') . '" style="
-                background:#ccff00;color:#000;font-weight:600;font-size:13px;
-                padding:8px 16px;border-radius:20px;text-decoration:none;
-                display:flex;align-items:center;gap:6px;white-space:nowrap;
-                font-family:inherit;
-            ">
-                <i class="fa-solid fa-plus" style="font-size:11px;"></i> Create Project
-            </a>'
-        ])
+        <header class="flex items-center justify-between py-3 sm:py-4 mb-8 border-b border-white/10 -mx-8 px-8 sticky top-0 z-10 bg-transparent backdrop-blur-lg">
 
-        <!-- PAGE CONTENT CONTAINER -->
-        <div class="p-8 space-y-6 overflow-y-auto">
+            <div class="flex items-center gap-3 flex-1">
 
-            <!-- Title & Filters -->
-            <div>
-                <h1 class="text-2xl font-bold text-white">Projects</h1>
-                <p class="text-sm text-gray-400 mt-0.5">Manage and track all ongoing project streams</p>
+                <button onclick="toggleSidebar()" 
+                    class="lg:hidden w-8 h-8 flex items-center justify-center rounded-xl 
+                   bg-[#151515] border border-white/10 text-gray-400 
+                   hover:text-white hover:bg-[#1a1a1a] transition">
+                <i class="fa-solid fa-bars text-xs"></i>
+                </button>
 
-                <div class="flex items-center gap-3 mt-4">
-                    <button class="bg-brand-card border border-brand-border text-xs px-3 py-1.5 rounded-lg flex items-center gap-2 text-gray-300">
-                        Status: <span class="text-white font-medium">All</span>
-                        <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i>
-                    </button>
-                    <button class="bg-brand-card border border-brand-border text-xs px-3 py-1.5 rounded-lg flex items-center gap-2 text-gray-300">
-                        Priority: <span class="text-white font-medium">High</span>
-                        <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i>
-                    </button>
+                <div class="relative w-full max-w-[150px] md:max-w-[280px] lg:max-w-xs xl:max-w-sm -ml-2">
+                    <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-white/50 text-xs"></i>
+                    <input type="text" placeholder="Search anything, tasks, issues..."
+                        class="w-full bg-[#151515] border border-white/10 text-xs text-white placeholder-white/50 
+                                rounded-xl pl-9  pr-4 py-2 focus:outline-none focus:border-[#C7FF3D] transition">
                 </div>
+
             </div>
 
-            <!-- GRID LAYOUT -->
-            <div class="grid grid-cols-12 gap-6">
 
-                <!-- PROJECT CARDS GRID (Left 8 Columns) -->
-                <div class="col-span-8 grid grid-cols-2 gap-4">
+            <div class="flex items-center gap-2">
+                <button class="w-8 h-8 flex items-center justify-center rounded-xl bg-[#111111] border 
+                                border-white/10 text-gray-400 hover:text-white hover:bg-[#1a1a1a] relative transition">
+                    <i class="fa-regular fa-bell text-sm"></i>
+                </button>
+                <button class="w-8 h-8 flex items-center justify-center rounded-xl bg-[#111111] border 
+                                border-white/10 text-gray-400 hover:text-white hover:bg-[#1a1a1a] relative transition">
+                    <i class="fa-regular fa-sun text-sm"></i>
+                </button>
+                <button class="w-8 h-8 flex items-center justify-center rounded-xl bg-[#111111] border 
+                                border-white/10 text-gray-400 hover:text-white hover:bg-[#1a1a1a] relative transition">
+                    <i class="fa-regular fa-user text-sm"></i>
+                </button>
+            </div>
 
-                    @forelse($projects as $project)
-                    <a href="{{ url('/projects/' . $project->id) }}" class="bg-brand-card border border-brand-border/80 rounded-2xl p-4 flex flex-col justify-between hover:border-[#ccff00] transition group">
-                        <div>
-                            <div class="flex items-start justify-between">
-                                <div>
-                                    <h3 class="text-sm font-semibold text-white group-hover:text-brand-lime transition">{{ $project->nama_project }}</h3>
-                                    <span class="text-[11px] text-gray-400 font-mono">KEY: {{ $project->key }}</span>
-                                </div>
-                                <span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[10px] px-2.5 py-0.5 rounded-full font-medium">Active</span>
-                            </div>
-                            @if($project->deskripsi)
-                            <p class="text-xs text-gray-400 mt-2 line-clamp-2">{{ $project->deskripsi }}</p>
-                            @endif
-                            <div class="mt-4">
-                                <div class="flex justify-between text-xs text-gray-400 mb-1.5">
-                                    <span>Tasks</span>
-                                    <span class="text-white font-semibold">{{ $project->tasks_count ?? 0 }} Tasks</span>
-                                </div>
-                                <div class="w-full bg-gray-800 rounded-full h-1.5">
-                                    <div class="bg-brand-lime h-1.5 rounded-full" style="width: 100%"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex items-center justify-between text-xs text-gray-400 mt-4 pt-3 border-t border-brand-border/40">
-                            <span class="flex items-center gap-1.5 text-amber-400"><span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span> Prosite Workspace</span>
-                            <span class="flex items-center gap-1"><i data-lucide="calendar" class="w-3.5 h-3.5"></i> {{ $project->deadline ? \Carbon\Carbon::parse($project->deadline)->format('d M Y') : 'No Deadline' }}</span>
-                        </div>
-                    </a>
-                    @empty
-                    <div class="col-span-2 bg-brand-card border border-brand-border/80 rounded-2xl p-10 text-center flex flex-col items-center justify-center space-y-4">
-                        <div class="w-12 h-12 rounded-2xl bg-brand-lime/10 flex items-center justify-center text-brand-lime">
-                            <i class="fa-solid fa-folder-plus text-xl"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-base font-bold text-white">Belum ada proyek</h3>
-                            <p class="text-xs text-gray-400 mt-1">Buat proyek baru pertama Anda untuk memulai manajemen tugas Jira-style.</p>
-                        </div>
-                        <a href="{{ url('/projects/create') }}" class="bg-brand-lime text-black font-semibold text-xs px-4 py-2.5 rounded-xl flex items-center gap-2 hover:opacity-90 transition">
-                            <i class="fa-solid fa-plus"></i> Buat Proyek Baru
-                        </a>
+
+        </header>
+
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+
+            <div>
+                <h2 class="text-xl sm:text-2xl font-bold text-white mb-1">All Projects</h2>
+                <h1 class="text-xs sm:text-md text-white">Manage and track all ongoing work across projects.</h1>
+            </div>
+
+               <div class="flex flex-row gap-2">
+
+                    <div class="flex items-center gap-1 border border-white/30 py-2 px-4 bg-[#c7ff3d] rounded-lg mt-3 hover:border-[#000000] transition-colors duration-200">
+                      <i class="fa-solid fa-plus text-black text-xs"></i>
+                      <button class="text-black font-black text-xs">Create Project</button>
+                   </div>
+
+                    <div class="flex items-center gap-1 border border-white/30 py-2 px-4 bg-[#000000] rounded-lg mt-3 hover:border-[#C7FF3D] transition-colors duration-200">
+                      <i class="fa-solid fa-filter text-white text-xs"></i> 
+                      <button class="text-white text-xs">Filter</button>
                     </div>
-                    @endforelse
 
+               </div>
+                
+        </div>
+
+            <div class="bg-[#111111] border border-white/10 rounded-2xl mt-6"> 
+                
+                <div class="overflow-x-auto">
+
+                <table class="w-full text-sm text-left">
+
+                    <thead>
+                    
+                        <tr class="border-b border-white/10">
+                    
+                            <th class="px-8 py-4 text-white text-sm sm:text-md font-semibold">Project Name</th>
+                            <th class="px-8 py-4 text-white text-sm sm:text-md font-semibold">Project</th>
+                            <th class="px-8 py-4 text-white text-sm sm:text-md font-semibold">Assignee</th>
+                            <th class="px-8 py-4 text-white text-sm sm:text-md font-semibold">Priority</th>
+                            <th class="px-8 py-4 text-white text-sm sm:text-md font-semibold">Status</th>
+                            <th class="px-8 py-4 text-white text-sm sm:text-md font-semibold">Due Date</th>
+                            <th class="px-8 py-4 text-white text-sm sm:text-md font-semibold">Actions</th>
+                        </tr>
+
+                    </thead>
+                
+                    <tbody>
+
+                        <tr class="border-b border-white/10 hover:bg-white/5 transition">
+                    
+                            <td class="px-8 py-3">
+                                <p class="font-bold text-white text-xs sm:text-sm">Design System Update</p>
+                                <p class="text-xs text-gray-500 mt-0.5">TSK-1042</p>
+                            </td>
+
+                            <td class="px-8 py-3">
+                                <p class="font-bold text-white text-xs sm:text-sm">Q4 Marketing Campaign</p>
+                            </td>
+
+                            <td class="px-8 py-3">
+
+                                <div class="flex items-center gap-2">
+
+                                    <div class="w-7 h-7 rounded-full bg-[#2a2a2a] border border-white/20 
+                                                flex items-center justify-center text-[10px] text-white font-bold shrink-0">
+                                                <i class="fa-regular fa-user text-xs sm:text-sm"></i>
+                                    </div>
+
+                                    <span class="text-white text-xs sm:text-sm">John Doe</span>
+
+                                </div>
+
+                            </td>
+
+                            <td class="px-8 py-3">
+
+                                <div class="flex items-center">
+                                    <span class="text-[10px] sm:text-xs  font-bold bg-orange-500/20 text-orange-400 px-2 py-0.5 rounded-lg">High</span>
+                                </div>
+
+                            </td>
+
+                            <td class="px-8 py-3">
+
+                                <div class="flex items-center">
+                                    <span class="text-[10px] font-bold bg-[#2a2a2a] text-white px-2 py-0.5 rounded-lg">In Progress</span>
+                                </div>
+
+                            </td>
+
+                            <td class="px-8 py-3">
+                                <p class="font-bold text-white">Oct 24, 2023</p>
+                            </td>
+
+                            <td class="px-8 py-3">
+                                <button class="text-[#C7FF3D] mr-5">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </button>
+                                <button class="text-white hover:text-red-500 transition">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                    <tbody>
+
+                        <tr class = "border-b border-white/10 hover:bg-white/5 transition">
+                    
+                            <td class ="px-8 py-3">
+                                <p class="font-bold text-white">Design System Update</p>
+                                <p class="text-xs text-gray-500 mt-0.5">TSK-1042</p>
+                            </td>
+
+                            <td class="px-8 py-3">
+                                <p class="font-bold text-white">Q4 Marketing Campaign</p>
+                            </td>
+
+                            <td class="px-8 py-3">
+
+                                <div class="flex items-center gap-2">
+
+                                    <div class="w-7 h-7 rounded-full bg-[#2a2a2a] border border-white/20 
+                                                flex items-center justify-center text-[10px] text-white font-bold shrink-0">
+                                                <i class="fa-regular fa-user text-xs"></i>
+                                    </div>
+
+                                    <span class="text-white text-sm">John Doe</span>
+                                </div>
+                                
+                            </td>
+
+                            <td class="px-8 py-3">
+
+                                <div class="flex items-center">
+                                    <span class="text-[10px] sm:text-xs font-semibold bg-red-500/20 text-red-400 px-2 py-0.5 rounded-lg">Critical</span>
+                                </div>
+
+                            </td>
+
+                            <td class="px-8 py-3">
+                                
+                                <div class="flex items-center">
+                                    <span class="text-[10px] sm:text-xs font-semibold bg-[#2a2a2a] text-white px-2 py-0.5 rounded-lg">To Do</span>
+                                </div>
+                                
+                            </td>
+
+                            <td class="px-8 py-3">
+                                <p class="font-bold text-white">Oct 24, 2023</p>
+                            </td>
+
+                            <td class="px-8 py-3">
+                                <button class="text-[#C7FF3D] mr-5" >
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </button>
+                                <button class="text-white hover:text-red-500 transition">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                    <tbody>
+
+                        <tr class = "border-b border-white/10 hover:bg-white/5 transition">
+                    
+                            <td class ="px-8 py-3">
+                                <p class="font-bold text-white">Design System Update</p>
+                                <p class="text-xs text-gray-500 mt-0.5">TSK-1042</p>
+                            </td>
+
+                            <td class="px-8 py-3">
+                                <p class="font-bold text-white">Q4 Marketing Campaign</p>
+                            </td>
+
+                            <td class="px-8 py-3">
+
+                                <div class="flex items-center gap-2">
+
+                                    <div class="w-7 h-7 rounded-full bg-[#2a2a2a] border border-white/20 
+                                                flex items-center justify-center text-[10px] text-white font-bold shrink-0">
+                                                <i class="fa-regular fa-user text-xs"></i>
+                                    </div>
+
+                                    <span class="text-white text-sm">John Doe</span>
+                                </div>
+                                
+                            </td>
+
+                            <td class="px-8 py-3">
+
+                                <div class="flex items-center">
+                                    <span class="text-[10px] sm:text-xs font-semibold bg-red-500/20 text-red-400 px-2 py-0.5 rounded-lg">Critical</span>
+                                </div>
+                                
+                            </td>
+
+                            <td class="px-8 py-3">
+                                
+                                <div class="flex items-center">
+                                    <span class="text-[10px] sm:text-xs font-semibold bg-[#2a2a2a] text-white px-2 py-0.5 rounded-lg">In Progress</span>
+                                </div>
+
+                            </td>
+
+                            <td class="px-8 py-3">
+                                <p class="font-bold text-white">Oct 24, 2023</p>
+                            </td>
+
+                            <td class="px-8 py-3">
+                                <button class="text-[#C7FF3D] mr-5">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </button>
+                                <button class="text-white hover:text-red-500 transition">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                    <tbody>
+
+                        <tr class = "border-b border-white/10 hover:bg-white/5 transition">
+                    
+                            <td class ="px-8 py-3">
+                                <p class="font-bold text-white">Design System Update</p>
+                                <p class="text-xs text-gray-500 mt-0.5">TSK-1042</p>
+                            </td>
+
+                            <td class="px-8 py-3">
+                                <p class="font-bold text-white">Q4 Marketing Campaign</p>
+                            </td>
+
+                            <td class="px-8 py-3">
+
+                                <div class="flex items-center gap-2">
+
+                                    <div class="w-7 h-7 rounded-full bg-[#2a2a2a] border border-white/20 
+                                                flex items-center justify-center text-[10px] text-white font-bold shrink-0">
+                                                <i class="fa-regular fa-user text-xs"></i>
+                                    </div>
+
+                                    <span class="text-white text-sm">John Doe</span>
+                                </div>
+                                
+                            </td>
+
+                            <td class="px-8 py-3">
+
+                                <div class="flex items-center">
+                                    <span class="text-[10px] sm:text-xs font-semibold bg-orange-500/20 text-orange-400 px-2 py-0.5 rounded-lg">High</span>
+                                </div>
+
+                            </td>
+
+                            <td class="px-8 py-3">
+                                
+                                <div class="flex items-center">
+                                    <span class="text-[10px] sm:text-xs font-semibold bg-[#C7FF3D]/20 text-[#C7FF3D] px-2 py-0.5 rounded-lg">Done</span>
+                                </div>
+
+                            </td>
+
+                            <td class="px-8 py-3">
+                                <p class="font-bold text-white">Oct 24, 2023</p>
+                            </td>
+
+                            <td class="px-8 py-3">
+                                <button class="text-[#C7FF3D] mr-5">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </button>
+                                <button class="text-white hover:text-red-500 transition">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                    <tbody>
+
+                        <tr class = "border-b border-white/10 hover:bg-white/5 transition">
+                    
+                            <td class ="px-8 py-3">
+                                <p class="font-bold text-white">Design System Update</p>
+                                <p class="text-xs text-gray-500 mt-0.5">TSK-1042</p>
+                            </td>
+
+                            <td class="px-8 py-3">
+                                <p class="font-bold text-white">Q4 Marketing Campaign</p>
+                            </td>
+
+                            <td class="px-8 py-3">
+
+                                <div class="flex items-center gap-2">
+
+                                    <div class="w-7 h-7 rounded-full bg-[#2a2a2a] border border-white/20 
+                                                flex items-center justify-center text-[10px] text-white font-bold shrink-0">
+                                                <i class="fa-regular fa-user text-xs"></i>
+                                    </div>
+
+                                    <span class="text-white text-sm">John Doe</span>
+                                </div>
+                                
+                            </td>
+
+                            <td class="px-8 py-3">
+
+                                <div class="flex items-center">
+                                    <span class="text-[10px] sm:text-xs font-semibold bg-green-500/20 text-green-400 px-2 py-0.5 rounded-lg">Low</span>
+                                </div>
+
+                            </td>
+
+                            <td class="px-8 py-3">
+
+                                <div class="flex items-center">
+                                    <span class="text-[10px] sm:text-xs font-semibold bg-[#C7FF3D]/20 text-[#C7FF3D] px-2 py-0.5 rounded-lg">Done</span>
+                                </div>
+                                
+                            </td>
+
+                            <td class="px-8 py-3">
+                                <p class="font-bold text-white">Oct 24, 2023</p>
+                            </td>
+
+                            <td class="px-8 py-3">
+                                <button class="text-[#C7FF3D] mr-5">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </button>
+                                <button class="text-white hover:text-red-500 transition">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            <div class="flex justify-between items-center my-2">
+
+                <p class="text-white text-xs mx-8">Showing 1 to 5 of 34 projects</p>
+
+                <div class="mx-6">
+                    <button class="text-white text-xs hover:text-[#C7FF3D] transition mr-5">&#8249;</button>
+                    <button class="text-white text-xs hover:text-[#C7FF3D] transition mr-5">1</button>
+                    <button class="text-white text-xs hover:text-[#C7FF3D] transition mr-5">2</button>
+                    <button class="text-white text-xs hover:text-[#C7FF3D] transition mr-5">3</button>
+                    <span class="text-white">...</span>
+                    <button class="text-white text-xs hover:text-[#C7FF3D] transition mr-5">&#8250;</button>
                 </div>
-
-                <!-- RIGHT SIDE STATS (Right 4 Columns) -->
-                <div class="col-span-4 space-y-4">
-
-                    <!-- Summary Card -->
-                    <div class="bg-brand-card border border-brand-border/80 rounded-2xl p-5">
-                        <h3 class="text-sm font-semibold text-white mb-4">Project Status Summary</h3>
-
-                        <div class="space-y-3 text-xs">
-                            <div class="flex items-center justify-between">
-                                <span class="flex items-center gap-2 text-gray-300">
-                                    <span class="w-2 h-2 rounded-full bg-emerald-400"></span> Total Proyek
-                                </span>
-                                <span class="font-bold text-white">{{ count($projects) }} Projects</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Overall Efficiency Card -->
-                    <div class="bg-brand-card border border-brand-border/80 rounded-2xl p-5">
-                        <h3 class="text-sm font-semibold text-white mb-4">Overall Efficiency</h3>
-
-                        <div>
-                            <div class="flex items-center justify-between text-xs mb-2">
-                                <span class="text-gray-400">On-Time Delivery</span>
-                                <span class="font-bold text-white">94.2%</span>
-                            </div>
-                            <div class="w-full bg-gray-800 rounded-full h-1.5">
-                                <div class="bg-brand-lime h-1.5 rounded-full" style="width: 94.2%"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
+                
             </div>
 
         </div>
+
     </main>
 
-    <!-- Script Lucide Icons -->
     <script>
-        lucide.createIcons();
+        
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const backdrop = document.getElementById('sidebar-backdrop');
+
+            sidebar.classList.toggle('-translate-x-full');
+            backdrop.classList.toggle('hidden');
+        }
+
     </script>
+
 </body>
 
 </html>
+
+
+   
