@@ -155,18 +155,16 @@
                 <h1 class="text-xs sm:text-md text-white">Manage and track all ongoing work across projects.</h1>
             </div>
 
-               <div class="flex flex-row gap-2">
-
-                    <div class="flex items-center gap-1 border border-white/30 py-2 px-4 bg-[#c7ff3d] rounded-lg mt-3 hover:border-[#000000] transition-colors duration-200">
+         <div class="flex flex-row gap-2">
+                    <div onclick="openCreateModal()" class="flex items-center gap-1 border border-white/30 py-2 px-4 bg-[#c7ff3d] rounded-lg mt-3 hover:border-[#000000] transition-colors duration-200 cursor-pointer">
                       <i class="fa-solid fa-plus text-black text-xs"></i>
                       <button class="text-black font-black text-xs">Create Project</button>
-                   </div>
+                    </div>
 
                     <div class="flex items-center gap-1 border border-white/30 py-2 px-4 bg-[#000000] rounded-lg mt-3 hover:border-[#C7FF3D] transition-colors duration-200">
                       <i class="fa-solid fa-filter text-white text-xs"></i> 
                       <button class="text-white text-xs">Filter</button>
                     </div>
-
                </div>
                 
         </div>
@@ -523,8 +521,81 @@
             sidebar.classList.toggle('-translate-x-full');
             backdrop.classList.toggle('hidden');
         }
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const backdrop = document.getElementById('sidebar-backdrop');
 
+            sidebar.classList.toggle('-translate-x-full');
+            backdrop.classList.toggle('hidden');
+        }
+
+        function openCreateModal() {
+            const modal = document.getElementById('createProjectModal');
+            modal.classList.remove('hidden');
+        }
+
+        function closeCreateModal() {
+            const modal = document.getElementById('createProjectModal');
+            modal.classList.add('hidden');
+        }
     </script>
+
+    <div id="createProjectModal"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm hidden p-4">
+        <div class="w-full max-w-lg bg-[#131616] border border-[#1f2622] rounded-2xl p-6  shadow-2xl relative">
+            <h2 class="text-lg font-bold text-white mb-1">Create New Project</h2>
+            <p class="text-xs text-[#9ca3af] mb-6"> Set up a new workspace for your team. You can modify these detail later </p>
+
+            <form action="{{ url ('/projects') }}" method="POST">
+                @csrf
+                <div class="space-y-4">
+                    <div>
+                        <label for="modal_project_name" class="block text-[11px] font-semibold tracking-wider text-[#9ca3af] uppercase">
+                            Project Name
+                        </label>
+                        <input type="text" name="nama_project" id="modal_project_name" 
+                            class="w-full mt-2 px-4 py-2 bg-[#1a1d1d] border border-[#2f3533] rounded-xl text-white focus:outline-none focus:border-[#C7FF3D] transition-all"
+                            placeholder="e.g. Q4 Marketing Campaign" required>
+                    </div>
+
+                    <div>
+                        <label for="modal_project_code" class="block text-[11px] font-semibold tracking-wider text-[#9ca3af] uppercase">
+                            Project description
+                        </label>
+                        <textarea name="deskripsi" id="modal_project_desc" rows="3"
+                            class="w-full mt-1.5 px-3.5 py-2.5 bg-[#1a1d1d] border border-[#2f3533] rounded-xl text-xs text-white focus:outline-none focus:border-[#C7FF3D] transition-all resize-none"
+                            placeholder="Briefly describe the goals and scope..."></textarea>
+
+                    </div>
+                    
+                    <div class="space-y-2">
+                <label for="modal_project_name" class="block text-[11px] font-semibold tracking-wider text-[#9ca3af] uppercase">
+                            Deadline
+                        </label>
+                        <input type="date" name="deadline" id="modal_deadline" 
+                            class="w-full mt-2 px-4 py-2.5 bg-[#1a1d1d] border border-[#2f3533] rounded-xl text-white focus:outline-none focus:border-[#C7FF3D] transition-all [color-scheme:dark]"
+                            placeholder="Pilih tanggal deadline" required>
+                    </div>
+
+                    <div class="flex justify-end gap-3 pt-4 border-t border-[#1f2622]">
+
+                        <button type="button" onclick="closeCreateModal()"
+                            class="px-5 py-2 text-xs font-semibold text-white hover:bg-[#1a1d1d] transition-colors cursor-pointer">
+                            Cancel
+                        </button>
+
+                        <button type="submit"
+                class="px-5 py-2 text-xs font-semibold bg-[#C7FF3D] text-black font-semibold rounded-xl hover:bg-[#dfff6f] cursor-pointer"><i class="fa-solid fa-check"></i> Oke  
+                        </button>
+                    </div>
+            
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+
 
 </body>
 
