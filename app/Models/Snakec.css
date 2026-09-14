@@ -1,0 +1,111 @@
+/* ====== 1. Styling Dasar Body ====== */
+body{
+    background-color:#defffe;
+    font-family: Arial, Helvetica, sans-serif;
+    margin :0;
+    padding :0;
+    color: #333;
+}
+
+/* ====== 2. Header ====== */
+.header{
+    text-align: center;
+    padding: 40px;
+    background: #7BD3EA
+    ;
+    color: white;
+}
+
+.judul{
+    font-size:90px;
+    margin:0;
+    font-weight:bold;
+}
+
+.subjudul{
+    font-size:40px;
+    opacity:0.9;
+}
+
+/* ====== 3. Layout Profil ====== */
+.profil-container{
+    display:flex;
+    flex-direction:row;
+    justify-content:center;
+    align-items:center;
+    gap:40px;
+    margin:40px auto;
+    padding:20px;
+    width:80%;
+}
+
+.foto-profil{
+    width:200px;
+    border-radius:12px;
+    border:4px solid #4682b4;
+}
+
+.profil-text{
+    width:100%;
+}
+.profi-text h2{
+    margin-bottom:10px;
+    color:#4682b4;
+}
+
+/* ====== 4. Daftar Keahlian ====== */
+.keahlian{
+    text-align:center;
+    width:50%;
+    margin:30px auto;
+    padding:20px 30px;
+}
+.keahlian h2{
+    color:#4682b4;
+}
+.keahlian ul li{
+    margin:6px 0;
+    font-size:16px;
+}
+/* ====== 5. Tombol ====== */
+.tombol-container{
+    text-align:center;
+    margin:30px 0;
+}
+.btn-primary{
+    background: #4682b4;
+    color: white;
+    padding: 18px 45px;
+    border:none;
+    border-radius:15px;
+    font-size:22px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.3s;
+}
+.btn-primary:hover{
+    background: #4682b4;
+}
+/* ====== 6. Footer ====== */
+.footer{
+    background:#4682b4;
+    color:white;
+    text-align:center;
+    padding:15px;
+    margin-top:40px;
+    font-size:30px;
+}
+.card{
+    background-color:white;
+    max-width:1000px;
+    width:100%;
+    margin:25px auto;
+    padding:25px;
+    border-radius:25px;
+    box-shadow:0px 6px 15px rgba(0,0,0,0.10);
+    text-align:left;
+    font-size: 30px;
+}
+.text{
+    white-space:nowrap;
+}
