@@ -16,6 +16,7 @@ class StoreProjectRequest extends FormRequest
         return [
             'nama_project' => 'required|string|max:255',
             'deskripsi'    => 'nullable|string',
+            'priority' => 'nullable|in:Low,Medium,High',
             'deadline'     => 'nullable|date',
             'key'          => 'nullable|string|max:10|unique:projects,key',
         ];

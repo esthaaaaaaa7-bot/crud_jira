@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ProSite - Dashboard</title>
+    <title>ItensFlow - Dashboard</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -43,16 +43,16 @@
 
 <body class="flex h-screen overflow-hidden bg-[#080808] font-sans">
 
-    <div id="sidebar-backdrop" 
-         class="fixed inset-0 bg-black/60 z-40 lg:hidden hidden backdrop-blur-sm" 
-         onclick="toggleSidebar()">
+    <div id="sidebar-backdrop"
+        class="fixed inset-0 bg-black/60 z-40 lg:hidden hidden backdrop-blur-sm"
+        onclick="toggleSidebar()">
     </div>
 
-   <aside id="sidebar" class="fixed lg:relative inset-y-0 left-0 z-50 w-[200px] md:w-56 bg-[#080808] text-white flex flex-col p-5 shadow-lg 
+    <aside id="sidebar" class="fixed lg:relative inset-y-0 left-0 z-50 w-[200px] md:w-56 bg-[#080808] text-white flex flex-col p-5 shadow-lg 
               border-r border-white/10 -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out">
-               
+
         <div class="flex items-center gap-3 mx-4 px-0 md:px-4 pb-4 mb-4 mt-0 border-b border-white/30">
-           
+
             <div class="w-8 h-8 rounded-[9px] flex items-center justify-center shrink-0">
                 <img src="{{ asset('images/logo_itenas.png') }}" alt="ProSite Logo" class="w-8 h-8 rounded-[9px]">
             </div>
@@ -118,11 +118,11 @@
 
             <div class="flex items-center gap-3 flex-1">
 
-                <button onclick="toggleSidebar()" 
+                <button onclick="toggleSidebar()"
                     class="lg:hidden w-8 h-8 flex items-center justify-center rounded-xl 
                    bg-[#151515] border border-white/10 text-gray-400 
                    hover:text-white hover:bg-[#1a1a1a] transition">
-                <i class="fa-solid fa-bars text-xs"></i>
+                    <i class="fa-solid fa-bars text-xs"></i>
                 </button>
 
                 <div class="relative w-full max-w-[150px] md:max-w-[280px] lg:max-w-xs xl:max-w-sm -ml-2">
@@ -362,66 +362,59 @@
 
                 <div class="bg-[#151515] border border-white/10 rounded-2xl p-5">
                     <h3 class="text-sm font-bold text-white mb-4">Team Workload</h3>
-
+                    @php
+                    // Hitung nilai tertinggi sekali saja, sebelum loop dimulai
+                    $maxTasks = $teamWorkload->max('assigned_tasks_count') ?: 1;
+                    @endphp
+                    @forelse ($teamWorkload as $member)
                     <div class="mb-4">
                         <div class="flex justify-between text-xs mb-1">
-                            <span class="text-white font-medium">John D.</span>
-                            <span class="text-gray-400">12 tasks</span>
+                            <span class="text-white font-medium">{{ $member->name }}</span>
+                            <span class="text-gray-400">{{ $member->assigned_tasks_count }} tasks</span>
                         </div>
+                        @php
+                        $percentage = ($member->assigned_tasks_count / $maxTasks) * 100;
+                        @endphp
                         <div class="w-full bg-[#000000] rounded-full h-1.5">
-                            <div class="bg-[#C7FF3D] h-1.5 rounded-full" style="width: 85%"></div>
+                            <div class="bg-[#C7FF3D] h-1.5 rounded-full" style="width: {{ $percentage }}%"></div>
                         </div>
                     </div>
+                    @empty
+                    <p class="text-xs text-gray-500">Belum ada anggota tim.</p>
+                    @endforelse
 
-                    <div class="mb-4">
-                        <div class="flex justify-between text-xs mb-1">
-                            <span class="text-white font-medium">Sarah J.</span>
-                            <span class="text-gray-400">8 tasks</span>
-                        </div>
-                        <div class="w-full bg-[#000000] rounded-full h-1.5">
-                            <div class="bg-[#C7FF3D] h-1.5 rounded-full" style="width: 60%"></div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <div class="flex justify-between text-xs mb-1">
-                            <span class="text-white font-medium">Michael K.</span>
-                            <span class="text-gray-400">4 tasks</span>
-                        </div>
-                        <div class="w-full bg-[#000000] rounded-full h-1.5">
-                            <div class="bg-[#C7FF3D] h-1.5 rounded-full" style="width: 30%"></div>
-                        </div>
-                    </div>
                 </div>
 
                 <div class="bg-[#151515] border border-white/10 rounded-2xl p-5">
                     <h3 class="text-sm font-bold text-white mb-4">Recent Activity</h3>
 
                     <div class="flex flex-col gap-4">
+                        @forelse ($recentActivities as $activity)
                         <div>
-                            <p class="text-xs text-white font-medium">John D. pushed to branch main</p>
-                            <p class="text-[10px] text-gray-500 mt-0.5">2 mins ago</p>
+                            <p class="text-xs text-white font-medium">
+                                {{ $activity->user->name }} mengubah
+                                "{{ $activity->task->judul_task }}"
+                                @if ($activity->fromStatus)
+                                dari {{ $activity->fromStatus->nama_status }} →
+                                @endif
+                                {{ $activity->toStatus->nama_status }}
+                            </p>
+                            <p class="text-[10px] text-gray-500 mt-0.5">
+                                {{ $activity->created_at->diffForHumans() }}
+                            </p>
                         </div>
-                        <div>
-                            <p class="text-xs text-white font-medium">Sarah J. completed PRJ-138</p>
-                            <p class="text-[10px] text-gray-500 mt-0.5">1 hr ago</p>
-                        </div>
-                        <div>
-                            <p class="text-xs text-white font-medium">Sprint review scheduled</p>
-                            <p class="text-[10px] text-gray-500 mt-0.5">3 hrs ago</p>
-                        </div>
+                        @empty
+                        <p class="text-xs text-gray-500">Belum ada aktivitas.</p>
+                        @endforelse
                     </div>
                 </div>
-
             </div>
-
         </div>
 
 
     </main>
 
     <script>
-        
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             const backdrop = document.getElementById('sidebar-backdrop');
@@ -429,7 +422,6 @@
             sidebar.classList.toggle('-translate-x-full');
             backdrop.classList.toggle('hidden');
         }
-
     </script>
 
 </body>
