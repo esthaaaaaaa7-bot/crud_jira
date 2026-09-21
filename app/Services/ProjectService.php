@@ -26,7 +26,7 @@ class ProjectService
             'key'          => $data['key'],
             'nama_project' => $data['nama_project'],
             'deskripsi'    => $data['deskripsi'] ?? null,
-            'role'       => 'Administrator',
+            'priority' => $data['priority'] ?? 'Medium',
             'deadline'     => $data['deadline'] ?? null,
         ]);
 
@@ -34,6 +34,7 @@ class ProjectService
         ProjectUser::create([
             'project_id' => $project->id,
             'user_id'    => $userId,
+            'role' => 'Administrator',
         ]);
 
         return $project;
@@ -49,7 +50,7 @@ class ProjectService
             return collect();
         }
 
-        return $user->projects()->withCount('tasks')->latest('projects.created_at')->get();
+        return $user->projects()->withCount('tasks')->latest('projects.created_at')->paginate(5);
     }
 
     /**

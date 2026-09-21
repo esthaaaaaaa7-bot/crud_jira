@@ -16,6 +16,7 @@ class Project extends Model
         'nama_project',
         'deskripsi',
         'deadline',
+        'priority',
     ];
 
     /**
@@ -24,8 +25,8 @@ class Project extends Model
     public function users()
     {
         return $this->belongsToMany(User::class, 'project_users', 'project_id', 'user_id')
-                    ->withPivot('role')
-                    ->withTimestamps();
+            ->withPivot('role')
+            ->withTimestamps();
     }
 
     /**
