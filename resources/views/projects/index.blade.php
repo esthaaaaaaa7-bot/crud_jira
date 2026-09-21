@@ -88,14 +88,14 @@
             </li>
 
             <li>
-                <a href="#" class="flex items-center gap-3 py-2 px-4 rounded-lg text-gray-400 hover:bg-[#1a1a1a] hover:text-white transition duration-200">
+                <a href="{{ url('/team') }}" class="flex items-center gap-3 py-2 px-4 rounded-lg text-gray-400 hover:bg-[#1a1a1a] hover:text-white transition duration-200">
                     <i class="fa-solid fa-user-group text-sm w-5 text-center"></i>
                     <span class="text-sm">Team</span>
                 </a>
             </li>
 
             <li>
-                <a href="#" class="flex items-center gap-3 py-2 px-4 rounded-lg text-gray-400 hover:bg-[#1a1a1a] hover:text-white transition duration-200 mt-2">
+                <a href="{{ url('/setting') }}" class="flex items-center gap-3 py-2 px-4 rounded-lg text-gray-400 hover:bg-[#1a1a1a] hover:text-white transition duration-200 mt-2">
                     <i class="fa-solid fa-gear text-sm w-5 text-center"></i>
                     <span class="text-sm">Settings</span>
                 </a>
@@ -172,7 +172,7 @@
 
             <div class="overflow-x-auto">
 
-                <table class="w-full min-w-max text-sm text-left">
+                <table class="w-full text-sm text-left">
 
                     <thead>
 
@@ -297,9 +297,7 @@
                     </tbody>
                 </table>
 
-            </div>
-
-            <div class="flex flex-col sm:flex-row sm:justify-between items-center my-2 gap-4 shrink-0">
+            <div class="flex justify-between items-center my-2">
 
                 <p class="text-white text-xs mx-8">Showing {{ $projects->firstItem() }} to {{ $projects->lastItem() }} of {{ $projects->total() }}</p>
 
