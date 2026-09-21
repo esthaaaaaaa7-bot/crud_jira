@@ -22,6 +22,9 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 Route::get('/team', function () {
     return view('team');
 })->name('team');
+Route::get('/setting', function () {
+    return view('projects.settings');
+})->name('setting');
 
 
 Route::get('/board', function () {

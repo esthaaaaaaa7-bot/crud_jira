@@ -96,7 +96,7 @@
             </li>
 
             <li>
-                <a href="#" class="flex items-center gap-3 py-2 px-4 rounded-lg text-gray-400 hover:bg-[#1a1a1a] hover:text-white transition duration-200 mt-2">
+                <a href="{{ url('/setting') }}" class="flex items-center gap-3 py-2 px-4 rounded-lg text-gray-400 hover:bg-[#1a1a1a] hover:text-white transition duration-200 mt-2">
                     <i class="fa-solid fa-gear text-sm w-5 text-center"></i>
                     <span class="text-sm">Settings</span>
                 </a>
@@ -169,11 +169,11 @@
                 
         </div>
 
-        <div class="bg-[#111111] border border-white/10 rounded-2xl mt-8"> 
-                    
-            <div class="overflow-x-auto">
+            <div class="bg-[#111111] border border-white/10 rounded-2xl mt-6"> 
+                
+                <div class="overflow-x-auto">
 
-                <table class="w-full min-w-max text-sm text-left">
+                <table class="w-full text-sm text-left">
 
                     <thead>
                     
@@ -196,7 +196,7 @@
                     
                             <td class="px-8 py-3">
                                 <p class="font-bold text-white text-xs sm:text-sm">Design System Update</p>
-                                <p class="text-[10px] sm:text-xs text-white mt-0.5">TSK-1042</p>
+                                <p class="text-xs text-gray-500 mt-0.5">TSK-1042</p>
                             </td>
 
                             <td class="px-8 py-3">
@@ -235,42 +235,17 @@
                             </td>
 
                             <td class="px-8 py-3">
-                                <p class="font-bold text-white text-xs sm:text-sm">Oct 24, 2023</p>
+                                <p class="font-bold text-white">Oct 24, 2023</p>
                             </td>
 
                             <td class="px-8 py-3">
-    
-                               <div class="relative inline-block">
-
-                                   <button onclick="toggleDropdown(this)" 
-                                          class="w-8 h-8 flex items-center justify-center rounded-lg 
-                                                 text-white hover:bg-white/10 hover:text-white transition">
-                                         <i class="fa-solid fa-ellipsis-vertical"></i> 
-
-                                   </button>
-
-                                   <div class="dropdown-menu hidden absolute right-0 mt-1 w-36 
-                                               bg-[#1a1a1a] border border-white/10 rounded-xl 
-                                               shadow-xl z-50 overflow-hidden">
-
-                                            <button class="w-full flex items-center gap-2 px-4 py-2.5 
-                                                           text-xs text-white hover:bg-white/5 transition">
-                                               <i class="fa-solid fa-pen-to-square text-[#C7FF3D]"></i>
-                                               Edit
-                                          </button>
-
-                                          <button class="w-full flex items-center gap-2 px-4 py-2.5 
-                                                           text-xs text-red-400 hover:bg-white/5 transition">
-                                                <i class="fa-solid fa-trash"></i>
-                                                Hapus
-                                          </button>
-
-                                     </div>
-
-                                </div>
-
+                                <button class="text-[#C7FF3D] mr-5">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </button>
+                                <button class="text-white hover:text-red-500 transition">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
                             </td>
-
 
                         </tr>
 
@@ -281,12 +256,12 @@
                         <tr class = "border-b border-white/10 hover:bg-white/5 transition">
                     
                             <td class ="px-8 py-3">
-                                <p class="font-bold text-white text-xs sm:text-sm">Design System Update</p>
-                                <p class="text-[10px] sm:text-xs text-white mt-0.5">TSK-1042</p>
+                                <p class="font-bold text-white">Design System Update</p>
+                                <p class="text-xs text-gray-500 mt-0.5">TSK-1042</p>
                             </td>
 
                             <td class="px-8 py-3">
-                                <p class="font-bold text-white text-xs sm:text-sm">Q4 Marketing Campaign</p>
+                                <p class="font-bold text-white">Q4 Marketing Campaign</p>
                             </td>
 
                             <td class="px-8 py-3">
@@ -295,10 +270,10 @@
 
                                     <div class="w-7 h-7 rounded-full bg-[#2a2a2a] border border-white/20 
                                                 flex items-center justify-center text-[10px] text-white font-bold shrink-0">
-                                                <i class="fa-regular fa-user text-xs sm:text-sm"></i>
+                                                <i class="fa-regular fa-user text-xs"></i>
                                     </div>
 
-                                    <span class="text-white text-xs sm:text-sm">John Doe</span>
+                                    <span class="text-white text-sm">John Doe</span>
                                 </div>
                                 
                             </td>
@@ -320,40 +295,16 @@
                             </td>
 
                             <td class="px-8 py-3">
-                                <p class="font-bold text-white text-xs sm:text-sm">Oct 24, 2023</p>
+                                <p class="font-bold text-white">Oct 24, 2023</p>
                             </td>
 
                             <td class="px-8 py-3">
-    
-                               <div class="relative inline-block">
-
-                                   <button onclick="toggleDropdown(this)" 
-                                          class="w-8 h-8 flex items-center justify-center rounded-lg 
-                                                 text-white hover:bg-white/10 hover:text-white transition">
-                                         <i class="fa-solid fa-ellipsis-vertical"></i> 
-
-                                   </button>
-
-                                   <div class="dropdown-menu hidden absolute right-0 mt-1 w-36 
-                                               bg-[#1a1a1a] border border-white/10 rounded-xl 
-                                               shadow-xl z-50 overflow-hidden">
-
-                                            <button class="w-full flex items-center gap-2 px-4 py-2.5 
-                                                           text-xs text-white hover:bg-white/5 transition">
-                                               <i class="fa-solid fa-pen-to-square text-[#C7FF3D]"></i>
-                                               Edit
-                                          </button>
-
-                                          <button class="w-full flex items-center gap-2 px-4 py-2.5 
-                                                           text-xs text-red-400 hover:bg-white/5 transition">
-                                                <i class="fa-solid fa-trash"></i>
-                                                Hapus
-                                          </button>
-
-                                     </div>
-
-                                </div>
-
+                                <button class="text-[#C7FF3D] mr-5" >
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </button>
+                                <button class="text-white hover:text-red-500 transition">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
                             </td>
 
                         </tr>
@@ -365,12 +316,12 @@
                         <tr class = "border-b border-white/10 hover:bg-white/5 transition">
                     
                             <td class ="px-8 py-3">
-                                <p class="font-bold text-white text-xs sm:text-sm">Design System Update</p>
-                                <p class="text-[10px] sm:text-xs text-white mt-0.5">TSK-1042</p>
+                                <p class="font-bold text-white">Design System Update</p>
+                                <p class="text-xs text-gray-500 mt-0.5">TSK-1042</p>
                             </td>
 
                             <td class="px-8 py-3">
-                                <p class="font-bold text-white text-xs sm:text-sm">Q4 Marketing Campaign</p>
+                                <p class="font-bold text-white">Q4 Marketing Campaign</p>
                             </td>
 
                             <td class="px-8 py-3">
@@ -379,10 +330,10 @@
 
                                     <div class="w-7 h-7 rounded-full bg-[#2a2a2a] border border-white/20 
                                                 flex items-center justify-center text-[10px] text-white font-bold shrink-0">
-                                                <i class="fa-regular fa-user text-xs sm:text-sm"></i>
+                                                <i class="fa-regular fa-user text-xs"></i>
                                     </div>
 
-                                    <span class="text-white text-xs sm:text-sm">John Doe</span>
+                                    <span class="text-white text-sm">John Doe</span>
                                 </div>
                                 
                             </td>
@@ -404,40 +355,16 @@
                             </td>
 
                             <td class="px-8 py-3">
-                                <p class="font-bold text-white text-xs sm:text-sm">Oct 24, 2023</p>
+                                <p class="font-bold text-white">Oct 24, 2023</p>
                             </td>
 
                             <td class="px-8 py-3">
-    
-                               <div class="relative inline-block">
-
-                                   <button onclick="toggleDropdown(this)" 
-                                          class="w-8 h-8 flex items-center justify-center rounded-lg 
-                                                 text-white hover:bg-white/10 hover:text-white transition">
-                                         <i class="fa-solid fa-ellipsis-vertical"></i> 
-
-                                   </button>
-
-                                   <div class="dropdown-menu hidden absolute right-0 mt-1 w-36 
-                                               bg-[#1a1a1a] border border-white/10 rounded-xl 
-                                               shadow-xl z-50 overflow-hidden">
-
-                                            <button class="w-full flex items-center gap-2 px-4 py-2.5 
-                                                           text-xs text-white hover:bg-white/5 transition">
-                                               <i class="fa-solid fa-pen-to-square text-[#C7FF3D]"></i>
-                                               Edit
-                                          </button>
-
-                                          <button class="w-full flex items-center gap-2 px-4 py-2.5 
-                                                           text-xs text-red-400 hover:bg-white/5 transition">
-                                                <i class="fa-solid fa-trash"></i>
-                                                Hapus
-                                          </button>
-
-                                     </div>
-
-                                </div>
-
+                                <button class="text-[#C7FF3D] mr-5">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </button>
+                                <button class="text-white hover:text-red-500 transition">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
                             </td>
 
                         </tr>
@@ -449,12 +376,12 @@
                         <tr class = "border-b border-white/10 hover:bg-white/5 transition">
                     
                             <td class ="px-8 py-3">
-                                <p class="font-bold text-white text-xs sm:text-sm">Design System Update</p>
-                                <p class="text-[10px] sm:text-xs text-white mt-0.5">TSK-1042</p>
+                                <p class="font-bold text-white">Design System Update</p>
+                                <p class="text-xs text-gray-500 mt-0.5">TSK-1042</p>
                             </td>
 
                             <td class="px-8 py-3">
-                                <p class="font-bold text-white text-xs sm:text-sm">Q4 Marketing Campaign</p>
+                                <p class="font-bold text-white">Q4 Marketing Campaign</p>
                             </td>
 
                             <td class="px-8 py-3">
@@ -463,10 +390,10 @@
 
                                     <div class="w-7 h-7 rounded-full bg-[#2a2a2a] border border-white/20 
                                                 flex items-center justify-center text-[10px] text-white font-bold shrink-0">
-                                                <i class="fa-regular fa-user text-xs sm:text-sm"></i>
+                                                <i class="fa-regular fa-user text-xs"></i>
                                     </div>
 
-                                    <span class="text-white text-xs sm:text-sm">John Doe</span>
+                                    <span class="text-white text-sm">John Doe</span>
                                 </div>
                                 
                             </td>
@@ -488,40 +415,16 @@
                             </td>
 
                             <td class="px-8 py-3">
-                                <p class="font-bold text-white text-xs sm:text-sm">Oct 24, 2023</p>
+                                <p class="font-bold text-white">Oct 24, 2023</p>
                             </td>
 
                             <td class="px-8 py-3">
-    
-                               <div class="relative inline-block">
-
-                                   <button onclick="toggleDropdown(this)" 
-                                          class="w-8 h-8 flex items-center justify-center rounded-lg 
-                                                 text-white hover:bg-white/10 hover:text-white transition">
-                                         <i class="fa-solid fa-ellipsis-vertical"></i> 
-
-                                   </button>
-
-                                   <div class="dropdown-menu hidden absolute right-0 mt-1 w-36 
-                                               bg-[#1a1a1a] border border-white/10 rounded-xl 
-                                               shadow-xl z-50 overflow-hidden">
-
-                                            <button class="w-full flex items-center gap-2 px-4 py-2.5 
-                                                           text-xs text-white hover:bg-white/5 transition">
-                                               <i class="fa-solid fa-pen-to-square text-[#C7FF3D]"></i>
-                                               Edit
-                                          </button>
-
-                                          <button class="w-full flex items-center gap-2 px-4 py-2.5 
-                                                           text-xs text-red-400 hover:bg-white/5 transition">
-                                                <i class="fa-solid fa-trash"></i>
-                                                Hapus
-                                          </button>
-
-                                     </div>
-
-                                </div>
-
+                                <button class="text-[#C7FF3D] mr-5">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </button>
+                                <button class="text-white hover:text-red-500 transition">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
                             </td>
 
                         </tr>
@@ -533,12 +436,12 @@
                         <tr class = "border-b border-white/10 hover:bg-white/5 transition">
                     
                             <td class ="px-8 py-3">
-                                <p class="font-bold text-white text-xs sm:text-sm">Design System Update</p>
-                                <p class="text-[10px] sm:text-xs text-white mt-0.5">TSK-1042</p>
+                                <p class="font-bold text-white">Design System Update</p>
+                                <p class="text-xs text-gray-500 mt-0.5">TSK-1042</p>
                             </td>
 
                             <td class="px-8 py-3">
-                                <p class="font-bold text-white text-xs sm:text-sm">Q4 Marketing Campaign</p>
+                                <p class="font-bold text-white">Q4 Marketing Campaign</p>
                             </td>
 
                             <td class="px-8 py-3">
@@ -547,10 +450,10 @@
 
                                     <div class="w-7 h-7 rounded-full bg-[#2a2a2a] border border-white/20 
                                                 flex items-center justify-center text-[10px] text-white font-bold shrink-0">
-                                                <i class="fa-regular fa-user text-xs sm:text-sm"></i>
+                                                <i class="fa-regular fa-user text-xs"></i>
                                     </div>
 
-                                    <span class="text-white text-xs sm:text-sm">John Doe</span>
+                                    <span class="text-white text-sm">John Doe</span>
                                 </div>
                                 
                             </td>
@@ -572,40 +475,16 @@
                             </td>
 
                             <td class="px-8 py-3">
-                                <p class="font-bold text-white text-xs sm:text-sm">Oct 24, 2023</p>
+                                <p class="font-bold text-white">Oct 24, 2023</p>
                             </td>
 
                             <td class="px-8 py-3">
-    
-                               <div class="relative inline-block">
-
-                                   <button onclick="toggleDropdown(this)" 
-                                          class="w-8 h-8 flex items-center justify-center rounded-lg 
-                                                 text-white hover:bg-white/10 hover:text-white transition">
-                                         <i class="fa-solid fa-ellipsis-vertical"></i> 
-
-                                   </button>
-
-                                   <div class="dropdown-menu hidden absolute right-0 mt-1 w-36 
-                                               bg-[#1a1a1a] border border-white/10 rounded-xl 
-                                               shadow-xl z-50 overflow-hidden">
-
-                                            <button class="w-full flex items-center gap-2 px-4 py-2.5 
-                                                           text-xs text-white hover:bg-white/5 transition">
-                                               <i class="fa-solid fa-pen-to-square text-[#C7FF3D]"></i>
-                                               Edit
-                                          </button>
-
-                                          <button class="w-full flex items-center gap-2 px-4 py-2.5 
-                                                           text-xs text-red-400 hover:bg-white/5 transition">
-                                                <i class="fa-solid fa-trash"></i>
-                                                Hapus
-                                          </button>
-
-                                     </div>
-
-                                </div>
-
+                                <button class="text-[#C7FF3D] mr-5">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </button>
+                                <button class="text-white hover:text-red-500 transition">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
                             </td>
 
                         </tr>
@@ -614,24 +493,24 @@
 
                 </table>
 
-            </div>
-
-            <div class="flex flex-col sm:flex-row sm:justify-between items-center my-2 gap-4 shrink-0">
+            <div class="flex justify-between items-center my-2">
 
                 <p class="text-white text-xs mx-8">Showing 1 to 5 of 34 projects</p>
 
-                <div class="flex flex-row gap-1 items-center mx-6">
-                    <button class="w-8 h-8 flex items-center justify-center border border-white/10 rounded-lg text-white text-xs hover:bg-[#1a1a1a] transition">&#8249;</button>
-                    <button class="w-8 h-8 flex items-center justify-center bg-[#1a1a1a] border border-white/10 rounded-lg text-white text-xs transition">1</button>
-                    <button class="w-8 h-8 flex items-center justify-center rounded-lg text-white text-xs hover:bg-[#1a1a1a] transition">2</button>
-                    <button class="w-8 h-8 flex items-center justify-center rounded-lg text-white text-xs hover:bg-[#1a1a1a] transition">3</button>
-                    <span class="w-8 h-8 flex items-center justify-center rounded-lg text-white">...</span>
-                    <button class="w-8 h-8 flex items-center justify-center border border-white/10 rounded-lg text-white text-xs hover:bg-[#1a1a1a] transition">&#8250;</button>
+                <div class="mx-6">
+                    <button class="text-white text-xs hover:text-[#C7FF3D] transition mr-5">&#8249;</button>
+                    <button class="text-white text-xs hover:text-[#C7FF3D] transition mr-5">1</button>
+                    <button class="text-white text-xs hover:text-[#C7FF3D] transition mr-5">2</button>
+                    <button class="text-white text-xs hover:text-[#C7FF3D] transition mr-5">3</button>
+                    <span class="text-white">...</span>
+                    <button class="text-white text-xs hover:text-[#C7FF3D] transition mr-5">&#8250;</button>
                 </div>
                 
             </div>
 
         </div>
+
+    </main>
 
     <script>
         
@@ -659,25 +538,6 @@
             const modal = document.getElementById('createProjectModal');
             modal.classList.add('hidden');
         }
-        function toggleDropdown(btn) {
-            document.querySelectorAll('.dropdown-menu').forEach(menu => {
-            if (menu !== btn.nextElementSibling) {
-                menu.classList.add('hidden');
-            }
-        });
-
-             const menu = btn.nextElementSibling;
-             menu.classList.toggle('hidden');
-        }
-        document.addEventListener('click', function(e) {
-            if (!e.target.closest('.relative')) {
-                document.querySelectorAll('.dropdown-menu').forEach(menu => {
-                    menu.classList.add('hidden');
-                });
-            }
-        });
-
-
     </script>
 
     <div id="createProjectModal"
@@ -725,7 +585,7 @@
                         </button>
 
                         <button type="submit"
-                class="px-5 py-2 text-xs font-semibold bg-[#C7FF3D] text-black font-semibold rounded-xl hover:bg-[#dfff6f] cursor-pointer"><i class="fa-solid fa-check"></i> Oke  
+                         class="px-5 py-2 text-xs font-semibold bg-[#C7FF3D] text-black font-semibold rounded-xl hover:bg-[#dfff6f] cursor-pointer"><i class="fa-solid fa-check"></i> Oke  
                         </button>
                     </div>
             
