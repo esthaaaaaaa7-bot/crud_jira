@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->string('judul_task');
             $table->text('deskripsi')->nullable();
             $table->foreignId('status_id')->constrained('task_statuses');
-            $table->enum('priority', ['Low', 'Medium', 'High', 'Urgent'])->default('Medium');
+            $table->enum('priority', ['Low', 'Medium', 'High', 'Highest'])->default('Medium');
             $table->date('deadline')->nullable();
             $table->foreignId('created_by')->constrained('users');
             $table->foreignId('assigned_to')->nullable()->constrained('users')->nullOnDelete();

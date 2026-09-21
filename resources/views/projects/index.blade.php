@@ -110,16 +110,14 @@
             </li>
 
             <li>
-                <a href="#"
-                    class="flex items-center gap-3 py-2 px-4 rounded-lg text-gray-400 hover:bg-[#1a1a1a] hover:text-white transition duration-200">
+                <a href="{{ url('/team') }}" class="flex items-center gap-3 py-2 px-4 rounded-lg text-gray-400 hover:bg-[#1a1a1a] hover:text-white transition duration-200">
                     <i class="fa-solid fa-user-group text-sm w-5 text-center"></i>
                     <span class="text-sm">Team</span>
                 </a>
             </li>
 
             <li>
-                <a href="#"
-                    class="flex items-center gap-3 py-2 px-4 rounded-lg text-gray-400 hover:bg-[#1a1a1a] hover:text-white transition duration-200 mt-2">
+                <a href="{{ url('/setting') }}" class="flex items-center gap-3 py-2 px-4 rounded-lg text-gray-400 hover:bg-[#1a1a1a] hover:text-white transition duration-200 mt-2">
                     <i class="fa-solid fa-gear text-sm w-5 text-center"></i>
                     <span class="text-sm">Settings</span>
                 </a>
@@ -183,9 +181,8 @@
                 <h1 class="text-xs sm:text-md text-white">Manage and track all ongoing work across projects.</h1>
             </div>
 
-            <div class="flex flex-row gap-2 items-start">
-                <div onclick="openCreateModal()"
-                    class="flex items-center gap-1 border border-white/30 py-2 px-4 bg-[#c7ff3d] rounded-lg mt-3 hover:border-[#000000] transition-colors duration-200 cursor-pointer">
+            <div class="flex flex-row gap-2">
+                <div onclick="openCreateModal()" class="flex items-center gap-1 border border-white/30 py-2 px-4 bg-[#c7ff3d] rounded-lg mt-3 hover:border-[#000000] transition-colors duration-200 cursor-pointer">
                     <i class="fa-solid fa-plus text-black text-xs"></i>
                     <button class="text-black font-black text-xs">Create Project</button>
                 </div>
@@ -336,7 +333,7 @@
 
             <div class="overflow-x-auto custom-scroll">
 
-                <table class="w-full min-w-max text-sm text-left">
+                <table class="w-full text-sm text-left">
 
                     <thead>
 
@@ -548,12 +545,15 @@
                                 <p class="text-[10px] sm:text-xs text-white mt-0.5">TSK-1042</p>
                             </td>
 
+                            <!-- 2. Deskripsi Project -->
                             <td class="px-8 py-3">
-                                <p class="font-bold text-white text-xs sm:text-sm">Q4 Marketing Campaign</p>
+                                <p class="text-white text-xs sm:text-sm line-clamp-1">
+                                    {{ $project->deskripsi ?? '-' }}
+                                </p>
                             </td>
 
+                            <!-- 3. Pembuat / User Login -->
                             <td class="px-8 py-3">
-
                                 <div class="flex items-center gap-2">
 
                                     <div
@@ -561,14 +561,13 @@
                                                 flex items-center justify-center text-[10px] text-white font-bold shrink-0">
                                         <i class="fa-regular fa-user text-xs sm:text-sm"></i>
                                     </div>
-
-                                    <span class="text-white text-xs sm:text-sm">John Doe</span>
+                                    <span class="text-white text-xs sm:text-sm">{{ session('user')->name ?? 'Owner' }}</span>
                                 </div>
 
                             </td>
 
+                            <!-- 4. Jumlah Task -->
                             <td class="px-8 py-3">
-
                                 <div class="flex items-center">
                                     <span class="flex items-center gap-1 text-orange-400 text-xs font-semibold">
                                         <i class="fa-solid fa-minus"></i> Medium
@@ -577,6 +576,7 @@
 
                             </td>
 
+                            <!-- 5. Status Project -->
                             <td class="px-8 py-3">
 
                                 <div class="flex items-center">
@@ -584,13 +584,16 @@
                                         class="text-[10px] sm:text-xs font-semibold bg-[#2a2a2a] text-white px-2 py-0.5 rounded-lg">In
                                         Progress</span>
                                 </div>
-
                             </td>
 
+                            <!-- 6. Due Date / Deadline -->
                             <td class="px-8 py-3">
-                                <p class="font-bold text-white text-xs sm:text-sm">Oct 24, 2023</p>
+                                <p class="font-bold text-white text-xs sm:text-sm">
+                                    {{ $project->deadline ? \Carbon\Carbon::parse($project->deadline)->format('M d, Y') : '-' }}
+                                </p>
                             </td>
 
+                            <!-- 7. Tombol Action Dropdown (Board + Edit + Hapus) -->
                             <td class="px-8 py-3">
 
                                 <div class="relative inline-block">
@@ -666,7 +669,6 @@
                                         <i class="fa-solid fa-angle-down"></i> Low
                                     </span>
                                 </div>
-
                             </td>
 
                             <td class="px-8 py-3">
@@ -810,16 +812,36 @@
                             </td>
 
                         </tr>
-
+                        @endforelse
                     </tbody>
-
                 </table>
 
-            </div>
+                <div class="flex justify-between items-center my-2">
 
-            <div class="flex flex-col sm:flex-row sm:justify-between items-center my-2 gap-4 shrink-0">
+                    <p class="text-white text-xs mx-8">Showing {{ $projects->firstItem() }} to {{ $projects->lastItem() }} of {{ $projects->total() }}</p>
 
-                <p class="text-white text-xs mx-8">Showing 1 to 5 of 34 projects</p>
+                    <div class="flex flex-row gap-1 items-center mx-6">
+                        @if ($projects->onFirstPage())
+                        <span class="w-8 h-8 flex items-center justify-center border border-white/10 rounded-lg text-white/30 text-xs cursor-not-allowed">&#8249;</span>
+                        @else
+                        <a href="{{ $projects->previousPageUrl() }}" class="w-8 h-8 flex items-center justify-center border border-white/10 rounded-lg text-white text-xs hover:bg-[#1a1a1a] transition">&#8249;</a>
+                        @endif
+                        @for ($i = 1; $i <= $projects->lastPage(); $i++)
+                            @if ($i == $projects->currentPage())
+                            {{-- Halaman aktif → dikasih style highlight --}}
+                            <button class="w-8 h-8 flex items-center justify-center bg-[#1a1a1a] border border-white/10 rounded-lg text-white text-xs transition">{{ $i }}</button>
+                            @else
+                            {{-- Halaman lain → bisa diklik, ada link --}}
+                            <a href="{{ $projects->url($i) }}" class="w-8 h-8 flex items-center justify-center rounded-lg text-white text-xs hover:bg-[#1a1a1a] transition">{{ $i }}</a>
+                            @endif
+                            @endfor
+
+                            @if ($projects->hasMorePages())
+                            <a href="{{ $projects->nextPageUrl() }}" class="w-8 h-8 flex items-center justify-center border border-white/10 rounded-lg text-white text-xs hover:bg-[#1a1a1a] transition">&#8250;</a>
+                            @else
+                            <span class="w-8 h-8 flex items-center justify-center border border-white/10 rounded-lg text-white/30 text-xs cursor-not-allowed">&#8250;</span>
+                            @endif
+                    </div>
 
                 <div class="flex flex-row gap-1 items-center mx-6">
                     <button
@@ -837,7 +859,7 @@
 
             </div>
 
-        </div>
+            </div>
 
         <script>
             function toggleSidebar() {

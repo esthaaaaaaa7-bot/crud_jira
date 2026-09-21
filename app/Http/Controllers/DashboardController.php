@@ -6,6 +6,8 @@ use App\Models\Project;
 use App\Models\ProjectUser;
 use App\Models\Task;
 use App\Models\Team;
+use App\Models\TaskLog;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -14,13 +16,10 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        // 1. Cek session user
+        // Ambil user dari session (sudah dijamin ada oleh CheckAuth middleware)
         $user = session('user');
-        if (!$user) {
-            return redirect('/login');
-        }
 
-        // 2. Ambil daftar ID proyek yang diikuti oleh user ini
+        // Ambil daftar ID proyek yang diikuti oleh user ini
         $userProjectIds = ProjectUser::where('user_id', $user->id)
             ->pluck('project_id');
 
@@ -53,6 +52,28 @@ class DashboardController extends Controller
         $teamMembers = ProjectUser::whereIn('project_id', $userProjectIds)->distinct('user_id')->count('user_id');
         $totalTeams = Team::whereIn('project_id', $userProjectIds)->count();
 
+        // f. Team Workload — anggota tim + jumlah task aktif yang di-assign ke mereka
+        $teamMemberIds = ProjectUser::whereIn('project_id', $userProjectIds)
+            ->pluck('user_id')
+            ->unique();
+
+        $teamWorkload = User::whereIn('id', $teamMemberIds)
+            ->withCount(['assignedTasks' => function ($q) use ($userProjectIds) {
+                $q->whereIn('project_id', $userProjectIds)
+                    ->where('status_id', '!=', 4);
+            }])
+            ->orderByDesc('assigned_tasks_count')
+            ->get();
+
+        // g. Recent Activity — 10 log aktivitas terbaru dari task di project user ini
+        $taskIds = Task::whereIn('project_id', $userProjectIds)->pluck('id');
+
+        $recentActivities = TaskLog::whereIn('task_id', $taskIds)
+            ->with(['user', 'task', 'fromStatus', 'toStatus'])
+            ->latest()
+            ->limit(10)
+            ->get();
+
         // 4. Kirim variabel ke view dashboard
         return view('dashboard', compact(
             'totalProjects',
@@ -62,6 +83,8 @@ class DashboardController extends Controller
             'overdueTasks',
             'teamMembers',
             'totalTeams',
+            'teamWorkload',
+            'recentActivities',
         ));
     }
 }
