@@ -19,6 +19,9 @@ Route::get('/projects/create', [ProjectController::class, 'create'])->name('proj
 Route::post('/projects', [ProjectController::class, 'store'])->name('projects.store');
 Route::get('/projects/{id}', [ProjectController::class, 'show'])->name('projects.show');
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::get('/team', function () {
+    return view('team');
+})->name('team');
 Route::get('/setting', function () {
     return view('projects.settings');
 })->name('setting');
