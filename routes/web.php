@@ -15,22 +15,6 @@ Route::get('/', function () {
 Route::get('/login', [LoginController::class, 'index']);
 Route::post('/login', [LoginController::class, 'login']);
 Route::get('/logout', [LoginController::class, 'logout']);
-Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
-Route::get('/projects/create', [ProjectController::class, 'create'])->name('projects.create');
-Route::post('/projects', [ProjectController::class, 'store'])->name('projects.store');
-Route::get('/projects/board', function () {
-    if (!session('user')) {
-        return redirect('/login');
-    }
-    $projects = \App\Models\Project::all();
-    return view('board', compact('projects'));
-})->name('projects.board');
-Route::get('/projects/{id}', [ProjectController::class, 'show'])->name('projects.show');
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
-Route::get('/board', function () {
-    return redirect('/projects/board');
-});
 
 // Route Register (publik, tidak perlu login)
 Route::get('/users/create', [UserController::class, 'create']);
@@ -59,6 +43,9 @@ Route::middleware([CheckAuth::class])->group(function () {
     Route::get('/setting', function () {
         return view('projects.settings');
     })->name('setting');
+    Route::get('/settings', function () {
+        return redirect('/setting');
+    });
 
     // Board (redirect ke project pertama milik user)
     Route::get('/board', function () {
@@ -70,5 +57,8 @@ Route::middleware([CheckAuth::class])->group(function () {
             return redirect('/projects/' . $firstProject->project_id);
         }
         return redirect('/projects');
+    });
+    Route::get('/boards', function () {
+        return redirect('/board');
     });
 });

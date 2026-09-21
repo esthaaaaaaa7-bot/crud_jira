@@ -66,7 +66,7 @@
             </li>
 
             <li>
-                <a href="{{ url('/boards') }}" class="flex items-center gap-3 py-2 px-4 rounded-lg text-gray-400 hover:bg-[#1a1a1a] hover:text-white transition duration-200">
+                <a href="{{ url('/board') }}" class="flex items-center gap-3 py-2 px-4 rounded-lg text-gray-400 hover:bg-[#1a1a1a] hover:text-white transition duration-200">
                     <i class="fa-solid fa-table-columns text-sm w-5 text-center"></i>
                     <span class="text-sm">Boards</span>
                 </a>
@@ -80,7 +80,7 @@
             </li>
 
             <li>
-                <a href="#" class="flex items-center gap-3 py-2 px-4 rounded-lg text-gray-400 hover:bg-[#1a1a1a] hover:text-white transition duration-200">
+                <a href="{{ url('/team') }}" class="flex items-center gap-3 py-2 px-4 rounded-lg text-gray-400 hover:bg-[#1a1a1a] hover:text-white transition duration-200">
                     <i class="fa-solid fa-user-group text-sm w-5 text-center"></i>
                     <span class="text-sm">Team</span>
                 </a>
@@ -231,3 +231,16 @@
                         </button>
                     </div>
                 </div>
+            </form>
+        </div>
+    </main>
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const backdrop = document.getElementById('sidebar-backdrop');
+            sidebar.classList.toggle('-translate-x-full');
+            backdrop.classList.toggle('hidden');
+        }
+    </script>
+</body>
+</html>
