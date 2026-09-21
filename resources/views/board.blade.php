@@ -792,13 +792,32 @@
     <div class="main">
 
         <!-- ─── TOPBAR ─── -->
-        @include('partials.topbar', [
-            'left' => '<div style="display:flex;align-items:center;gap:6px;font-size:13px;">
-                <a href="' . url('/dashboard') . '" style="color:#9ca3af;text-decoration:none;">Boards</a>
-                <span style="color:#5a5a5a;font-size:12px;">›</span>
-                <span style="color:#e8ead4;font-weight:500;">Sprint 42 Board</span>
-            </div>'
-        ])
+        <header style="display:flex;align-items:center;justify-content:space-between;padding:12px 32px;border-bottom:1px solid rgba(255,255,255,0.08);position:sticky;top:0;z-index:10;backdrop-filter:blur(12px);">
+
+            <div style="display:flex;align-items:center;gap:8px;flex:1;">
+                {{-- Breadcrumb --}}
+                <div style="display:flex;align-items:center;gap:6px;font-size:13px;">
+                    <a href="{{ url('/projects') }}" style="color:#9ca3af;text-decoration:none;">Boards</a>
+                    <span style="color:#5a5a5a;font-size:12px;">›</span>
+                    <span style="color:#e8ead4;font-weight:500;">
+                        {{ isset($project) ? $project->nama_project : 'Board' }}
+                    </span>
+                </div>
+            </div>
+
+            <div style="display:flex;align-items:center;gap:8px;">
+                <button style="width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:10px;background:#111;border:1px solid rgba(255,255,255,0.1);color:#9ca3af;cursor:pointer;">
+                    <i class="fa-regular fa-bell" style="font-size:13px;"></i>
+                </button>
+                <button style="width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:10px;background:#111;border:1px solid rgba(255,255,255,0.1);color:#9ca3af;cursor:pointer;">
+                    <i class="fa-regular fa-sun" style="font-size:13px;"></i>
+                </button>
+                <button style="width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:10px;background:#111;border:1px solid rgba(255,255,255,0.1);color:#9ca3af;cursor:pointer;">
+                    <i class="fa-regular fa-user" style="font-size:13px;"></i>
+                </button>
+            </div>
+
+        </header>
 
         <!-- ─── BOARD AREA ─── -->
         <div class="board-area">

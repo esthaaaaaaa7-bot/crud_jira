@@ -34,6 +34,16 @@ Route::middleware([CheckAuth::class])->group(function () {
     Route::put('/projects/{id}', [ProjectController::class, 'update'])->name('projects.update');
     Route::delete('/projects/{id}', [ProjectController::class, 'destroy'])->name('projects.destroy');
 
+    // Team
+    Route::get('/team', function () {
+        return view('team');
+    })->name('team');
+
+    // Settings
+    Route::get('/setting', function () {
+        return view('projects.settings');
+    })->name('setting');
+
     // Board (redirect ke project pertama milik user)
     Route::get('/board', function () {
         $userId = session('user')->id ?? 0;
