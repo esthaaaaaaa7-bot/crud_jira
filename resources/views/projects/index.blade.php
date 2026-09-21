@@ -88,14 +88,14 @@
             </li>
 
             <li>
-                <a href="#" class="flex items-center gap-3 py-2 px-4 rounded-lg text-gray-400 hover:bg-[#1a1a1a] hover:text-white transition duration-200">
+                <a href="{{ url('/team') }}" class="flex items-center gap-3 py-2 px-4 rounded-lg text-gray-400 hover:bg-[#1a1a1a] hover:text-white transition duration-200">
                     <i class="fa-solid fa-user-group text-sm w-5 text-center"></i>
                     <span class="text-sm">Team</span>
                 </a>
             </li>
 
             <li>
-                <a href="#" class="flex items-center gap-3 py-2 px-4 rounded-lg text-gray-400 hover:bg-[#1a1a1a] hover:text-white transition duration-200 mt-2">
+                <a href="{{ url('/setting') }}" class="flex items-center gap-3 py-2 px-4 rounded-lg text-gray-400 hover:bg-[#1a1a1a] hover:text-white transition duration-200 mt-2">
                     <i class="fa-solid fa-gear text-sm w-5 text-center"></i>
                     <span class="text-sm">Settings</span>
                 </a>
@@ -172,7 +172,7 @@
 
             <div class="overflow-x-auto">
 
-                <table class="w-full min-w-max text-sm text-left">
+                <table class="w-full text-sm text-left">
 
                     <thead>
 
@@ -297,139 +297,129 @@
                     </tbody>
                 </table>
 
-            </div>
+                <div class="flex justify-between items-center my-2">
 
-            <div class="flex flex-col sm:flex-row sm:justify-between items-center my-2 gap-4 shrink-0">
+                    <p class="text-white text-xs mx-8">Showing {{ $projects->firstItem() }} to {{ $projects->lastItem() }} of {{ $projects->total() }}</p>
 
-                <p class="text-white text-xs mx-8">Showing {{ $projects->firstItem() }} to {{ $projects->lastItem() }} of {{ $projects->total() }}</p>
-
-                <div class="flex flex-row gap-1 items-center mx-6">
-                    @if ($projects->onFirstPage())
-                    <span class="w-8 h-8 flex items-center justify-center border border-white/10 rounded-lg text-white/30 text-xs cursor-not-allowed">&#8249;</span>
-                    @else
-                    <a href="{{ $projects->previousPageUrl() }}" class="w-8 h-8 flex items-center justify-center border border-white/10 rounded-lg text-white text-xs hover:bg-[#1a1a1a] transition">&#8249;</a>
-                    @endif
-                    @for ($i = 1; $i <= $projects->lastPage(); $i++)
-                        @if ($i == $projects->currentPage())
-                        {{-- Halaman aktif → dikasih style highlight --}}
-                        <button class="w-8 h-8 flex items-center justify-center bg-[#1a1a1a] border border-white/10 rounded-lg text-white text-xs transition">{{ $i }}</button>
+                    <div class="flex flex-row gap-1 items-center mx-6">
+                        @if ($projects->onFirstPage())
+                        <span class="w-8 h-8 flex items-center justify-center border border-white/10 rounded-lg text-white/30 text-xs cursor-not-allowed">&#8249;</span>
                         @else
-                        {{-- Halaman lain → bisa diklik, ada link --}}
-                        <a href="{{ $projects->url($i) }}" class="w-8 h-8 flex items-center justify-center rounded-lg text-white text-xs hover:bg-[#1a1a1a] transition">{{ $i }}</a>
+                        <a href="{{ $projects->previousPageUrl() }}" class="w-8 h-8 flex items-center justify-center border border-white/10 rounded-lg text-white text-xs hover:bg-[#1a1a1a] transition">&#8249;</a>
                         @endif
-                        @endfor
+                        @for ($i = 1; $i <= $projects->lastPage(); $i++)
+                            @if ($i == $projects->currentPage())
+                            {{-- Halaman aktif → dikasih style highlight --}}
+                            <button class="w-8 h-8 flex items-center justify-center bg-[#1a1a1a] border border-white/10 rounded-lg text-white text-xs transition">{{ $i }}</button>
+                            @else
+                            {{-- Halaman lain → bisa diklik, ada link --}}
+                            <a href="{{ $projects->url($i) }}" class="w-8 h-8 flex items-center justify-center rounded-lg text-white text-xs hover:bg-[#1a1a1a] transition">{{ $i }}</a>
+                            @endif
+                            @endfor
 
-                        @if ($projects->hasMorePages())
-                        <a href="{{ $projects->nextPageUrl() }}" class="w-8 h-8 flex items-center justify-center border border-white/10 rounded-lg text-white text-xs hover:bg-[#1a1a1a] transition">&#8250;</a>
-                        @else
-                        <span class="w-8 h-8 flex items-center justify-center border border-white/10 rounded-lg text-white/30 text-xs cursor-not-allowed">&#8250;</span>
-                        @endif
+                            @if ($projects->hasMorePages())
+                            <a href="{{ $projects->nextPageUrl() }}" class="w-8 h-8 flex items-center justify-center border border-white/10 rounded-lg text-white text-xs hover:bg-[#1a1a1a] transition">&#8250;</a>
+                            @else
+                            <span class="w-8 h-8 flex items-center justify-center border border-white/10 rounded-lg text-white/30 text-xs cursor-not-allowed">&#8250;</span>
+                            @endif
+                    </div>
+
                 </div>
 
             </div>
 
-        </div>
+            <script>
+                function toggleSidebar() {
+                    const sidebar = document.getElementById('sidebar');
+                    const backdrop = document.getElementById('sidebar-backdrop');
 
-        <script>
-            function toggleSidebar() {
-                const sidebar = document.getElementById('sidebar');
-                const backdrop = document.getElementById('sidebar-backdrop');
+                    sidebar.classList.toggle('-translate-x-full');
+                    backdrop.classList.toggle('hidden');
+                }
 
-                sidebar.classList.toggle('-translate-x-full');
-                backdrop.classList.toggle('hidden');
-            }
+                function openCreateModal() {
+                    const modal = document.getElementById('createProjectModal');
+                    modal.classList.remove('hidden');
+                }
 
-            function toggleSidebar() {
-                const sidebar = document.getElementById('sidebar');
-                const backdrop = document.getElementById('sidebar-backdrop');
+                function closeCreateModal() {
+                    const modal = document.getElementById('createProjectModal');
+                    modal.classList.add('hidden');
+                }
 
-                sidebar.classList.toggle('-translate-x-full');
-                backdrop.classList.toggle('hidden');
-            }
+                function toggleDropdown(btn) {
+                    document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                        if (menu !== btn.nextElementSibling) {
+                            menu.classList.add('hidden');
+                        }
+                    });
 
-            function openCreateModal() {
-                const modal = document.getElementById('createProjectModal');
-                modal.classList.remove('hidden');
-            }
-
-            function closeCreateModal() {
-                const modal = document.getElementById('createProjectModal');
-                modal.classList.add('hidden');
-            }
-
-            function toggleDropdown(btn) {
-                document.querySelectorAll('.dropdown-menu').forEach(menu => {
-                    if (menu !== btn.nextElementSibling) {
-                        menu.classList.add('hidden');
+                    const menu = btn.nextElementSibling;
+                    menu.classList.toggle('hidden');
+                }
+                document.addEventListener('click', function(e) {
+                    if (!e.target.closest('.relative')) {
+                        document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                            menu.classList.add('hidden');
+                        });
                     }
                 });
+            </script>
 
-                const menu = btn.nextElementSibling;
-                menu.classList.toggle('hidden');
-            }
-            document.addEventListener('click', function(e) {
-                if (!e.target.closest('.relative')) {
-                    document.querySelectorAll('.dropdown-menu').forEach(menu => {
-                        menu.classList.add('hidden');
-                    });
-                }
-            });
-        </script>
+            <div id="createProjectModal"
+                class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm hidden p-4">
+                <div class="w-full max-w-lg bg-[#131616] border border-[#1f2622] rounded-2xl p-6  shadow-2xl relative">
+                    <h2 class="text-lg font-bold text-white mb-1">Create New Project</h2>
+                    <p class="text-xs text-[#9ca3af] mb-6"> Set up a new workspace for your team. You can modify these detail later </p>
 
-        <div id="createProjectModal"
-            class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm hidden p-4">
-            <div class="w-full max-w-lg bg-[#131616] border border-[#1f2622] rounded-2xl p-6  shadow-2xl relative">
-                <h2 class="text-lg font-bold text-white mb-1">Create New Project</h2>
-                <p class="text-xs text-[#9ca3af] mb-6"> Set up a new workspace for your team. You can modify these detail later </p>
+                    <form action="{{ url ('/projects') }}" method="POST">
+                        @csrf
+                        <div class="space-y-4">
+                            <div>
+                                <label for="modal_project_name" class="block text-[11px] font-semibold tracking-wider text-[#9ca3af] uppercase">
+                                    Project Name
+                                </label>
+                                <input type="text" name="nama_project" id="modal_project_name"
+                                    class="w-full mt-2 px-4 py-2 bg-[#1a1d1d] border border-[#2f3533] rounded-xl text-white focus:outline-none focus:border-[#C7FF3D] transition-all"
+                                    placeholder="e.g. Q4 Marketing Campaign" required>
+                            </div>
 
-                <form action="{{ url ('/projects') }}" method="POST">
-                    @csrf
-                    <div class="space-y-4">
-                        <div>
-                            <label for="modal_project_name" class="block text-[11px] font-semibold tracking-wider text-[#9ca3af] uppercase">
-                                Project Name
-                            </label>
-                            <input type="text" name="nama_project" id="modal_project_name"
-                                class="w-full mt-2 px-4 py-2 bg-[#1a1d1d] border border-[#2f3533] rounded-xl text-white focus:outline-none focus:border-[#C7FF3D] transition-all"
-                                placeholder="e.g. Q4 Marketing Campaign" required>
+                            <div>
+                                <label for="modal_project_code" class="block text-[11px] font-semibold tracking-wider text-[#9ca3af] uppercase">
+                                    Project description
+                                </label>
+                                <textarea name="deskripsi" id="modal_project_desc" rows="3"
+                                    class="w-full mt-1.5 px-3.5 py-2.5 bg-[#1a1d1d] border border-[#2f3533] rounded-xl text-xs text-white focus:outline-none focus:border-[#C7FF3D] transition-all resize-none"
+                                    placeholder="Briefly describe the goals and scope..."></textarea>
+
+                            </div>
+
+                            <div class="space-y-2">
+                                <label for="modal_project_name" class="block text-[11px] font-semibold tracking-wider text-[#9ca3af] uppercase">
+                                    Deadline
+                                </label>
+                                <input type="date" name="deadline" id="modal_deadline"
+                                    class="w-full mt-2 px-4 py-2.5 bg-[#1a1d1d] border border-[#2f3533] rounded-xl text-white focus:outline-none focus:border-[#C7FF3D] transition-all [color-scheme:dark]"
+                                    placeholder="Pilih tanggal deadline" required>
+                            </div>
+
+                            <div class="flex justify-end gap-3 pt-4 border-t border-[#1f2622]">
+
+                                <button type="button" onclick="closeCreateModal()"
+                                    class="px-5 py-2 text-xs font-semibold text-white hover:bg-[#1a1d1d] transition-colors cursor-pointer">
+                                    Cancel
+                                </button>
+
+                                <button type="submit"
+                                    class="px-5 py-2 text-xs font-semibold bg-[#C7FF3D] text-black font-semibold rounded-xl hover:bg-[#dfff6f] cursor-pointer"><i class="fa-solid fa-check"></i> Oke
+                                </button>
+                            </div>
+
                         </div>
 
-                        <div>
-                            <label for="modal_project_code" class="block text-[11px] font-semibold tracking-wider text-[#9ca3af] uppercase">
-                                Project description
-                            </label>
-                            <textarea name="deskripsi" id="modal_project_desc" rows="3"
-                                class="w-full mt-1.5 px-3.5 py-2.5 bg-[#1a1d1d] border border-[#2f3533] rounded-xl text-xs text-white focus:outline-none focus:border-[#C7FF3D] transition-all resize-none"
-                                placeholder="Briefly describe the goals and scope..."></textarea>
-
-                        </div>
-
-                        <div class="space-y-2">
-                            <label for="modal_project_name" class="block text-[11px] font-semibold tracking-wider text-[#9ca3af] uppercase">
-                                Deadline
-                            </label>
-                            <input type="date" name="deadline" id="modal_deadline"
-                                class="w-full mt-2 px-4 py-2.5 bg-[#1a1d1d] border border-[#2f3533] rounded-xl text-white focus:outline-none focus:border-[#C7FF3D] transition-all [color-scheme:dark]"
-                                placeholder="Pilih tanggal deadline" required>
-                        </div>
-
-                        <div class="flex justify-end gap-3 pt-4 border-t border-[#1f2622]">
-
-                            <button type="button" onclick="closeCreateModal()"
-                                class="px-5 py-2 text-xs font-semibold text-white hover:bg-[#1a1d1d] transition-colors cursor-pointer">
-                                Cancel
-                            </button>
-
-                            <button type="submit"
-                                class="px-5 py-2 text-xs font-semibold bg-[#C7FF3D] text-black font-semibold rounded-xl hover:bg-[#dfff6f] cursor-pointer"><i class="fa-solid fa-check"></i> Oke
-                            </button>
-                        </div>
-
-                    </div>
-
-                </form>
+                    </form>
+                </div>
             </div>
-        </div>
 
 
 
