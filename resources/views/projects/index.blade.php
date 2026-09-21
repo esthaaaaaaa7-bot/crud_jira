@@ -349,200 +349,13 @@
                         </tr>
 
                     </thead>
-
                     <tbody>
-
+                        @forelse($projects as $project)
                         <tr class="border-b border-white/10 hover:bg-white/5 transition">
-
+                            <!-- 1. Project Name & Key -->
                             <td class="px-8 py-3">
-                                <p class="font-bold text-white text-xs sm:text-sm">Design System Update</p>
-                                <p class="text-[10px] sm:text-xs text-white mt-0.5">TSK-1042</p>
-                            </td>
-
-                            <td class="px-8 py-3">
-                                <p class="font-bold text-white text-xs sm:text-sm">Q4 Marketing Campaign</p>
-                            </td>
-
-                            <td class="px-8 py-3">
-
-                                <div class="flex items-center gap-2">
-
-                                    <div
-                                        class="w-7 h-7 rounded-full bg-[#2a2a2a] border border-white/20 
-                                                flex items-center justify-center text-[10px] text-white font-bold shrink-0">
-                                        <i class="fa-regular fa-user text-xs sm:text-sm"></i>
-                                    </div>
-
-                                    <span class="text-white text-xs sm:text-sm">John Doe</span>
-
-                                </div>
-
-                            </td>
-
-                            <td class="px-8 py-3">
-
-                                <div class="flex items-center">
-                                   <span class="flex items-center gap-1 text-red-500 text-xs font-semibold">
-                                        <i class="fa-solid fa-angle-up"></i> High
-                                    </span>
-                                </div>
-
-                            </td>
-
-                            <td class="px-8 py-3">
-
-                                <div class="flex items-center">
-                                    <span
-                                        class="text-[10px] sm:text-xs font-bold bg-[#2a2a2a] text-white px-2 py-0.5 rounded-lg">In
-                                        Progress</span>
-                                </div>
-
-                            </td>
-
-                            <td class="px-8 py-3">
-                                <p class="font-bold text-white text-xs sm:text-sm">Oct 24, 2023</p>
-                            </td>
-
-                            <td class="px-8 py-3">
-
-                                <div class="relative inline-block">
-
-                                    <button onclick="toggleDropdown(this)"
-                                        class="w-8 h-8 flex items-center justify-center rounded-lg 
-                                                 text-white hover:bg-white/10 hover:text-white transition">
-                                        <i class="fa-solid fa-ellipsis-vertical"></i>
-
-                                    </button>
-
-                                    <div
-                                        class="dropdown-menu hidden absolute right-0 mt-1 w-36 
-                                               bg-[#1a1a1a] border border-white/10 rounded-xl 
-                                               shadow-xl z-50 overflow-hidden">
-
-                                        <button
-                                            class="w-full flex items-center gap-2 px-4 py-2.5 
-                                                           text-xs text-white hover:bg-white/5 transition">
-                                            <i class="fa-solid fa-pen-to-square text-[#C7FF3D]"></i>
-                                            Edit
-                                        </button>
-
-                                        <button
-                                            class="w-full flex items-center gap-2 px-4 py-2.5 
-                                                           text-xs text-red-400 hover:bg-white/5 transition">
-                                            <i class="fa-solid fa-trash"></i>
-                                            Hapus
-                                        </button>
-
-                                    </div>
-
-                                </div>
-
-                            </td>
-
-
-                        </tr>
-
-                    </tbody>
-
-                    <tbody>
-
-                        <tr class = "border-b border-white/10 hover:bg-white/5 transition">
-
-                            <td class ="px-8 py-3">
-                                <p class="font-bold text-white text-xs sm:text-sm">Design System Update</p>
-                                <p class="text-[10px] sm:text-xs text-white mt-0.5">TSK-1042</p>
-                            </td>
-
-                            <td class="px-8 py-3">
-                                <p class="font-bold text-white text-xs sm:text-sm">Q4 Marketing Campaign</p>
-                            </td>
-
-                            <td class="px-8 py-3">
-
-                                <div class="flex items-center gap-2">
-
-                                    <div
-                                        class="w-7 h-7 rounded-full bg-[#2a2a2a] border border-white/20 
-                                                flex items-center justify-center text-[10px] text-white font-bold shrink-0">
-                                        <i class="fa-regular fa-user text-xs sm:text-sm"></i>
-                                    </div>
-
-                                    <span class="text-white text-xs sm:text-sm">John Doe</span>
-                                </div>
-
-                            </td>
-
-                            <td class="px-8 py-3">
-
-                                <div class="flex items-center">
-                                    <span class="flex items-center gap-1 text-red-500 text-xs font-semibold">
-                                        <i class="fa-solid fa-angle-up"></i> High
-                                    </span>
-                                </div>
-
-                            </td>
-
-                            <td class="px-8 py-3">
-
-                                <div class="flex items-center">
-                                    <span
-                                        class="text-[10px] sm:text-xs font-semibold bg-[#2a2a2a] text-white px-2 py-0.5 rounded-lg">To
-                                        Do</span>
-                                </div>
-
-                            </td>
-
-                            <td class="px-8 py-3">
-                                <p class="font-bold text-white text-xs sm:text-sm">Oct 24, 2023</p>
-                            </td>
-
-                            <td class="px-8 py-3">
-
-                                <div class="relative inline-block">
-
-                                    <button onclick="toggleDropdown(this)"
-                                        class="w-8 h-8 flex items-center justify-center rounded-lg 
-                                                 text-white hover:bg-white/10 hover:text-white transition">
-                                        <i class="fa-solid fa-ellipsis-vertical"></i>
-
-                                    </button>
-
-                                    <div
-                                        class="dropdown-menu hidden absolute right-0 mt-1 w-36 
-                                               bg-[#1a1a1a] border border-white/10 rounded-xl 
-                                               shadow-xl z-50 overflow-hidden">
-
-                                        <button
-                                            class="w-full flex items-center gap-2 px-4 py-2.5 
-                                                           text-xs text-white hover:bg-white/5 transition">
-                                            <i class="fa-solid fa-pen-to-square text-[#C7FF3D]"></i>
-                                            Edit
-                                        </button>
-
-                                        <button
-                                            class="w-full flex items-center gap-2 px-4 py-2.5 
-                                                           text-xs text-red-400 hover:bg-white/5 transition">
-                                            <i class="fa-solid fa-trash"></i>
-                                            Hapus
-                                        </button>
-
-                                    </div>
-
-                                </div>
-
-                            </td>
-
-                        </tr>
-
-                    </tbody>
-
-                    <tbody>
-
-                        <tr class = "border-b border-white/10 hover:bg-white/5 transition">
-
-                            <td class ="px-8 py-3">
-                                <p class="font-bold text-white text-xs sm:text-sm">Design System Update</p>
-                                <p class="text-[10px] sm:text-xs text-white mt-0.5">TSK-1042</p>
+                                <p class="font-bold text-white text-xs sm:text-sm">{{ $project->nama_project }}</p>
+                                <p class="text-[10px] sm:text-xs text-[#C7FF3D] font-mono mt-0.5">{{ $project->key }}</p>
                             </td>
 
                             <!-- 2. Deskripsi Project -->
@@ -555,34 +368,36 @@
                             <!-- 3. Pembuat / User Login -->
                             <td class="px-8 py-3">
                                 <div class="flex items-center gap-2">
-
-                                    <div
-                                        class="w-7 h-7 rounded-full bg-[#2a2a2a] border border-white/20 
-                                                flex items-center justify-center text-[10px] text-white font-bold shrink-0">
-                                        <i class="fa-regular fa-user text-xs sm:text-sm"></i>
+                                    <div class="w-7 h-7 rounded-full bg-[#2a2a2a] border border-white/20 flex items-center justify-center text-[10px] text-white font-bold shrink-0">
+                                        <i class="fa-regular fa-user text-xs"></i>
                                     </div>
                                     <span class="text-white text-xs sm:text-sm">{{ session('user')->name ?? 'Owner' }}</span>
                                 </div>
-
                             </td>
 
-                            <!-- 4. Jumlah Task -->
+                            <!-- 4. Priority -->
                             <td class="px-8 py-3">
                                 <div class="flex items-center">
-                                    <span class="flex items-center gap-1 text-orange-400 text-xs font-semibold">
-                                        <i class="fa-solid fa-minus"></i> Medium
+                                    @php
+                                    $priorityClass = match($project->priority) {
+                                        'Low' => 'bg-green-500/20 text-green-400',
+                                        'Medium' => 'bg-yellow-500/20 text-yellow-400',
+                                        'High' => 'bg-red-500/20 text-red-400',
+                                        default => 'bg-[#2a2a2a] text-[#C7FF3D]',
+                                    };
+                                    @endphp
+                                    <span class="text-[10px] sm:text-xs font-semibold {{ $priorityClass }} px-2.5 py-1 rounded-lg">
+                                        {{ $project->priority }}
                                     </span>
                                 </div>
-
                             </td>
 
                             <!-- 5. Status Project -->
                             <td class="px-8 py-3">
-
                                 <div class="flex items-center">
-                                    <span
-                                        class="text-[10px] sm:text-xs font-semibold bg-[#2a2a2a] text-white px-2 py-0.5 rounded-lg">In
-                                        Progress</span>
+                                    <span class="text-[10px] sm:text-xs font-semibold bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-lg">
+                                        Active
+                                    </span>
                                 </div>
                             </td>
 
@@ -595,222 +410,48 @@
 
                             <!-- 7. Tombol Action Dropdown (Board + Edit + Hapus) -->
                             <td class="px-8 py-3">
-
                                 <div class="relative inline-block">
-
-                                    <button onclick="toggleDropdown(this)"
-                                        class="w-8 h-8 flex items-center justify-center rounded-lg 
-                                                 text-white hover:bg-white/10 hover:text-white transition">
+                                    <button onclick="toggleDropdown(this)" class="w-8 h-8 flex items-center justify-center rounded-lg text-white hover:bg-white/10 transition">
                                         <i class="fa-solid fa-ellipsis-vertical"></i>
-
                                     </button>
 
-                                    <div
-                                        class="dropdown-menu hidden absolute right-0 mt-1 w-36 
-                                               bg-[#1a1a1a] border border-white/10 rounded-xl 
-                                               shadow-xl z-50 overflow-hidden">
+                                    <div class="dropdown-menu hidden absolute right-0 mt-1 w-40 bg-[#1a1a1a] border border-white/10 rounded-xl shadow-xl z-50 overflow-hidden py-1">
 
-                                        <button
-                                            class="w-full flex items-center gap-2 px-4 py-2.5 
-                                                           text-xs text-white hover:bg-white/5 transition">
-                                            <i class="fa-solid fa-pen-to-square text-[#C7FF3D]"></i>
-                                            Edit
-                                        </button>
+                                        <!-- 1. Tombol Buka Kanban Board -->
+                                        <a href="{{ url('/board?project_id='.$project->id) }}" class="w-full flex items-center gap-2.5 px-4 py-2 text-xs text-white hover:bg-white/5 transition">
+                                            <i class="fa-solid fa-table-columns text-[#C7FF3D]"></i>
+                                            <span>Buka Board</span>
+                                        </a>
 
-                                        <button
-                                            class="w-full flex items-center gap-2 px-4 py-2.5 
-                                                           text-xs text-red-400 hover:bg-white/5 transition">
-                                            <i class="fa-solid fa-trash"></i>
-                                            Hapus
-                                        </button>
+                                        <!-- 2. Tombol Edit Project -->
+                                        <a href="{{ url('/projects/'.$project->id.'/edit') }}" class="w-full flex items-center gap-2.5 px-4 py-2 text-xs text-white hover:bg-white/5 transition">
+                                            <i class="fa-solid fa-pen-to-square text-amber-400"></i>
+                                            <span>Edit</span>
+                                        </a>
+
+                                        <div class="border-t border-white/10 my-1"></div>
+
+                                        <!-- 3. Tombol Hapus Project -->
+                                        <form action="{{ url('/projects/'.$project->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus project {{ $project->nama_project }}?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="w-full flex items-center gap-2.5 px-4 py-2 text-xs text-red-400 hover:bg-red-500/10 transition text-left">
+                                                <i class="fa-solid fa-trash"></i>
+                                                <span>Hapus</span>
+                                            </button>
+                                        </form>
 
                                     </div>
-
                                 </div>
-
                             </td>
-
                         </tr>
-
-                    </tbody>
-
-                    <tbody>
-
-                        <tr class = "border-b border-white/10 hover:bg-white/5 transition">
-
-                            <td class ="px-8 py-3">
-                                <p class="font-bold text-white text-xs sm:text-sm">Design System Update</p>
-                                <p class="text-[10px] sm:text-xs text-white mt-0.5">TSK-1042</p>
+                        @empty
+                        <!-- Ditampilkan jika database masih kosong -->
+                        <tr>
+                            <td colspan="7" class="px-8 py-10 text-center text-gray-400 text-xs">
+                                <i class="fa-regular fa-folder-open text-2xl mb-2 block text-gray-500"></i>
+                                Belum ada project. Klik tombol <strong>Create Project</strong> di atas untuk membuat proyek baru.
                             </td>
-
-                            <td class="px-8 py-3">
-                                <p class="font-bold text-white text-xs sm:text-sm">Q4 Marketing Campaign</p>
-                            </td>
-
-                            <td class="px-8 py-3">
-
-                                <div class="flex items-center gap-2">
-
-                                    <div
-                                        class="w-7 h-7 rounded-full bg-[#2a2a2a] border border-white/20 
-                                                flex items-center justify-center text-[10px] text-white font-bold shrink-0">
-                                        <i class="fa-regular fa-user text-xs sm:text-sm"></i>
-                                    </div>
-
-                                    <span class="text-white text-xs sm:text-sm">John Doe</span>
-                                </div>
-
-                            </td>
-
-                            <td class="px-8 py-3">
-
-                                <div class="flex items-center">
-                                    <span class="flex items-center gap-1 text-green-500 text-xs font-semibold">
-                                        <i class="fa-solid fa-angle-down"></i> Low
-                                    </span>
-                                </div>
-                            </td>
-
-                            <td class="px-8 py-3">
-
-                                <div class="flex items-center">
-                                    <span
-                                        class="text-[10px] sm:text-xs font-semibold bg-[#C7FF3D]/20 text-[#C7FF3D] px-2 py-0.5 rounded-lg">Done</span>
-                                </div>
-
-                            </td>
-
-                            <td class="px-8 py-3">
-                                <p class="font-bold text-white text-xs sm:text-sm">Oct 24, 2023</p>
-                            </td>
-
-                            <td class="px-8 py-3">
-
-                                <div class="relative inline-block">
-
-                                    <button onclick="toggleDropdown(this)"
-                                        class="w-8 h-8 flex items-center justify-center rounded-lg 
-                                                 text-white hover:bg-white/10 hover:text-white transition">
-                                        <i class="fa-solid fa-ellipsis-vertical"></i>
-
-                                    </button>
-
-                                    <div
-                                        class="dropdown-menu hidden absolute right-0 mt-1 w-36 
-                                               bg-[#1a1a1a] border border-white/10 rounded-xl 
-                                               shadow-xl z-50 overflow-hidden">
-
-                                        <button
-                                            class="w-full flex items-center gap-2 px-4 py-2.5 
-                                                           text-xs text-white hover:bg-white/5 transition">
-                                            <i class="fa-solid fa-pen-to-square text-[#C7FF3D]"></i>
-                                            Edit
-                                        </button>
-
-                                        <button
-                                            class="w-full flex items-center gap-2 px-4 py-2.5 
-                                                           text-xs text-red-400 hover:bg-white/5 transition">
-                                            <i class="fa-solid fa-trash"></i>
-                                            Hapus
-                                        </button>
-
-                                    </div>
-
-                                </div>
-
-                            </td>
-
-                        </tr>
-
-                    </tbody>
-
-                    <tbody>
-
-                        <tr class = "border-b border-white/10 hover:bg-white/5 transition">
-
-                            <td class ="px-8 py-3">
-                                <p class="font-bold text-white text-xs sm:text-sm">Design System Update</p>
-                                <p class="text-[10px] sm:text-xs text-white mt-0.5">TSK-1042</p>
-                            </td>
-
-                            <td class="px-8 py-3">
-                                <p class="font-bold text-white text-xs sm:text-sm">Q4 Marketing Campaign</p>
-                            </td>
-
-                            <td class="px-8 py-3">
-
-                                <div class="flex items-center gap-2">
-
-                                    <div
-                                        class="w-7 h-7 rounded-full bg-[#2a2a2a] border border-white/20 
-                                                flex items-center justify-center text-[10px] text-white font-bold shrink-0">
-                                        <i class="fa-regular fa-user text-xs sm:text-sm"></i>
-                                    </div>
-
-                                    <span class="text-white text-xs sm:text-sm">John Doe</span>
-                                </div>
-
-                            </td>
-
-                            <td class="px-8 py-3">
-
-                                <div class="flex items-center">
-                                    <span class="flex items-center gap-1 text-orange-400 text-xs font-semibold">
-                                        <i class="fa-solid fa-minus"></i> Medium
-                                    </span>
-                                </div>
-
-                            </td>
-
-                            <td class="px-8 py-3">
-
-                                <div class="flex items-center">
-                                    <span
-                                        class="text-[10px] sm:text-xs font-semibold bg-[#C7FF3D]/20 text-[#C7FF3D] px-2 py-0.5 rounded-lg">Done</span>
-                                </div>
-
-                            </td>
-
-                            <td class="px-8 py-3">
-                                <p class="font-bold text-white text-xs sm:text-sm">Oct 24, 2023</p>
-                            </td>
-
-                            <td class="px-8 py-3">
-
-                                <div class="relative inline-block">
-
-                                    <button onclick="toggleDropdown(this)"
-                                        class="w-8 h-8 flex items-center justify-center rounded-lg 
-                                                 text-white hover:bg-white/10 hover:text-white transition">
-                                        <i class="fa-solid fa-ellipsis-vertical"></i>
-
-                                    </button>
-
-                                    <div
-                                        class="dropdown-menu hidden absolute right-0 mt-1 w-36 
-                                               bg-[#1a1a1a] border border-white/10 rounded-xl 
-                                               shadow-xl z-50 overflow-hidden">
-
-                                        <button
-                                            class="w-full flex items-center gap-2 px-4 py-2.5 
-                                                           text-xs text-white hover:bg-white/5 transition">
-                                            <i class="fa-solid fa-pen-to-square text-[#C7FF3D]"></i>
-                                            Edit
-                                        </button>
-
-                                        <button
-                                            class="w-full flex items-center gap-2 px-4 py-2.5 
-                                                           text-xs text-red-400 hover:bg-white/5 transition">
-                                            <i class="fa-solid fa-trash"></i>
-                                            Hapus
-                                        </button>
-
-                                    </div>
-
-                                </div>
-
-                            </td>
-
                         </tr>
                         @endforelse
                     </tbody>
@@ -834,28 +475,17 @@
                             {{-- Halaman lain → bisa diklik, ada link --}}
                             <a href="{{ $projects->url($i) }}" class="w-8 h-8 flex items-center justify-center rounded-lg text-white text-xs hover:bg-[#1a1a1a] transition">{{ $i }}</a>
                             @endif
-                            @endfor
+                        @endfor
 
-                            @if ($projects->hasMorePages())
-                            <a href="{{ $projects->nextPageUrl() }}" class="w-8 h-8 flex items-center justify-center border border-white/10 rounded-lg text-white text-xs hover:bg-[#1a1a1a] transition">&#8250;</a>
-                            @else
-                            <span class="w-8 h-8 flex items-center justify-center border border-white/10 rounded-lg text-white/30 text-xs cursor-not-allowed">&#8250;</span>
-                            @endif
+                        @if ($projects->hasMorePages())
+                        <a href="{{ $projects->nextPageUrl() }}" class="w-8 h-8 flex items-center justify-center border border-white/10 rounded-lg text-white text-xs hover:bg-[#1a1a1a] transition">&#8250;</a>
+                        @else
+                        <span class="w-8 h-8 flex items-center justify-center border border-white/10 rounded-lg text-white/30 text-xs cursor-not-allowed">&#8250;</span>
+                        @endif
                     </div>
 
-                <div class="flex flex-row gap-1 items-center mx-6">
-                    <button
-                        class="w-8 h-8 flex items-center justify-center border border-white/10 rounded-lg text-white text-xs hover:bg-[#1a1a1a] transition">&#8249;</button>
-                    <button
-                        class="w-8 h-8 flex items-center justify-center bg-[#1a1a1a] border border-white/10 rounded-lg text-white text-xs transition">1</button>
-                    <button
-                        class="w-8 h-8 flex items-center justify-center rounded-lg text-white text-xs hover:bg-[#1a1a1a] transition">2</button>
-                    <button
-                        class="w-8 h-8 flex items-center justify-center rounded-lg text-white text-xs hover:bg-[#1a1a1a] transition">3</button>
-                    <span class="w-8 h-8 flex items-center justify-center rounded-lg text-white">...</span>
-                    <button
-                        class="w-8 h-8 flex items-center justify-center border border-white/10 rounded-lg text-white text-xs hover:bg-[#1a1a1a] transition">&#8250;</button>
                 </div>
+
 
             </div>
 
