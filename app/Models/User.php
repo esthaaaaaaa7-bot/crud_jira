@@ -53,8 +53,7 @@ class User extends Authenticatable
     public function projects()
     {
         return $this->belongsToMany(Project::class, 'project_users', 'user_id', 'project_id')
-                    ->withPivot('role')
-                    ->withTimestamps();
+            ->withTimestamps();
     }
 
     /**
@@ -63,7 +62,12 @@ class User extends Authenticatable
     public function teams()
     {
         return $this->belongsToMany(Team::class, 'team_users', 'user_id', 'team_id')
-                    ->withTimestamps();
+            ->withTimestamps();
+    }
+
+    public function projectUsers()
+    {
+        return $this->hasMany(ProjectUser::class, 'user_id');
     }
 
     /**
