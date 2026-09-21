@@ -36,6 +36,22 @@
                 radial-gradient(circle at 100% 100%, rgba(199, 255, 61, 0.3) 0%, transparent 30%),
                 radial-gradient(circle at 50% 50%, rgba(199, 255, 61, 0.15) 0%, transparent 60%);
         }
+
+        .custom-scroll::-webkit-scrollbar {
+            width: 10px;
+          }
+          .custom-scroll::-webkit-scrollbar-track {
+            background: #1a1a1a; 
+            border-radius: 10px;
+          }
+           .custom-scroll::-webkit-scrollbar-thumb {
+            background: #c7ff3d;
+            border-radius: 10px;
+          }
+           .custom-scroll::-webkit-scrollbar-thumb:hover {
+            background: #a8d930;
+          }
+
     </style>
 
 
@@ -80,7 +96,7 @@
             </li>
 
             <li>
-                <a href="#" class="flex items-center gap-3 py-2 px-4 rounded-lg text-gray-400 hover:bg-[#1a1a1a] hover:text-white transition duration-200">
+                <a href="{{ url('/projects/board') }}" class="flex items-center gap-3 py-2 px-4 rounded-lg text-gray-400 hover:bg-[#1a1a1a] hover:text-white transition duration-200">
                     <i class="fa-solid fa-table-columns text-sm w-5 text-center"></i>
                     <span class="text-sm">Boards</span>
                 </a>
@@ -112,20 +128,20 @@
 
     </aside>
 
-    <main class="flex-1 p-8 pt-0 overflow-y-auto bg-gradient-glow">
+    <main class="flex-1 p-8 pt-0 overflow-y-auto custom-scroll bg-gradient-glow">
 
         <header class="flex items-center justify-between py-3 sm:py-4 mb-8 border-b border-white/10 -mx-8 px-8 sticky top-0 z-10 bg-transparent backdrop-blur-lg">
 
-            <div class="flex items-center gap-3 flex-1">
+            <div class="flex flex-1 items-center gap-6 sm:gap-2">
 
                 <button onclick="toggleSidebar()" 
-                    class="lg:hidden w-8 h-8 flex items-center justify-center rounded-xl 
+                    class="lg:hidden w-8 h-8 -ml-3 flex items-center justify-center rounded-xl 
                    bg-[#151515] border border-white/10 text-gray-400 
                    hover:text-white hover:bg-[#1a1a1a] transition">
                 <i class="fa-solid fa-bars text-xs"></i>
                 </button>
 
-                <div class="relative w-full max-w-[150px] md:max-w-[280px] lg:max-w-xs xl:max-w-sm -ml-2">
+                <div class="relative w-full max-w-[150px] md:max-w-[280px] lg:max-w-xs xl:max-w-sm -ml-4 sm:-ml-0">
                     <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-white/50 text-xs"></i>
                     <input type="text" placeholder="Search anything, tasks, issues..."
                         class="w-full bg-[#151515] border border-white/10 text-xs text-white placeholder-white/50 
@@ -135,7 +151,7 @@
             </div>
 
 
-            <div class="flex items-center gap-2">
+            <div class="flex items-center -mr-4 gap-2">
                 <button class="w-8 h-8 flex items-center justify-center rounded-xl bg-[#111111] border 
                                 border-white/10 text-gray-400 hover:text-white hover:bg-[#1a1a1a] relative transition">
                     <i class="fa-regular fa-bell text-sm"></i>

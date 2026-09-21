@@ -17,18 +17,18 @@ Route::get('/logout', [LoginController::class, 'logout']);
 Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
 Route::get('/projects/create', [ProjectController::class, 'create'])->name('projects.create');
 Route::post('/projects', [ProjectController::class, 'store'])->name('projects.store');
+Route::get('/projects/board', function () {
+    if (!session('user')) {
+        return redirect('/login');
+    }
+    $projects = \App\Models\Project::all();
+    return view('board', compact('projects'));
+})->name('projects.board');
 Route::get('/projects/{id}', [ProjectController::class, 'show'])->name('projects.show');
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::get('/board', function () {
-    if (!session('user')) {
-        return redirect('/login');
-    }
-    $firstProject = \App\Models\Project::first();
-    if ($firstProject) {
-        return redirect('/projects/' . $firstProject->id);
-    }
-    return view('board');
+    return redirect('/projects/board');
 });
 
 // Route Register (publik, tidak perlu login)

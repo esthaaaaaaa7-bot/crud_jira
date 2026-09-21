@@ -1,1045 +1,1108 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="id">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Board | ProSite</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProSite - Board</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
-        *,
-        *::before,
-        *::after {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --bg: #0e100f;
-            --sidebar: #090b0a;
-            --topbar: #0e100f;
-            --col-bg: #111210;
-            --card-bg: #161816;
-            --border: #1f2622;
-            --border-soft: #1f2622;
-            --text-1: #e8ead4;
-            --text-2: #9ca3af;
-            --text-3: #5a5a5a;
-            --lime: #ccff00;
-            --lime-dim: rgba(204, 255, 0, 0.08);
-        }
-
-        html,
-        body {
-            height: 100%;
-        }
-
         body {
             font-family: 'Inter', sans-serif;
-            background: var(--bg);
-            color: var(--text-1);
-            display: flex;
-            height: 100vh;
-            overflow: hidden;
         }
 
-        /* ───────── SIDEBAR ───────── */
-        .sidebar {
-            width: 256px;
-            min-width: 256px;
-            background: var(--sidebar);
-            border-right: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-            padding: 0;
-            height: 100vh;
-            overflow: hidden;
+
+        .bg-gradient-glow {
+            background-color: #000000;
+            background-image:
+                radial-gradient(circle at 0% 0%, rgba(199, 255, 61, 0.3) 0%, transparent 30%),
+                radial-gradient(circle at 100% 100%, rgba(199, 255, 61, 0.3) 0%, transparent 30%),
+                radial-gradient(circle at 50% 50%, rgba(199, 255, 61, 0.15) 0%, transparent 60%);
         }
 
-        .sidebar-logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 24px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .logo-box {
-            width: 40px;
-            height: 40px;
-            background: var(--lime);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .logo-box svg {
-            width: 22px;
-            height: 22px;
-        }
-
-        .logo-text {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--text-1);
-            letter-spacing: 0.01em;
-        }
-
-        .sidebar-nav {
-            display: flex;
-            flex-direction: column;
-            padding: 16px 12px;
-            gap: 4px;
-            flex: 1;
-        }
-
-        .nav-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 16px;
-            border-radius: 14px;
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--text-2);
-            cursor: pointer;
-            transition: background 0.15s, color 0.15s;
-            text-decoration: none;
-        }
-
-        .nav-item:hover {
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--text-1);
-        }
-
-        .nav-item.active {
-            background: #17201b;
-            color: #ffffff;
-        }
-
-        .nav-item svg {
-            width: 16px;
-            height: 16px;
-            flex-shrink: 0;
-            opacity: 0.85;
-        }
-
-        .nav-item.active svg {
-            opacity: 1;
-        }
-
-        .sidebar-bottom {
-            padding: 10px 12px 24px;
-            border-top: 1px solid var(--border);
-        }
-
-        /* ───────── MAIN AREA ───────── */
-        .main {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        /* ───────── TOPBAR ───────── */
-        .topbar {
-            background: var(--topbar);
-            border-bottom: 1px solid var(--border);
-            height: 48px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 22px;
-            flex-shrink: 0;
-        }
-
-        .topbar-breadcrumb {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 13px;
-        }
-
-        .breadcrumb-link {
-            color: var(--text-2);
-            text-decoration: none;
-            transition: color 0.15s;
-        }
-
-        .breadcrumb-link:hover {
-            color: var(--text-1);
-        }
-
-        .breadcrumb-sep {
-            color: var(--text-3);
-            font-size: 12px;
-        }
-
-        .breadcrumb-current {
-            color: var(--text-1);
-            font-weight: 500;
-        }
-
-        .topbar-actions {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .icon-btn {
-            width: 32px;
-            height: 32px;
-            border-radius: 7px;
-            border: none;
-            background: transparent;
-            color: var(--text-2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: background 0.15s, color 0.15s;
-            position: relative;
-        }
-
-        .icon-btn:hover {
-            background: rgba(255, 255, 255, 0.07);
-            color: var(--text-1);
-        }
-
-        .icon-btn svg {
-            width: 17px;
-            height: 17px;
-        }
-
-        .notif-dot {
-            position: absolute;
-            top: 6px;
-            right: 6px;
-            width: 7px;
+        .custom-scroll::-webkit-scrollbar {
             height: 7px;
-            background: #f97316;
-            border-radius: 50%;
-            border: 1.5px solid var(--topbar);
-        }
-
-        .avatar-sm {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background: #2d4a6b;
-            color: #93c5fd;
-            font-size: 11px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            border: 1.5px solid var(--border);
-            cursor: pointer;
-        }
-
-        /* ───────── BOARD CONTENT AREA ───────── */
-        .board-area {
-            flex: 1;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* ───────── BOARD HEADER ───────── */
-        .board-header {
-            padding: 22px 24px 16px;
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            flex-shrink: 0;
-        }
-
-        .board-title {
-            font-size: 26px;
-            font-weight: 800;
-            color: #f0f0f0;
-            letter-spacing: -0.02em;
-            line-height: 1.2;
-            margin-bottom: 4px;
-        }
-
-        .board-subtitle {
-            font-size: 13px;
-            color: var(--text-2);
-            font-weight: 400;
-        }
-
-        .board-header-right {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 4px;
-        }
-
-        .avatar-group {
-            display: flex;
-            align-items: center;
-        }
-
-        .avatar-group .avatar-sm {
-            margin-left: -8px;
-            border: 2px solid var(--bg);
-        }
-
-        .avatar-group .avatar-sm:first-child {
-            margin-left: 0;
-        }
-
-        .avatar-sm.color-a {
-            background: #3b2a4a;
-            color: #c084fc;
-        }
-
-        .avatar-sm.color-b {
-            background: #1a3a2a;
-            color: #4ade80;
-        }
-
-        .avatar-sm.color-c {
-            background: #2a1a3a;
-            color: #a78bfa;
-        }
-
-        .avatar-sm.color-d {
-            background: #2d4a6b;
-            color: #93c5fd;
-        }
-
-        .avatar-sm.color-e {
-            background: #3a2a1a;
-            color: #fb923c;
-        }
-
-        .avatar-more {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            background: #222;
-            color: var(--text-2);
-            font-size: 10px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-left: -8px;
-            border: 2px solid var(--bg);
-        }
-
-        .filter-btn {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            padding: 7px 13px;
-            border-radius: 7px;
-            border: 1px solid var(--border);
-            background: transparent;
-            color: var(--text-2);
-            font-size: 13px;
-            font-weight: 500;
-            cursor: pointer;
-            font-family: 'Inter', sans-serif;
-            transition: background 0.15s, color 0.15s, border-color 0.15s;
-        }
-
-        .filter-btn:hover {
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--text-1);
-            border-color: #3a3a3a;
-        }
-
-        .filter-btn svg {
-            width: 14px;
-            height: 14px;
-        }
-
-        /* ───────── COLUMNS WRAPPER ───────── */
-        .columns-wrapper {
-            flex: 1;
-            display: flex;
-            gap: 14px;
-            padding: 0 24px 24px;
-            overflow-x: auto;
-            overflow-y: hidden;
-        }
-
-        .columns-wrapper::-webkit-scrollbar {
-            height: 6px;
-        }
-
-        .columns-wrapper::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        .columns-wrapper::-webkit-scrollbar-thumb {
-            background: #2a2a2a;
-            border-radius: 3px;
-        }
-
-        /* ───────── COLUMN ───────── */
-        .column {
-            width: 270px;
-            min-width: 270px;
-            background: var(--col-bg);
-            border-radius: 12px;
-            border: 1px solid var(--border-soft);
-            display: flex;
-            flex-direction: column;
-            max-height: 100%;
-            overflow: hidden;
-        }
-
-        .column-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 13px 14px 11px;
-            flex-shrink: 0;
-            border-bottom: 1px solid var(--border-soft);
-        }
-
-        .col-header-left {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .col-dot {
             width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            flex-shrink: 0;
-        }
-
-        .dot-gray {
-            background: #6b7280;
-        }
-
-        .dot-lime {
-            background: #c8f135;
-        }
-
-        .dot-purple {
-            background: #a855f7;
-        }
-
-        .dot-green {
-            background: #22c55e;
-        }
-
-        .col-title {
-            font-size: 13.5px;
-            font-weight: 600;
-            color: var(--text-1);
-        }
-
-        .col-count {
-            background: #252525;
-            color: var(--text-2);
-            font-size: 11px;
-            font-weight: 600;
-            padding: 1px 7px;
-            border-radius: 20px;
-            border: 1px solid var(--border);
-        }
-
-        .col-more {
-            background: none;
-            border: none;
-            color: var(--text-3);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            padding: 3px 4px;
-            border-radius: 5px;
-            transition: background 0.15s, color 0.15s;
-        }
-
-        .col-more:hover {
-            background: rgba(255, 255, 255, 0.06);
-            color: var(--text-2);
-        }
-
-        .col-more svg {
-            width: 14px;
-            height: 14px;
-        }
-
-        .column-cards {
-            flex: 1;
-            overflow-y: auto;
-            padding: 10px 10px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .column-cards::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        .column-cards::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        .column-cards::-webkit-scrollbar-thumb {
-            background: #2a2a2a;
-            border-radius: 2px;
-        }
-
-        /* ───────── CARD ───────── */
-        .card {
-            background: var(--card-bg);
-            border: 1px solid #282828;
+          }
+          .custom-scroll::-webkit-scrollbar-track {
+            background: #1a1a1a; 
             border-radius: 10px;
-            padding: 12px 13px;
-            cursor: pointer;
-            transition: border-color 0.2s, transform 0.1s;
-        }
+          }
+           .custom-scroll::-webkit-scrollbar-thumb {
+            background: #c7ff3d;
+            border-radius: 10px;
+          }
+           .custom-scroll::-webkit-scrollbar-thumb:hover {
+            background: #a8d930;
+          }
+          
+          .flatpickr-calendar {
+    background: #151515 !important;
+    border: 1px solid rgba(255,255,255,0.1) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5) !important;
+}
+.flatpickr-day.selected {
+    background: #C7FF3D !important;
+    border-color: #C7FF3D !important;
+    color: #000 !important;
+}
+.flatpickr-day:hover {
+    background: rgba(199,255,61,0.2) !important;
+}
+.flatpickr-months, .flatpickr-weekdays, .flatpickr-day {
+    color: white !important;
+}
+.flatpickr-day.today {
+    border-color: #C7FF3D !important;
+}
 
-        .card:hover {
-            border-color: #3a3a3a;
-            transform: translateY(-1px);
-        }
-
-        .card-top {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 8px;
-        }
-
-        .card-badges {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .badge {
-            font-size: 10px;
-            font-weight: 700;
-            padding: 2px 7px;
-            border-radius: 4px;
-            letter-spacing: 0.04em;
-            text-transform: uppercase;
-        }
-
-        .badge-high {
-            background: rgba(239, 68, 68, 0.18);
-            color: #f87171;
-        }
-
-        .badge-medium {
-            background: rgba(234, 179, 8, 0.18);
-            color: #fbbf24;
-        }
-
-        .badge-low {
-            background: rgba(34, 197, 94, 0.18);
-            color: #4ade80;
-        }
-
-        .card-id {
-            font-size: 11px;
-            color: var(--text-3);
-            font-weight: 500;
-        }
-
-        .card-title {
-            font-size: 13.5px;
-            font-weight: 600;
-            color: var(--text-1);
-            line-height: 1.4;
-            margin-bottom: 6px;
-        }
-
-        .card-desc {
-            font-size: 12px;
-            color: var(--text-2);
-            line-height: 1.5;
-            margin-bottom: 10px;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .progress-wrap {
-            margin-bottom: 10px;
-        }
-
-        .progress-bar-bg {
-            height: 4px;
-            background: #2a2a2a;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .progress-bar-fill {
-            height: 100%;
-            background: var(--lime);
-            border-radius: 4px;
-        }
-
-        .card-footer {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-top: 10px;
-        }
-
-        .card-meta {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .meta-item {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            font-size: 11.5px;
-            color: var(--text-3);
-        }
-
-        .meta-item svg {
-            width: 12px;
-            height: 12px;
-        }
-
-        .card-avatars {
-            display: flex;
-            align-items: center;
-        }
-
-        .card-avatars .avatar-sm {
-            width: 24px;
-            height: 24px;
-            font-size: 9px;
-            margin-left: -6px;
-            border: 1.5px solid var(--card-bg);
-        }
-
-        .card-avatars .avatar-sm:first-child {
-            margin-left: 0;
-        }
-
-        .subtask-info {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 11.5px;
-            color: var(--text-3);
-            margin-bottom: 8px;
-        }
-
-        .subtask-info svg {
-            width: 12px;
-            height: 12px;
-        }
-
-        .subtask-extra {
-            background: #252525;
-            color: var(--text-2);
-            font-size: 10px;
-            font-weight: 600;
-            padding: 1px 5px;
-            border-radius: 4px;
-            margin-left: 2px;
-        }
-
-        .due-today {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 11.5px;
-            color: var(--text-2);
-            margin-bottom: 8px;
-        }
-
-        .due-today svg {
-            width: 12px;
-            height: 12px;
-            color: var(--text-3);
-        }
-
-        .badge-completed {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            background: rgba(34, 197, 94, 0.12);
-            color: #4ade80;
-            font-size: 11px;
-            font-weight: 600;
-            padding: 3px 9px;
-            border-radius: 5px;
-            margin-top: 8px;
-        }
-
-        .badge-completed svg {
-            width: 11px;
-            height: 11px;
-        }
-
-        .review-count {
-            background: #252525;
-            color: var(--text-2);
-            font-size: 10px;
-            font-weight: 600;
-            padding: 2px 6px;
-            border-radius: 4px;
-            border: 1px solid #333;
-        }
-
-        .add-task-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            width: calc(100% - 20px);
-            margin: 0 10px 10px;
-            padding: 8px;
-            border: 1px dashed #2d2d2d;
-            border-radius: 8px;
-            background: transparent;
-            color: var(--text-3);
-            font-size: 12.5px;
-            font-weight: 500;
-            cursor: pointer;
-            font-family: 'Inter', sans-serif;
-            transition: background 0.15s, color 0.15s, border-color 0.15s;
-        }
-
-        .add-task-btn:hover {
-            background: rgba(255, 255, 255, 0.03);
-            color: var(--text-2);
-            border-color: #3a3a3a;
-        }
-
-        .add-task-btn svg {
-            width: 13px;
-            height: 13px;
-        }
     </style>
+
+
 </head>
 
-<body>
+<body class="flex h-screen overflow-hidden bg-[#080808] font-sans">
 
-    <aside class="w-64 bg-[#090b0a] border-r border-[#1f2622] flex flex-col justify-between select-none flex-shrink-0" style="min-width:256px;height:100vh;">
-        <div>
-            <div class="flex items-center gap-3 px-6 py-6">
-                <div class="bg-[#ccff00] rounded-xl flex items-center justify-center flex-shrink-0" style="width:40px;height:40px;">
-                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:22px;height:22px;">
-                        <rect x="3" y="3" width="7" height="7" rx="1.5" stroke="#0a0a0a" stroke-width="2.2" fill="none" />
-                        <rect x="14" y="3" width="7" height="7" rx="1.5" stroke="#0a0a0a" stroke-width="2.2" fill="none" />
-                        <rect x="3" y="14" width="7" height="7" rx="1.5" stroke="#0a0a0a" stroke-width="2.2" fill="none" />
-                        <rect x="14" y="14" width="7" height="7" rx="1.5" stroke="#0a0a0a" stroke-width="2.2" fill="none" />
-                    </svg>
-                </div>
-                <span class="text-xl font-bold tracking-wide text-white">ProSite</span>
+    <div id="sidebar-backdrop" 
+         class="fixed inset-0 bg-black/60 z-40 lg:hidden hidden backdrop-blur-sm" 
+         onclick="toggleSidebar()">
+    </div>
+
+   <aside id="sidebar" class="fixed lg:relative inset-y-0 left-0 z-50 w-[200px] md:w-56 bg-[#080808] text-white flex flex-col p-5 shadow-lg 
+              border-r border-white/10 -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out">
+               
+        <div class="flex items-center gap-3 mx-4 px-0 md:px-4 pb-4 mb-4 mt-0 border-b border-white/30">
+           
+            <div class="w-8 h-8 rounded-[9px] flex items-center justify-center shrink-0">
+                <img src="{{ asset('images/logo_itenas.png') }}" alt="ProSite Logo" class="w-8 h-8 rounded-[9px]">
             </div>
 
-            <!-- Navigation Links -->
-            <nav class="mt-4 px-3 space-y-1.5">
-                <a href="{{ url('/dashboard') }}" class="flex items-center gap-3 px-4 py-3 rounded-2xl text-gray-400 hover:text-white hover:bg-[#131916] font-medium text-sm transition">
-                    <i class="fa-solid fa-chart-pie text-base"></i> Dashboard
-                </a>
-                <a href="{{ url('/projects') }}" class="flex items-center gap-3 px-4 py-3 rounded-2xl text-gray-400 hover:text-white hover:bg-[#131916] font-medium text-sm transition">
-                    <i class="fa-regular fa-folder text-base"></i> Project
-                </a>
-                <a href="{{ url('/board') }}" class="flex items-center gap-3 px-4 py-3 rounded-2xl bg-[#17201b] text-white font-medium text-sm">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;">
-                        <rect x="3" y="3" width="5" height="18" rx="1" />
-                        <rect x="10" y="3" width="5" height="12" rx="1" />
-                        <rect x="17" y="3" width="4" height="8" rx="1" />
-                    </svg> Board
-                </a>
-                <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-2xl text-gray-400 hover:text-white hover:bg-[#131916] font-medium text-sm transition">
-                    <i class="fa-regular fa-square-check text-base"></i> Task
-                </a>
-                <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-2xl text-gray-400 hover:text-white hover:bg-[#131916] font-medium text-sm transition">
-                    <i class="fa-regular fa-user text-base"></i> Team
-                </a>
-                @if((session('user')->id_jabatan ?? 0) == 1)
-                <a href="{{ url('/users') }}" class="flex items-center gap-3 px-4 py-3 rounded-2xl text-gray-400 hover:text-white hover:bg-[#131916] font-medium text-sm transition">
-                    <i class="fa-solid fa-user-gear text-base"></i> User
-                </a>
-                @endif
-            </nav>
+
+            <h2 class="text-md font-bold text-white tracking-wide">
+                ItensFlow
+            </h2>
         </div>
 
-        <!-- Settings di Bawah Sidebar -->
-        <div class="px-3 pb-6">
-            <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-2xl text-gray-400 hover:text-white hover:bg-[#131916] font-medium text-sm transition">
-                <i class="fa-solid fa-gear text-base"></i> Settings
-            </a>
-        </div>
+        <ul class="space-y-1 flex-1 mt-1">
+
+            <li>
+                <a href="{{ url('/dashboard') }}" class="flex items-center gap-3 py-2 px-4 rounded-lg text-gray-400 hover:bg-[#1a1a1a] hover:text-white transition duration-200">
+                    <i class="fa-solid fa-chart-line text-sm w-5 text-center"></i>
+                    <span class="text-sm">Dashboard</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url('/projects') }}" class="flex items-center gap-3 py-2 px-4 rounded-lg text-gray-400 hover:bg-[#1a1a1a] hover:text-white transition duration-200">
+                    <i class="fa-regular fa-folder text-sm w-5 text-center"></i>
+                    <span class="text-sm">Projects</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="#" class="flex items-center gap-3 py-2 px-4 rounded-lg bg-[#1a1a1a] text-white font-medium transition duration-200 border border-[#2a2a2a]">
+                    <i class="fa-solid fa-table-columns text-sm w-5 text-center"></i>
+                    <span class="text-sm">Boards</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="#" class="flex items-center gap-3 py-2 px-4 rounded-lg text-gray-400 hover:bg-[#1a1a1a] hover:text-white transition duration-200">
+                    <i class="fa-regular fa-square-check text-sm w-5 text-center"></i>
+                    <span class="text-sm">Tasks</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="#" class="flex items-center gap-3 py-2 px-4 rounded-lg text-gray-400 hover:bg-[#1a1a1a] hover:text-white transition duration-200">
+                    <i class="fa-solid fa-user-group text-sm w-5 text-center"></i>
+                    <span class="text-sm">Team</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="#" class="flex items-center gap-3 py-2 px-4 rounded-lg text-gray-400 hover:bg-[#1a1a1a] hover:text-white transition duration-200 mt-2">
+                    <i class="fa-solid fa-gear text-sm w-5 text-center"></i>
+                    <span class="text-sm">Settings</span>
+                </a>
+            </li>
+
+        </ul>
+
+
     </aside>
 
-    <!-- ═══ MAIN ═══ -->
-    <div class="main">
+    <main class="flex-1 p-8 pt-0 overflow-y-auto bg-gradient-glow custom-scroll">
 
-        <!-- ─── TOPBAR ─── -->
-        @include('partials.topbar', [
-            'left' => '<div style="display:flex;align-items:center;gap:6px;font-size:13px;">
-                <a href="' . url('/dashboard') . '" style="color:#9ca3af;text-decoration:none;">Boards</a>
-                <span style="color:#5a5a5a;font-size:12px;">›</span>
-                <span style="color:#e8ead4;font-weight:500;">Sprint 42 Board</span>
-            </div>'
-        ])
+        <header class="flex items-center justify-between py-3 sm:py-4 mb-8 border-b border-white/10 -mx-8 px-8 sticky top-0 z-10 bg-transparent backdrop-blur-lg">
 
-        <!-- ─── BOARD AREA ─── -->
-        <div class="board-area">
+            <div class="flex items-center gap-6 sm:gap-2">
 
-            <div class="board-header">
-                <div>
-                    <h1 class="board-title">Q4 Marketing Campaign</h1>
-                    <p class="board-subtitle">Manage deliverables and assets for the upcoming launch.</p>
+                <button onclick="toggleSidebar()" 
+                    class="lg:hidden w-8 h-8 -ml-3 flex items-center justify-center rounded-xl 
+                   bg-[#151515] border border-white/10 text-gray-400 
+                   hover:text-white hover:bg-[#1a1a1a] transition">
+                <i class="fa-solid fa-bars text-xs"></i>
+                </button>
+
+                 <div class="flex flex-col sm:flex-row items-center gap-2"> 
+                    
+                 <div class="flex flex-row items-center gap-2"> 
+
+                    <p class="text-white text-xs sm:text-base mx-2">Board</p>
+                    <p class="text-white text-xs sm:text-base rotate-90 sm:rotate-0">&#8250;</p>
+
                 </div>
-                <div class="board-header-right">
-                    <div class="avatar-group">
-                        <div class="avatar-sm color-a">JR</div>
-                        <div class="avatar-sm color-b">SK</div>
-                        <div class="avatar-sm color-c">ML</div>
-                        <div class="avatar-more">+3</div>
-                    </div>
-                    <button class="filter-btn">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
-                        </svg>
-                        Filter
-                    </button>
+
+                     <p class="text-[#C7FF3D] text-xs sm:text-base">Q4 Marketing Campaign</p>
+
                 </div>
+
             </div>
 
-            <!-- ─── KANBAN COLUMNS ─── -->
-            <div class="columns-wrapper">
-                <div class="column">
-                    <div class="column-header">
-                        <div class="col-header-left">
-                            <span class="col-dot dot-gray"></span>
-                            <span class="col-title">To Do</span>
-                            <span class="col-count">3</span>
-                        </div>
-                        <button class="col-more">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="5" cy="12" r="1" />
-                                <circle cx="12" cy="12" r="1" />
-                                <circle cx="19" cy="12" r="1" />
-                            </svg>
+
+            <div class="flex items-center -mr-4 gap-2">
+                <button class="w-8 h-8 flex items-center justify-center rounded-xl bg-[#111111] border 
+                                border-white/10 text-gray-400 hover:text-white hover:bg-[#1a1a1a] relative transition">
+                    <i class="fa-regular fa-bell text-sm"></i>
+                </button>
+                <button class="w-8 h-8 flex items-center justify-center rounded-xl bg-[#111111] border 
+                                border-white/10 text-gray-400 hover:text-white hover:bg-[#1a1a1a] relative transition">
+                    <i class="fa-regular fa-sun text-sm"></i>
+                </button>
+                <button class="w-8 h-8 flex items-center justify-center rounded-xl bg-[#111111] border 
+                                border-white/10 text-gray-400 hover:text-white hover:bg-[#1a1a1a] relative transition">
+                    <i class="fa-regular fa-user text-sm"></i>
+                </button>
+            </div>
+
+
+        </header>
+
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+
+            <div>
+                <h2 class="text-xl sm:text-2xl font-bold text-white mb-1">Q4 Marketing Campaign</h2>
+                <h1 class="text-xs sm:text-base text-white">Manage deliverables and assets for the upcoming launch.</h1>
+            </div>
+
+         <div class="flex flex-row gap-2 relative self-end sm:self-auto">
+
+                    <div class="relative mt-3" id="filter-wrapper">
+                        <button
+                            id="btn-filter"
+                            onclick="toggleFilterDropdown()"
+                            class="flex items-center gap-2 border border-white/30 py-2 px-4 bg-[#000000] rounded-lg hover:border-[#C7FF3D] transition-colors duration-200">
+                            <i class="fa-solid fa-filter text-white text-xs"></i>
+                            <span class="text-white text-xs">Filter</span>
+                            <i class="fa-solid fa-chevron-down text-white/40 text-[10px] transition-transform duration-200" id="filter-chevron"></i>
                         </button>
-                    </div>
-                    <div class="column-cards">
-                        <!-- Card 1 -->
-                        <div class="card">
-                            <div class="card-top">
-                                <div class="card-badges"><span class="badge badge-high">HIGH</span></div>
-                                <span class="card-id">#PRO-102</span>
+
+                        <div
+                            id="filter-dropdown"
+                            class="hidden absolute right-0 top-full mt-2 w-52 bg-[#111] border border-white/10 rounded-xl shadow-2xl z-50">
+
+                            <div
+                                id="filter-assign-trigger"
+                                onclick="toggleAssignSub(event)"
+                                class="flex items-center justify-between gap-3 px-4 py-3 hover:bg-white/5 cursor-pointer transition group rounded-t-xl">
+                                <div class="flex items-center gap-3">
+                                    <i class="fa-regular fa-user text-white/50 text-xs group-hover:text-[#C7FF3D] transition"></i>
+                                    <span class="text-white text-xs">By Assign</span>
+                                </div>
+                                <i class="fa-solid fa-chevron-down text-white/30 text-[10px] transition-transform duration-200" id="assign-chevron"></i>
                             </div>
-                            <div class="card-title">Draft initial landing page copy</div>
-                            <div class="card-desc">Create the hero section and feature highlights for the main product</div>
-                            <div class="card-footer">
-                                <div class="card-meta">
-                                    <span class="meta-item">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-                                        </svg>
-                                        2
+
+                            <div
+                                id="assign-sub"
+                                class="hidden border-t border-white/5 bg-[#0a0a0a]">
+                                <div
+                                    onclick="selectFilter('assign_elvin')"
+                                    class="flex items-center gap-2.5 pl-10 pr-4 py-2.5 hover:bg-white/5 cursor-pointer transition group">
+                                    <div class="w-5 h-5 rounded-full bg-blue-500 flex items-center justify-center text-[10px] font-bold text-white shrink-0">E</div>
+                                    <span class="text-white/80 group-hover:text-white text-xs transition">Elvin Alfabian</span>
+                                </div>
+                                <div
+                                    onclick="selectFilter('assign_ibom')"
+                                    class="flex items-center gap-2.5 pl-10 pr-4 py-2.5 hover:bg-white/5 cursor-pointer transition group border-t border-white/5">
+                                    <div class="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center text-[10px] font-bold text-white shrink-0">I</div>
+                                    <span class="text-white/80 group-hover:text-white text-xs transition">Ibom Gans</span>
+                                </div>
+                                <div
+                                    onclick="selectFilter('assign_syafiq')"
+                                    class="flex items-center gap-2.5 pl-10 pr-4 py-2.5 hover:bg-white/5 cursor-pointer transition group border-t border-white/5">
+                                    <div class="w-5 h-5 rounded-full bg-purple-500 flex items-center justify-center text-[10px] font-bold text-white shrink-0">S</div>
+                                    <span class="text-white/80 group-hover:text-white text-xs transition">Syafiq Khayru</span>
+                                </div>
+                            </div>
+
+                            <div
+                                id="filter-priority-trigger"
+                                onclick="togglePrioritySub(event)"
+                                class="flex items-center justify-between gap-3 px-4 py-3 hover:bg-white/5 cursor-pointer transition group border-t border-white/5">
+                                <div class="flex items-center gap-3">
+                                    <i class="fa-solid fa-flag text-white/50 text-xs group-hover:text-[#C7FF3D] transition"></i>
+                                    <span class="text-white text-xs">Priority</span>
+                                </div>
+                                <i class="fa-solid fa-chevron-down text-white/30 text-[10px] transition-transform duration-200" id="priority-chevron"></i>
+                            </div>
+
+                            <div
+                                id="priority-sub"
+                                class="hidden border-t border-white/5 bg-[#0a0a0a]">
+                                <div
+                                    onclick="selectFilter('priority_highest')"
+                                    class="flex items-center gap-3 pl-10 pr-4 py-2.5 hover:bg-white/5 cursor-pointer transition group">
+                                    <i class="fa-solid fa-angles-up text-red-500 text-xs"></i>
+                                    <span class="text-red-500 text-xs font-semibold">Highest</span>
+                                </div>
+                                <div
+                                    onclick="selectFilter('priority_high')"
+                                    class="flex items-center gap-3 pl-10 pr-4 py-2.5 hover:bg-white/5 cursor-pointer transition group border-t border-white/5">
+                                    <i class="fa-solid fa-angle-up text-red-500 text-xs"></i>
+                                    <span class="text-red-500 text-xs font-semibold">High</span>
+                                </div>
+                                <div
+                                    onclick="selectFilter('priority_medium')"
+                                    class="flex items-center gap-3 pl-10 pr-4 py-2.5 hover:bg-white/5 cursor-pointer transition group border-t border-white/5">
+                                    <i class="fa-solid fa-minus text-orange-400 text-xs"></i>
+                                    <span class="text-orange-400 text-xs font-semibold">Medium</span>
+                                </div>
+                                <div
+                                    onclick="selectFilter('priority_low')"
+                                    class="flex items-center gap-3 pl-10 pr-4 py-2.5 hover:bg-white/5 cursor-pointer transition group border-t border-white/5">
+                                    <i class="fa-solid fa-angle-down text-green-500 text-xs"></i>
+                                    <span class="text-green-500 text-xs font-semibold">Low</span>
+                                </div>
+                                <div
+                                    onclick="selectFilter('priority_lowest')"
+                                    class="flex items-center gap-3 pl-10 pr-4 py-2.5 hover:bg-white/5 cursor-pointer transition group border-t border-white/5">
+                                    <i class="fa-solid fa-angles-down text-green-500 text-xs"></i>
+                                    <span class="text-green-500 text-xs font-semibold">Lowest</span>
+                                </div>
+                            </div>
+
+                            <div
+                                id="filter-duedate-trigger"
+                                onclick="toggleDueDateSub(event)"
+                                class="flex items-center justify-between gap-3 px-4 py-3 hover:bg-white/5 cursor-pointer transition group border-t border-white/5">
+                                <div class="flex items-center gap-3">
+                                    <i class="fa-regular fa-calendar text-white/50 text-xs group-hover:text-[#C7FF3D] transition"></i>
+                                    <span class="text-white text-xs">Due Date</span>
+                                </div>
+                                <i class="fa-solid fa-chevron-down text-white/30 text-[10px] transition-transform duration-200" id="duedate-chevron"></i>
+                            </div>
+
+                            <div
+                                id="duedate-sub"
+                                class="hidden border-t border-white/5 bg-[#0a0a0a]">
+                                <div
+                                    onclick="selectFilter('duedate_newest')"
+                                    class="flex items-center gap-3 pl-10 pr-4 py-2.5 hover:bg-white/5 cursor-pointer transition group">
+                                    <i class="fa-solid fa-arrow-up text-white/40 text-xs group-hover:text-[#C7FF3D] transition"></i>
+                                    <span class="text-white/80 text-xs">Terbaru ke Terlama</span>
+                                </div>
+                                <div
+                                    onclick="selectFilter('duedate_oldest')"
+                                    class="flex items-center gap-3 pl-10 pr-4 py-2.5 hover:bg-white/5 cursor-pointer transition group border-t border-white/5">
+                                    <i class="fa-solid fa-arrow-down text-white/40 text-xs group-hover:text-[#C7FF3D] transition"></i>
+                                    <span class="text-white/80 text-xs">Terlama ke Terbaru</span>
+                                </div>
+                            </div>
+
+                            <div
+                                onclick="clearFilter()"
+                                class="flex items-center gap-3 px-4 py-3 hover:bg-red-500/10 cursor-pointer transition group border-t border-white/10 rounded-b-xl">
+                                <i class="fa-solid fa-xmark text-red-400/70 text-xs group-hover:text-red-400 transition"></i>
+                                <span class="text-red-400/70 text-xs group-hover:text-red-400 transition">Clear Filter</span>
+                            </div>
+
+                        </div>
+                    </div>
+               </div>
+                
+        </div>
+
+        <div class="flex flex-row items-start gap-4 mt-6 overflow-x-auto pb-4 custom-scroll">
+
+            <div class="w-[295px] bg-[#151515] border border-white/10 rounded-2xl p-4 flex flex-col gap-3 shrink-0">
+    
+                <div class="flex items-center justify-between mb-1">
+                    <div class="flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-gray-400"></span>
+                        <p class="text-white text-sm font-semibold">To Do</p>
+                        <span class="text-xs bg-white/10 text-white/60 px-2 py-0.5 rounded-full">2</span>
+                    </div>
+                    <i class="fa-solid fa-ellipsis text-white/40 text-sm"></i>
+                </div>
+
+                <div class="bg-[#000000] border border-white/10 rounded-xl p-3 flex flex-col gap-2">
+                    <div class="flex items-center justify-between">
+                        <span class="flex items-center gap-1 text-orange-400 text-xs font-semibold">
+                            <i class="fa-solid fa-minus"></i> Medium
+                        </span>
+                        <span class="text-white/40 text-xs">#PRO-102</span>
+                    </div>
+                    <p class="text-white text-sm font-semibold">Draft initial landing page copy</p>
+                    <p class="text-white/50 text-xs">Create the hero section and feature highlights for the main product</p>
+                    <div class="flex items-center justify-between mt-1">
+                        <div class="flex flex-col gap-0.5">
+                            <span class="text-[9px] text-white/40 uppercase tracking-wider font-semibold">Due date</span>
+                            <span class="flex items-center gap-1.5 text-white font-medium text-xs">
+                                <i class="fa-regular fa-calendar text-xs"></i> 18 Sept 2026
+                            </span>
+                        </div>
+                        <div class="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center text-[10px] font-bold text-white">S</div>
+                    </div>
+                </div>
+
+                <div class="bg-[#000000] border border-white/10 rounded-xl p-3 flex flex-col gap-2">
+                    <div class="flex items-center justify-between">
+                        <span class="flex items-center gap-1 text-red-500 text-xs font-semibold">
+                            <i class="fa-solid fa-angles-up"></i> Highest
+                        </span>
+                        <span class="text-white/40 text-xs">#PRO-102</span>
+                    </div>
+                    <p class="text-white text-sm font-semibold">Draft initial landing page copy</p>
+                    <p class="text-white/50 text-xs">Create the hero section and feature highlights for the main product</p>
+                    <div class="flex items-center justify-between mt-1">
+                        <div class="flex flex-col gap-0.5">
+                            <span class="text-[9px] text-white/40 uppercase tracking-wider font-semibold">Due date</span>
+                            <span class="flex items-center gap-1.5 text-white font-medium text-xs">
+                                <i class="fa-regular fa-calendar text-xs"></i> 18 Sept 2026
+                            </span>
+                        </div>
+                        <div class="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center text-[10px] font-bold text-white">S</div>
+                    </div>
+                </div>
+
+                <button onclick="openInlineTask('c1')" id="btn-c1"
+                    class="w-full text-white/40 text-xs border border-white/10 rounded-xl py-2 hover:border-[#C7FF3D] hover:text-white transition mt-1">
+                    + Add Task
+                </button>
+
+                <div id="form-c1" class="hidden bg-[#000000] border-2 border-[#C7FF3D]/40 rounded-xl p-3 mt-1">
+                    <textarea rows="3" placeholder="What needs to be done?"
+                        oninput="toggleSubmitBtn('c1', this.value)"
+                        class="w-full bg-transparent text-xs text-white placeholder-white/40 focus:outline-none resize-none mb-2">
+                    </textarea>
+                    <input type="date" id="c1-date" onchange="setDate('c1', this.value)" class="absolute opacity-0 w-0 h-0 pointer-events-none">
+                    <div id="c1-assign" class="hidden mb-2">
+                        <div class="bg-[#111] border border-white/10 rounded-lg overflow-hidden">
+                            <div onclick="setAssign('c1', 'Elvin Alfabian')" class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition">
+                                <div class="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center text-[10px] font-bold text-white shrink-0">E</div>
+                                <span class="text-white text-xs">Elvin Alfabian</span>
+                            </div>
+                            <div onclick="setAssign('c1', 'Ibom Gans')" class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition">
+                                <div class="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center text-[10px] font-bold text-white shrink-0">I</div>
+                                <span class="text-white text-xs">Ibom Gans</span>
+                            </div>
+                            <div onclick="setAssign('c1', 'Syafiq Khayru')" class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition">
+                                <div class="w-6 h-6 rounded-full bg-purple-500 flex items-center justify-center text-[10px] font-bold text-white shrink-0">S</div>
+                                <span class="text-white text-xs">Syafiq Khayru</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="c1-priority" class="hidden mb-2">
+                        <div class="bg-[#111] border border-white/10 rounded-lg overflow-hidden">
+                            <div onclick="setPriority('c1', 'highest', 'fa-angles-up', 'text-red-500')" class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition"><i class="fa-solid fa-angles-up text-red-500 text-xs"></i><span class="text-red-500 text-xs font-semibold">Highest</span></div>
+                            <div onclick="setPriority('c1', 'high', 'fa-angle-up', 'text-orange-400')" class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition"><i class="fa-solid fa-angle-up text-orange-400 text-xs"></i><span class="text-orange-400 text-xs font-semibold">High</span></div>
+                            <div onclick="setPriority('c1', 'medium', 'fa-minus', 'text-orange-400')" class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition"><i class="fa-solid fa-minus text-orange-400 text-xs"></i><span class="text-orange-400 text-xs font-semibold">Medium</span></div>
+                            <div onclick="setPriority('c1', 'low', 'fa-angle-down', 'text-gray-400')" class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition"><i class="fa-solid fa-angle-down text-green-500 text-xs"></i><span class="text-green-500 text-xs font-semibold">Low</span></div>
+                            <div onclick="setPriority('c1', 'lowest', 'fa-angles-down', 'text-gray-500')" class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition"><i class="fa-solid fa-angles-down text-green-500 text-xs"></i><span class="text-green-500 text-xs font-semibold">Lowest</span></div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between mt-1">
+                        <div class="flex items-center gap-3">
+                            <i onclick="openDatePicker('c1')" class="fa-regular fa-calendar text-white/40 text-sm cursor-pointer hover:text-[#C7FF3D] transition"></i>
+                            <i onclick="toggleField('c1-assign')" class="fa-regular fa-user text-white/40 text-sm cursor-pointer hover:text-[#C7FF3D] transition"></i>
+                            <i onclick="toggleField('c1-priority')" class="fa-solid fa-flag text-white/40 text-sm cursor-pointer hover:text-[#C7FF3D] transition"></i>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="closeInlineTask('c1')" class="w-7 h-7 flex items-center justify-center bg-white/10 rounded-lg hover:bg-red-500/30 hover:text-red-400 transition text-white/40 text-xs"><i class="fa-solid fa-xmark"></i></button>
+                            <button id="btn-submit-c1" onclick="submitTask('c1')" disabled class="w-7 h-7 flex items-center justify-center bg-white/10 rounded-lg transition text-white/20 text-xs cursor-not-allowed"><i class="fa-solid fa-arrow-turn-down rotate-90"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="w-[295px] bg-[#151515] border border-white/10 rounded-2xl p-4 flex flex-col gap-3 shrink-0">
+    
+                <div class="flex items-center justify-between mb-1">
+                    <div class="flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-gray-400"></span>
+                        <p class="text-white text-sm font-semibold">In Progres</p>
+                        <span class="text-xs bg-white/10 text-white/60 px-2 py-0.5 rounded-full">3</span>
+                    </div>
+                    <i class="fa-solid fa-ellipsis text-white/40 text-sm"></i>
+                </div>
+
+                <div class="bg-[#000000] border border-white/10 rounded-xl p-3 flex flex-col gap-2">
+                    <div class="flex items-center justify-between">
+                        <span class="flex items-center gap-1 text-orange-400 text-xs font-semibold">
+                            <i class="fa-solid fa-minus"></i> Medium
+                        </span>
+                        <span class="text-white/40 text-xs">#PRO-102</span>
+                    </div>
+                    <p class="text-white text-sm font-semibold">Draft initial landing page copy</p>
+                    <p class="text-white/50 text-xs">Create the hero section and feature highlights for the main product</p>
+                    <div class="flex items-center justify-between mt-1">
+                        <div class="flex flex-col gap-0.5">
+                            <span class="text-[9px] text-white/40 uppercase tracking-wider font-semibold">Due date</span>
+                            <span class="flex items-center gap-1.5 text-white font-medium text-xs">
+                                <i class="fa-regular fa-calendar text-xs"></i> 18 Sept 2026
+                            </span>
+                        </div>
+                        <div class="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center text-[10px] font-bold text-white">S</div>
+                    </div>
+                </div>
+
+                <div class="bg-[#000000] border border-white/10 rounded-xl p-3 flex flex-col gap-2">
+                    <div class="flex items-center justify-between">
+                        <span class="flex items-center gap-1 text-red-500 text-xs font-semibold">
+                            <i class="fa-solid fa-angle-up"></i> High
+                        </span>
+                        <span class="text-white/40 text-xs">#PRO-105</span>
+                    </div>
+                    <p class="text-white text-sm font-semibold">Draft initial landing page copy</p>
+                    <p class="text-white/50 text-xs">Create the hero section and feature highlights for the main product</p>
+                    <div class="flex items-center justify-between mt-1">
+                        <div class="flex flex-col gap-0.5">
+                            <span class="text-[9px] text-white/40 uppercase tracking-wider font-semibold">Due date</span>
+                            <span class="flex items-center gap-1.5 text-white font-medium text-xs">
+                                <i class="fa-regular fa-calendar text-xs"></i> 18 Sept 2026
+                            </span>
+                        </div>
+                        <div class="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center text-[10px] font-bold text-white">S</div>
+                    </div>
+                </div>
+
+                <div class="bg-[#000000] border border-white/10 rounded-xl p-3 flex flex-col gap-2">
+                    <div class="flex items-center justify-between">
+                        <span class="flex items-center gap-1 text-green-500 text-xs font-semibold">
+                            <i class="fa-solid fa-angle-down"></i> Low
+                        </span>
+                        <span class="text-white/40 text-xs">#PRO-106</span>
+                    </div>
+                    <p class="text-white text-sm font-semibold">Draft initial landing page copy</p>
+                    <p class="text-white/50 text-xs">Create the hero section and feature highlights for the main product</p>
+                    <div class="flex items-center justify-between mt-1">
+                        <div class="flex flex-col gap-0.5">
+                            <span class="text-[9px] text-white/40 uppercase tracking-wider font-semibold">Due date</span>
+                            <span class="flex items-center gap-1.5 text-white font-medium text-xs">
+                                <i class="fa-regular fa-calendar text-xs"></i> 18 Sept 2026
+                            </span>
+                        </div>
+                        <div class="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center text-[10px] font-bold text-white">S</div>
+                    </div>
+                </div>
+
+                <button onclick="openInlineTask('c2')" id="btn-c2"
+                    class="w-full text-white/40 text-xs border border-white/10 rounded-xl py-2 hover:border-[#C7FF3D] hover:text-white transition mt-1">
+                    + Add Task
+                </button>
+
+                <div id="form-c2" class="hidden bg-[#000000] border-2 border-[#C7FF3D]/40 rounded-xl p-3 mt-1">
+                    <textarea rows="3" placeholder="What needs to be done?"
+                        oninput="toggleSubmitBtn('c2', this.value)"
+                        class="w-full bg-transparent text-xs text-white placeholder-white/40 focus:outline-none resize-none mb-2">
+                    </textarea>
+                    <input type="date" id="c2-date" onchange="setDate('c2', this.value)" class="absolute opacity-0 w-0 h-0 pointer-events-none">
+                    <div id="c2-assign" class="hidden mb-2">
+                        <div class="bg-[#111] border border-white/10 rounded-lg overflow-hidden">
+                            <div onclick="setAssign('c2', 'Elvin Alfabian')" class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition">
+                                <div class="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center text-[10px] font-bold text-white shrink-0">E</div>
+                                <span class="text-white text-xs">Elvin Alfabian</span>
+                            </div>
+                            <div onclick="setAssign('c2', 'Ibom Gans')" class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition">
+                                <div class="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center text-[10px] font-bold text-white shrink-0">I</div>
+                                <span class="text-white text-xs">Ibom Gans</span>
+                            </div>
+                            <div onclick="setAssign('c2', 'Syafiq Khayru')" class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition">
+                                <div class="w-6 h-6 rounded-full bg-purple-500 flex items-center justify-center text-[10px] font-bold text-white shrink-0">S</div>
+                                <span class="text-white text-xs">Syafiq Khayru</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="c2-priority" class="hidden mb-2">
+                        <div class="bg-[#111] border border-white/10 rounded-lg overflow-hidden">
+                            <div onclick="setPriority('c2', 'highest', 'fa-angles-up', 'text-red-500')" class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition"><i class="fa-solid fa-angles-up text-red-500 text-xs"></i><span class="text-red-500 text-xs font-semibold">Highest</span></div>
+                            <div onclick="setPriority('c2', 'high', 'fa-angle-up', 'text-orange-400')" class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition"><i class="fa-solid fa-angle-up text-orange-400 text-xs"></i><span class="text-orange-400 text-xs font-semibold">High</span></div>
+                            <div onclick="setPriority('c2', 'medium', 'fa-minus', 'text-orange-400')" class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition"><i class="fa-solid fa-minus text-orange-400 text-xs"></i><span class="text-orange-400 text-xs font-semibold">Medium</span></div>
+                            <div onclick="setPriority('c2', 'low', 'fa-angle-down', 'text-gray-400')" class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition"><i class="fa-solid fa-angle-down text-green-500 text-xs"></i><span class="text-green-500 text-xs font-semibold">Low</span></div>
+                            <div onclick="setPriority('c2', 'lowest', 'fa-angles-down', 'text-gray-500')" class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition"><i class="fa-solid fa-angles-down text-green-500 text-xs"></i><span class="text-green-500 text-xs font-semibold">Lowest</span></div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between mt-1">
+                        <div class="flex items-center gap-3">
+                            <i onclick="openDatePicker('c2')" class="fa-regular fa-calendar text-white/40 text-sm cursor-pointer hover:text-[#C7FF3D] transition"></i>
+                            <i onclick="toggleField('c2-assign')" class="fa-regular fa-user text-white/40 text-sm cursor-pointer hover:text-[#C7FF3D] transition"></i>
+                            <i onclick="toggleField('c2-priority')" class="fa-solid fa-flag text-white/40 text-sm cursor-pointer hover:text-[#C7FF3D] transition"></i>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="closeInlineTask('c2')" class="w-7 h-7 flex items-center justify-center bg-white/10 rounded-lg hover:bg-red-500/30 hover:text-red-400 transition text-white/40 text-xs"><i class="fa-solid fa-xmark"></i></button>
+                            <button id="btn-submit-c2" onclick="submitTask('c2')" disabled class="w-7 h-7 flex items-center justify-center bg-white/10 rounded-lg transition text-white/20 text-xs cursor-not-allowed"><i class="fa-solid fa-arrow-turn-down rotate-90"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="w-[295px] bg-[#151515] border border-white/10 rounded-2xl p-4 flex flex-col gap-3 shrink-0">
+    
+                <div class="flex items-center justify-between mb-1">
+                    <div class="flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-gray-400"></span>
+                        <p class="text-white text-sm font-semibold">Review</p>
+                        <span class="text-xs bg-white/10 text-white/60 px-2 py-0.5 rounded-full">1</span>
+                    </div>
+                    <i class="fa-solid fa-ellipsis text-white/40 text-sm"></i>
+                </div>
+
+                <div class="bg-[#000000] border border-white/10 rounded-xl p-3 flex flex-col gap-2">
+                    <div class="flex items-center justify-between">
+                        <span class="flex items-center gap-1 text-green-500 text-xs font-semibold">
+                            <i class="fa-solid fa-angles-down"></i> Lowest
+                        </span>
+                        <span class="text-white/40 text-xs">#PRO-102</span>
+                    </div>
+                    <p class="text-white text-sm font-semibold">Draft initial landing page copy</p>
+                    <p class="text-white/50 text-xs">Create the hero section and feature highlights for the main product</p>
+                    <div class="flex items-center justify-between mt-1">
+                        <div class="flex flex-col gap-0.5">
+                            <span class="text-[9px] text-white/40 uppercase tracking-wider font-semibold">Due date</span>
+                            <span class="flex items-center gap-1.5 text-white font-medium text-xs">
+                                <i class="fa-regular fa-calendar text-xs"></i> 18 Sept 2026
+                            </span>
+                        </div>
+                        <div class="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center text-[10px] font-bold text-white">S</div>
+                    </div>
+                </div>
+
+                <button onclick="openInlineTask('c3')" id="btn-c3"
+                    class="w-full text-white/40 text-xs border border-white/10 rounded-xl py-2 hover:border-[#C7FF3D] hover:text-white transition mt-1">
+                    + Add Task
+                </button>
+
+                <div id="form-c3" class="hidden bg-[#000000] border-2 border-[#C7FF3D]/40 rounded-xl p-3 mt-1">
+                    <textarea rows="3" placeholder="What needs to be done?"
+                        oninput="toggleSubmitBtn('c3', this.value)"
+                        class="w-full bg-transparent text-xs text-white placeholder-white/40 focus:outline-none resize-none mb-2">
+                    </textarea>
+                    <input type="date" id="c3-date" onchange="setDate('c3', this.value)" class="absolute opacity-0 w-0 h-0 pointer-events-none">
+                    <div id="c3-assign" class="hidden mb-2">
+                        <div class="bg-[#111] border border-white/10 rounded-lg overflow-hidden">
+                            <div onclick="setAssign('c3', 'Elvin Alfabian')" class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition">
+                                <div class="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center text-[10px] font-bold text-white shrink-0">E</div>
+                                <span class="text-white text-xs">Elvin Alfabian</span>
+                            </div>
+                            <div onclick="setAssign('c3', 'Ibom Gans')" class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition">
+                                <div class="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center text-[10px] font-bold text-white shrink-0">I</div>
+                                <span class="text-white text-xs">Ibom Gans</span>
+                            </div>
+                            <div onclick="setAssign('c3', 'Syafiq Khayru')" class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition">
+                                <div class="w-6 h-6 rounded-full bg-purple-500 flex items-center justify-center text-[10px] font-bold text-white shrink-0">S</div>
+                                <span class="text-white text-xs">Syafiq Khayru</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="c3-priority" class="hidden mb-2">
+                        <div class="bg-[#111] border border-white/10 rounded-lg overflow-hidden">
+                            <div onclick="setPriority('c3', 'highest', 'fa-angles-up', 'text-red-500')" class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition"><i class="fa-solid fa-angles-up text-red-500 text-xs"></i><span class="text-red-500 text-xs font-semibold">Highest</span></div>
+                            <div onclick="setPriority('c3', 'high', 'fa-angle-up', 'text-orange-400')" class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition"><i class="fa-solid fa-angle-up text-orange-400 text-xs"></i><span class="text-orange-400 text-xs font-semibold">High</span></div>
+                            <div onclick="setPriority('c3', 'medium', 'fa-minus', 'text-orange-400')" class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition"><i class="fa-solid fa-minus text-orange-400 text-xs"></i><span class="text-orange-400 text-xs font-semibold">Medium</span></div>
+                            <div onclick="setPriority('c3', 'low', 'fa-angle-down', 'text-gray-400')" class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition"><i class="fa-solid fa-angle-down text-green-500 text-xs"></i><span class="text-green-500 text-xs font-semibold">Low</span></div>
+                            <div onclick="setPriority('c3', 'lowest', 'fa-angles-down', 'text-gray-500')" class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition"><i class="fa-solid fa-angles-down text-green-500 text-xs"></i><span class="text-green-500 text-xs font-semibold">Lowest</span></div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between mt-1">
+                        <div class="flex items-center gap-3">
+                            <i onclick="openDatePicker('c3')" class="fa-regular fa-calendar text-white/40 text-sm cursor-pointer hover:text-[#C7FF3D] transition"></i>
+                            <i onclick="toggleField('c3-assign')" class="fa-regular fa-user text-white/40 text-sm cursor-pointer hover:text-[#C7FF3D] transition"></i>
+                            <i onclick="toggleField('c3-priority')" class="fa-solid fa-flag text-white/40 text-sm cursor-pointer hover:text-[#C7FF3D] transition"></i>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="closeInlineTask('c3')" class="w-7 h-7 flex items-center justify-center bg-white/10 rounded-lg hover:bg-red-500/30 hover:text-red-400 transition text-white/40 text-xs"><i class="fa-solid fa-xmark"></i></button>
+                            <button id="btn-submit-c3" onclick="submitTask('c3')" disabled class="w-7 h-7 flex items-center justify-center bg-white/10 rounded-lg transition text-white/20 text-xs cursor-not-allowed"><i class="fa-solid fa-arrow-turn-down rotate-90"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="w-[295px] bg-[#151515] border border-white/10 rounded-2xl p-4 flex flex-col gap-3 shrink-0">
+    
+                <div class="flex items-center justify-between mb-1">
+                    <div class="flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-[#C7FF3D]"></span>
+                        <p class="text-white text-sm font-semibold">Done</p>
+                        <span class="text-xs bg-white/10 text-white/60 px-2 py-0.5 rounded-full">4</span>
+                    </div>
+                    <i class="fa-solid fa-ellipsis text-white/40 text-sm"></i>
+                </div>
+
+                <div class="bg-[#000000] border border-white/10 rounded-xl p-3 flex flex-col gap-2">
+                    <div class="flex items-center justify-between">
+                        <span class="flex items-center gap-1 text-orange-400 text-xs font-semibold">
+                            <i class="fa-solid fa-minus"></i> Medium
+                        </span>
+                        <span class="text-white/40 text-xs">#PRO-102</span>
+                    </div>
+                    <p class="text-white text-sm font-semibold">Draft initial landing page copy</p>
+                    <p class="text-white/50 text-xs">Create the hero section and feature highlights for the main product</p>
+                    <div class="flex items-center justify-between mt-1">
+                        <div class="flex flex-col gap-0.5">
+                            <span class="text-[9px] text-white/40 uppercase tracking-wider font-semibold">Due date</span>
+                            <span class="flex items-center gap-1.5 text-white font-medium text-xs">
+                                <i class="fa-regular fa-calendar text-xs"></i> 18 Sept 2026
+                            </span>
+                        </div>
+                        <div class="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center text-[10px] font-bold text-white">S</div>
+                    </div>
+                </div>
+
+                <div class="bg-[#000000] border border-white/10 rounded-xl p-3 flex flex-col gap-2">
+                    <div class="flex items-center justify-between">
+                        <span class="flex items-center gap-1 text-red-500 text-xs font-semibold">
+                            <i class="fa-solid fa-angle-up"></i> High
+                        </span>
+                        <span class="text-white/40 text-xs">#PRO-105</span>
+                    </div>
+                    <p class="text-white text-sm font-semibold">Draft initial landing page copy</p>
+                    <p class="text-white/50 text-xs">Create the hero section and feature highlights for the main product</p>
+                    <div class="flex items-center justify-between mt-1">
+                        <div class="flex flex-col gap-0.5">
+                            <span class="text-[9px] text-white/40 uppercase tracking-wider font-semibold">Due date</span>
+                            <span class="flex items-center gap-1.5 text-white font-medium text-xs">
+                                <i class="fa-regular fa-calendar text-xs"></i> 18 Sept 2026
+                            </span>
+                        </div>
+                        <div class="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center text-[10px] font-bold text-white">S</div>
+                    </div>
+                </div>
+
+                <div class="bg-[#000000] border border-white/10 rounded-xl p-3 flex flex-col gap-2">
+                    <div class="flex items-center justify-between">
+                        <span class="flex items-center gap-1 text-green-500 text-xs font-semibold">
+                            <i class="fa-solid fa-angle-down"></i> Low
+                        </span>
+                        <span class="text-white/40 text-xs">#PRO-106</span>
+                    </div>
+                    <p class="text-white text-sm font-semibold">Draft initial landing page copy</p>
+                    <p class="text-white/50 text-xs">Create the hero section and feature highlights for the main product</p>
+                    <div class="flex items-center justify-between mt-1">
+                        <div class="flex flex-col gap-0.5">
+                            <span class="text-[9px] text-white/40 uppercase tracking-wider font-semibold">Due date</span>
+                            <span class="flex items-center gap-1.5 text-white font-medium text-xs">
+                                <i class="fa-regular fa-calendar text-xs"></i> 18 Sept 2026
+                            </span>
+                        </div>
+                        <div class="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center text-[10px] font-bold text-white">S</div>
+                    </div>
+                </div>
+
+                <div class="bg-[#000000] border border-white/10 rounded-xl p-3 flex flex-col gap-2">
+                    <div class="flex items-center justify-between">
+                        <span class="flex items-center gap-1 text-green-500 text-xs font-semibold">
+                            <i class="fa-solid fa-angles-down"></i> Lowest
+                        </span>
+                        <span class="text-white/40 text-xs">#PRO-106</span>
+                    </div>
+                    <p class="text-white text-sm font-semibold">Draft initial landing page copy</p>
+                    <p class="text-white/50 text-xs">Create the hero section and feature highlights for the main product</p>
+                    <div class="flex items-center justify-between mt-1">
+                        <div class="flex flex-col gap-0.5">
+                            <span class="text-[9px] text-white/40 uppercase tracking-wider font-semibold">Due date</span>
+                            <span class="flex items-center gap-1.5 text-white font-medium text-xs">
+                                <i class="fa-regular fa-calendar text-xs"></i> 18 Sept 2026
+                            </span>
+                        </div>
+                        <div class="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center text-[10px] font-bold text-white">S</div>
+                    </div>
+                </div>
+
+                <button onclick="openInlineTask('todo')" id="btn-todo"
+                    class="w-full text-white/40 text-xs border border-white/10 rounded-xl py-2 hover:border-[#C7FF3D] hover:text-white transition mt-1">
+                    + Add Task
+                </button>
+
+                <div id="form-todo" class="hidden bg-[#000000] border-2 border-[#C7FF3D]/40 rounded-xl p-3 mt-1">
+
+                    <textarea rows="3" placeholder="What needs to be done?"
+                        oninput="toggleSubmitBtn('todo', this.value)"
+                        class="w-full bg-transparent text-xs text-white placeholder-white/40 focus:outline-none resize-none mb-2">
+                    </textarea>
+
+                    
+                    <input type="date" id="todo-date" 
+                        onchange="setDate('todo', this.value)"
+                        class="absolute opacity-0 w-0 h-0 pointer-events-none">
+
+                    <div id="todo-assign" class="hidden mb-2">
+                        <div class="bg-[#111] border border-white/10 rounded-lg overflow-hidden">
+                            
+                            <div onclick="setAssign('todo', 'Elvin Alfabian')"
+                                class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition">
+                                <div class="w-6 h-6 rounded-full bg-blue-500 ...">E</div>
+                                <span class="text-white text-xs">Elvin Alfabian</span>
+                            </div>
+
+                            <div onclick="setAssign('todo', 'Ibom Gans')"
+                                class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition">
+                                <div class="w-6 h-6 rounded-full bg-green-500 ...">I</div>
+                                <span class="text-white text-xs">Ibom Gans</span>
+                            </div>
+
+                            <div onclick="setAssign('todo', 'Syafiq Khayru')"
+                                class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition">
+                                <div class="w-6 h-6 rounded-full bg-purple-500 ...">S</div>
+                                <span class="text-white text-xs">Syafiq Khayru</span>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <div id="todo-priority" class="hidden mb-2">
+                        <div class="bg-[#111] border border-white/10 rounded-lg overflow-hidden">
+        
+                            <div onclick="setPriority('todo', 'highest', 'fa-angles-up', 'text-red-500')"
+                                class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition">
+                                <i class="fa-solid fa-angles-up text-red-500 text-xs"></i>
+                                <span class="text-red-500 text-xs font-semibold">Highest</span>
+                            </div>
+
+                            <div onclick="setPriority('todo', 'high', 'fa-angle-up', 'text-orange-400')"
+                                class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition">
+                                <i class="fa-solid fa-angle-up text-orange-400 text-xs"></i>
+                                <span class="text-orange-400 text-xs font-semibold">High</span>
+                            </div>
+
+                            <div onclick="setPriority('todo', 'medium', 'fa-minus', 'text-orange-400')"
+                                class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition">
+                                <i class="fa-solid fa-minus text-orange-400 text-xs"></i>
+                                <span class="text-orange-400 text-xs font-semibold">Medium</span>
+                            </div>
+
+                            <div onclick="setPriority('todo', 'low', 'fa-angle-down', 'text-gray-400')"
+                                class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition">
+                                <i class="fa-solid fa-angle-down text-green-500 text-xs"></i>
+                                <span class="text-green-500 text-xs font-semibold">Low</span>
+                            </div>
+
+                            <div onclick="setPriority('todo', 'lowest', 'fa-angles-down', 'text-gray-500')"
+                                class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition">
+                                <i class="fa-solid fa-angles-down text-green-500 text-xs"></i>
+                                <span class="text-green-500 text-xs font-semibold">Lowest</span>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between mt-1">
+                        <div class="flex items-center gap-3">
+                            <i onclick="openDatePicker('todo')" 
+                               class="fa-regular fa-calendar text-white/40 text-sm cursor-pointer hover:text-[#C7FF3D] transition"></i>
+                            <i onclick="toggleField('todo-assign')" 
+                               class="fa-regular fa-user text-white/40 text-sm cursor-pointer hover:text-[#C7FF3D] transition"></i>
+                            <i onclick="toggleField('todo-priority')" 
+                               class="fa-solid fa-flag text-white/40 text-sm cursor-pointer hover:text-[#C7FF3D] transition"></i>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="closeInlineTask('todo')"
+                                class="w-7 h-7 flex items-center justify-center bg-white/10 rounded-lg hover:bg-red-500/30 hover:text-red-400 transition text-white/40 text-xs">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                            <button id="btn-submit-todo" onclick="submitTask('todo')" disabled
+                                class="w-7 h-7 flex items-center justify-center bg-white/10 rounded-lg transition text-white/20 text-xs cursor-not-allowed">
+                                <i class="fa-solid fa-arrow-turn-down rotate-90"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+
+        <script>
+
+        /* ── Filter Dropdown ── */
+        function toggleFilterDropdown() {
+            const dd = document.getElementById('filter-dropdown');
+            const chevron = document.getElementById('filter-chevron');
+            const isHidden = dd.classList.toggle('hidden');
+            chevron.style.transform = isHidden ? '' : 'rotate(180deg)';
+            // Close sub-dropdowns when main closes
+            if (isHidden) {
+                closeAssignSub();
+                closePrioritySub();
+                closeDueDateSub();
+            }
+        }
+
+        function toggleAssignSub(e) {
+            e.stopPropagation();
+            const sub = document.getElementById('assign-sub');
+            const chevron = document.getElementById('assign-chevron');
+            const isHidden = sub.classList.toggle('hidden');
+            chevron.style.transform = isHidden ? '' : 'rotate(180deg)';
+            // Close other subs if open
+            closePrioritySub();
+            closeDueDateSub();
+        }
+
+        function closeAssignSub() {
+            const sub = document.getElementById('assign-sub');
+            const chevron = document.getElementById('assign-chevron');
+            if (sub) sub.classList.add('hidden');
+            if (chevron) chevron.style.transform = '';
+        }
+
+        function toggleDueDateSub(e) {
+            e.stopPropagation();
+            const sub = document.getElementById('duedate-sub');
+            const chevron = document.getElementById('duedate-chevron');
+            const isHidden = sub.classList.toggle('hidden');
+            chevron.style.transform = isHidden ? '' : 'rotate(180deg)';
+            // Close other subs if open
+            closeAssignSub();
+            closePrioritySub();
+        }
+
+        function closeDueDateSub() {
+            const sub = document.getElementById('duedate-sub');
+            const chevron = document.getElementById('duedate-chevron');
+            if (sub) sub.classList.add('hidden');
+            if (chevron) chevron.style.transform = '';
+        }
+
+        function togglePrioritySub(e) {
+            e.stopPropagation();
+            const sub = document.getElementById('priority-sub');
+            const chevron = document.getElementById('priority-chevron');
+            const isHidden = sub.classList.toggle('hidden');
+            chevron.style.transform = isHidden ? '' : 'rotate(180deg)';
+            // Close other subs if open
+            closeAssignSub();
+            closeDueDateSub();
+        }
+
+        function closePrioritySub() {
+            const sub = document.getElementById('priority-sub');
+            const chevron = document.getElementById('priority-chevron');
+            if (sub) sub.classList.add('hidden');
+            if (chevron) chevron.style.transform = '';
+        }
+
+        function selectFilter(type) {
+            const label = {
+                assign_elvin: 'Assign: Elvin Alfabian',
+                assign_ibom: 'Assign: Ibom Gans',
+                assign_syafiq: 'Assign: Syafiq Khayru',
+                priority_highest: 'Priority: Highest',
+                priority_high: 'Priority: High',
+                priority_medium: 'Priority: Medium',
+                priority_low: 'Priority: Low',
+                priority_lowest: 'Priority: Lowest',
+                duedate_newest: 'Due Date ↑',
+                duedate_oldest: 'Due Date ↓'
+            }[type] || 'Filter';
+
+            const btn = document.getElementById('btn-filter');
+            btn.querySelector('span').textContent = label;
+            btn.classList.add('border-[#C7FF3D]');
+            btn.classList.remove('border-white/30');
+
+            document.getElementById('filter-chevron').style.transform = '';
+            document.getElementById('filter-dropdown').classList.add('hidden');
+            closeAssignSub();
+            closeDueDateSub();
+            closePrioritySub();
+        }
+
+        function clearFilter() {
+            const btn = document.getElementById('btn-filter');
+            btn.querySelector('span').textContent = 'Filter';
+            btn.classList.remove('border-[#C7FF3D]');
+            btn.classList.add('border-white/30');
+            document.getElementById('filter-dropdown').classList.add('hidden');
+            document.getElementById('filter-chevron').style.transform = '';
+            closeAssignSub();
+            closeDueDateSub();
+            closePrioritySub();
+        }
+
+        // Close filter when clicking outside
+        document.addEventListener('click', function(e) {
+            const wrapper = document.getElementById('filter-wrapper');
+            if (wrapper && !wrapper.contains(e.target)) {
+                document.getElementById('filter-dropdown').classList.add('hidden');
+                document.getElementById('filter-chevron').style.transform = '';
+                closeAssignSub();
+                closeDueDateSub();
+                closePrioritySub();
+            }
+        });
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const backdrop = document.getElementById('sidebar-backdrop');
+
+            sidebar.classList.toggle('-translate-x-full');
+            backdrop.classList.toggle('hidden');
+        }
+
+        function openInlineTask(col) {
+            document.getElementById('btn-' + col).classList.add('hidden');
+            document.getElementById('form-' + col).classList.remove('hidden');
+        }
+        function closeInlineTask(col) {
+            document.getElementById('form-' + col).classList.add('hidden');
+            document.getElementById('btn-' + col).classList.remove('hidden');
+        }
+
+        function toggleField(id) {
+            const el = document.getElementById(id);
+            el.classList.toggle('hidden');
+            if (!el.classList.contains('hidden')) {
+                el.focus();
+                if (el.type === 'date') el.showPicker(); 
+            }
+        }
+
+        function setPriority(col, value, icon, color) {
+            const flagIcon = document.querySelector(`#form-${col} .fa-flag`);
+            flagIcon.className = `fa-solid fa-flag text-sm cursor-pointer hover:text-[#C7FF3D] transition ${color}`;
+    
+            document.getElementById(`${col}-priority`).classList.add('hidden');
+        }
+
+
+
+        function setAssign(col, name) {
+            const form = document.getElementById('form-' + col);
+            form.dataset.assigned = name;
+
+            const userIcon = document.querySelector(`#form-${col} .fa-user`);
+            userIcon.className = `fa-regular fa-user text-sm cursor-pointer hover:text-[#C7FF3D] transition text-[#C7FF3D]`;
+    
+            document.getElementById(`${col}-assign`).classList.add('hidden');
+        }
+
+        function toggleSubmitBtn(col, value) {
+            const btn = document.getElementById('btn-submit-' + col);
+            if (value.trim()) {
+                btn.disabled = false;
+                btn.className = 'w-7 h-7 flex items-center justify-center bg-[#C7FF3D] rounded-lg hover:bg-[#dfff6f] transition text-black text-xs cursor-pointer';
+            } else {
+                btn.disabled = true;
+                btn.className = 'w-7 h-7 flex items-center justify-center bg-white/10 rounded-lg transition text-white/20 text-xs cursor-not-allowed';
+            }
+        }
+
+
+        function submitTask(col) {
+            const form = document.getElementById('form-' + col);
+            const textarea = form.querySelector('textarea');
+            const dateInput = document.getElementById(col + '-date');
+            const text = textarea.value.trim();
+
+            if (!text) return;
+
+            const dateVal = dateInput.value 
+                ? new Date(dateInput.value).toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'})
+                : '—';
+
+            const assignedName = form.dataset.assigned || '—';
+            const assignedInitial = (assignedName && assignedName !== '—') ? assignedName[0].toUpperCase() : 'S';
+
+            const card = document.createElement('div');
+            card.className = 'bg-[#000000] border border-white/10 rounded-xl p-3 flex flex-col gap-2';
+            card.innerHTML = `
+                             <div class="flex items-center justify-between">
+                                 <span class="flex items-center gap-1 text-white/40 text-xs font-semibold">
+                                     <i class="fa-solid fa-flag"></i> New
+                                </span>
+                                <span class="text-white/40 text-xs">#PRO-NEW</span>
+                            </div>
+                            <p class="text-white text-sm font-semibold">${text}</p>
+                            <div class="flex items-center justify-between mt-1">
+                                <div class="flex flex-col gap-0.5">
+                                    <span class="text-[9px] text-white/40 uppercase tracking-wider font-semibold">Due date</span>
+                                    <span class="flex items-center gap-1.5 text-white font-medium text-xs">
+                                        <i class="fa-regular fa-calendar text-xs"></i> ${dateVal}
                                     </span>
-                                    <span class="meta-item">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                                            <circle cx="12" cy="12" r="3" />
-                                        </svg>
-                                        1
-                                    </span>
                                 </div>
-                                <div class="card-avatars">
-                                    <div class="avatar-sm color-e">TK</div>
-                                </div>
+                                <div class="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center text-[10px] font-bold text-white">${assignedInitial}</div>
                             </div>
-                        </div>
-                        <!-- Card 2 -->
-                        <div class="card">
-                            <div class="card-top">
-                                <div class="card-badges"><span class="badge badge-medium">MEDIUM</span></div>
-                                <span class="card-id">#PRO-105</span>
-                            </div>
-                            <div class="card-title">Source stock images for<br>ad creatives</div>
-                            <div class="card-footer">
-                                <div class="card-meta">
-                                    <span class="meta-item">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-                                        </svg>
-                                        0
-                                    </span>
-                                </div>
-                                <div class="card-avatars">
-                                    <div class="avatar-sm color-b">SK</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <button class="add-task-btn">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="12" y1="5" x2="12" y2="19" />
-                            <line x1="5" y1="12" x2="19" y2="12" />
-                        </svg>
-                        Add Task
-                    </button>
-                </div>
+                        `;
 
-                <!-- ══ IN PROGRESS ══ -->
-                <div class="column">
-                    <div class="column-header">
-                        <div class="col-header-left">
-                            <span class="col-dot dot-lime"></span>
-                            <span class="col-title">In Progress</span>
-                            <span class="col-count">2</span>
-                        </div>
-                        <button class="col-more">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="5" cy="12" r="1" />
-                                <circle cx="12" cy="12" r="1" />
-                                <circle cx="19" cy="12" r="1" />
-                            </svg>
-                        </button>
-                    </div>
-                    <div class="column-cards">
-                        <!-- Card 1 -->
-                        <div class="card">
-                            <div class="card-top">
-                                <div class="card-badges"><span class="badge badge-high">HIGH</span></div>
-                                <span class="card-id">#PRO-098</span>
-                            </div>
-                            <div class="card-title">Design UI mockups for mobile app</div>
-                            <div class="progress-wrap">
-                                <div class="progress-bar-bg">
-                                    <div class="progress-bar-fill" style="width:60%"></div>
-                                </div>
-                            </div>
-                            <div class="subtask-info">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <polyline points="9 11 12 14 22 4" />
-                                    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
-                                </svg>
-                                3/5 <span class="subtask-extra">+1</span>
-                            </div>
-                            <div class="card-footer">
-                                <div class="card-meta"></div>
-                                <div class="card-avatars">
-                                    <div class="avatar-sm color-a">JR</div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Card 2 -->
-                        <div class="card">
-                            <div class="card-top">
-                                <div class="card-badges"><span class="badge badge-low">LOW</span></div>
-                                <span class="card-id">#PRO-101</span>
-                            </div>
-                            <div class="card-title">Update branding guidelines PDF</div>
-                            <div class="card-footer">
-                                <div class="card-meta"></div>
-                                <div class="card-avatars">
-                                    <div class="avatar-sm color-c">ML</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            const btn = document.getElementById('btn-' + col);
+            btn.parentNode.insertBefore(card, btn);
 
-                <!-- ══ REVIEW ══ -->
-                <div class="column">
-                    <div class="column-header">
-                        <div class="col-header-left">
-                            <span class="col-dot dot-purple"></span>
-                            <span class="col-title">Review</span>
-                            <span class="col-count">1</span>
-                        </div>
-                        <button class="col-more">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="5" cy="12" r="1" />
-                                <circle cx="12" cy="12" r="1" />
-                                <circle cx="19" cy="12" r="1" />
-                            </svg>
-                        </button>
-                    </div>
-                    <div class="column-cards">
-                        <div class="card">
-                            <div class="card-top">
-                                <div class="card-badges"><span class="badge badge-medium">MEDIUM</span></div>
-                                <span class="card-id">#PRO-085</span>
-                            </div>
-                            <div class="card-title">Finalize Q3 Analytics Report</div>
-                            <div class="card-desc">Awaiting final approval from the marketing director before...</div>
-                            <div class="due-today">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-                                    <line x1="16" y1="2" x2="16" y2="6" />
-                                    <line x1="8" y1="2" x2="8" y2="6" />
-                                    <line x1="3" y1="10" x2="21" y2="10" />
-                                </svg>
-                                Due Today
-                            </div>
-                            <div class="card-footer">
-                                <div class="card-meta"></div>
-                                <span class="review-count">1</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            textarea.value = '';
+            form.dataset.assigned = '';
+            closeInlineTask(col);
+            toggleSubmitBtn(col, '');
+            
+            const flagIcon = form.querySelector('.fa-flag');
+            const userIcon = form.querySelector('.fa-user');
+            const calIcon = form.querySelector('.fa-calendar');
+            if (flagIcon) flagIcon.className = 'fa-solid fa-flag text-white/40 text-sm cursor-pointer hover:text-[#C7FF3D] transition';
+            if (userIcon) userIcon.className = 'fa-regular fa-user text-white/40 text-sm cursor-pointer hover:text-[#C7FF3D] transition';
+            if (calIcon) calIcon.className = 'fa-regular fa-calendar text-white/40 text-sm cursor-pointer hover:text-[#C7FF3D] transition';
+            
+            if (dateInput.value && fpInstances[col]) fpInstances[col].clear();
+        }
 
-                <!-- ══ DONE ══ -->
-                <div class="column">
-                    <div class="column-header">
-                        <div class="col-header-left">
-                            <span class="col-dot dot-green"></span>
-                            <span class="col-title">Done</span>
-                            <span class="col-count">1</span>
-                        </div>
-                        <button class="col-more">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="5" cy="12" r="1" />
-                                <circle cx="12" cy="12" r="1" />
-                                <circle cx="19" cy="12" r="1" />
-                            </svg>
-                        </button>
-                    </div>
-                    <div class="column-cards">
-                        <div class="card">
-                            <div class="card-top">
-                                <div class="card-badges"></div>
-                                <span class="card-id">#PRO-072</span>
-                            </div>
-                            <div class="card-title">Setup email campaign automation</div>
-                            <div class="badge-completed">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                    <polyline points="20 6 9 17 4 12" />
-                                </svg>
-                                Completed
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        const fpInstances = {};
 
-            </div><!-- end columns-wrapper -->
-        </div><!-- end board-area -->
-    </div><!-- end main -->
+        function openDatePicker(col) {
+            const input = document.getElementById(col + '-date');
+    
+            if (!fpInstances[col]) {
+                fpInstances[col] = flatpickr(input, {
+                    dateFormat: "Y-m-d",
+                    theme: "dark",
+                    onClose: function(selectedDates, dateStr) {
+                        if (dateStr) setDate(col, dateStr);
+                    }
+                });
+            }
+            fpInstances[col].open();
+        }
 
-</body>
+        function setDate(col, value) {
+            if (!value) return;
+            const calIcon = document.querySelector(`#form-${col} .fa-calendar`);
+            calIcon.className = `fa-regular fa-calendar text-sm cursor-pointer hover:text-[#C7FF3D] transition text-[#C7FF3D]`;
+        }
 
-</html>
+        </script>
+
+    </main>
+ 
+</body>    
