@@ -58,7 +58,10 @@ Route::middleware([CheckAuth::class])->group(function () {
         }
         return redirect('/projects');
     });
-    Route::get('/boards', function () {
-        return redirect('/board');
-    });
+    Route::get('/task-log', function () {
+        return view('TaskLog');
+    })->name('task.log');
+});
+Route::get('/boards', function () {
+    return redirect('/board');
 });

@@ -356,7 +356,7 @@
                     <i class="fa-solid fa-ellipsis text-white/40 text-sm"></i>
                 </div>
 
-                <div class="bg-[#000000] border border-white/10 rounded-xl p-3 flex flex-col gap-2">
+                    <div onclick="window.location.href='{{ url('/task-log?title=Draft+initial+landing+page+copy&key=PRO-102') }}'" class="bg-[#000000] border border-white/10 rounded-xl p-3 flex flex-col gap-2 cursor-pointer hover:border-[#C7FF3D] hover:bg-white/5 transition"> 
                     <div class="flex items-center justify-between">
                         <span class="flex items-center gap-1 text-orange-400 text-xs font-semibold">
                             <i class="fa-solid fa-minus"></i> Medium
@@ -376,7 +376,7 @@
                     </div>
                 </div>
 
-                <div class="bg-[#000000] border border-white/10 rounded-xl p-3 flex flex-col gap-2">
+                    <div onclick="window.location.href='{{ url('/task-log?title=Setup+Database+Authentication&key=PRO-103') }}'" class="bg-[#000000] border border-white/10 rounded-xl p-3 flex flex-col gap-2 cursor-pointer hover:border-[#C7FF3D] hover:bg-white/5 transition">
                     <div class="flex items-center justify-between">
                         <span class="flex items-center gap-1 text-red-500 text-xs font-semibold">
                             <i class="fa-solid fa-angles-up"></i> Highest
@@ -457,8 +457,7 @@
                     </div>
                     <i class="fa-solid fa-ellipsis text-white/40 text-sm"></i>
                 </div>
-
-                <div class="bg-[#000000] border border-white/10 rounded-xl p-3 flex flex-col gap-2">
+                    <div onclick="window.location.href='{{ url('/task-log?title=Design+UI+mockups+for+mobile+app&key=PRO-104') }}'" class="bg-[#000000] border border-white/10 rounded-xl p-3 flex flex-col gap-2 cursor-pointer hover:border-[#C7FF3D] hover:bg-white/5 transition">
                     <div class="flex items-center justify-between">
                         <span class="flex items-center gap-1 text-orange-400 text-xs font-semibold">
                             <i class="fa-solid fa-minus"></i> Medium
@@ -478,7 +477,7 @@
                     </div>
                 </div>
 
-                <div class="bg-[#000000] border border-white/10 rounded-xl p-3 flex flex-col gap-2">
+                    <div onclick="window.location.href='{{ url('/task-log?title=Develop+API+Endpoint+for+Users&key=PRO-105') }}'" class="bg-[#000000] border border-white/10 rounded-xl p-3 flex flex-col gap-2 cursor-pointer hover:border-[#C7FF3D] hover:bg-white/5 transition">
                     <div class="flex items-center justify-between">
                         <span class="flex items-center gap-1 text-red-500 text-xs font-semibold">
                             <i class="fa-solid fa-angle-up"></i> High
@@ -498,7 +497,7 @@
                     </div>
                 </div>
 
-                <div class="bg-[#000000] border border-white/10 rounded-xl p-3 flex flex-col gap-2">
+                    <div onclick="window.location.href='{{ url('/task-log?title=Fix+Navbar+Responsive+Bug&key=PRO-106') }}'" class="bg-[#000000] border border-white/10 rounded-xl p-3 flex flex-col gap-2 cursor-pointer hover:border-[#C7FF3D] hover:bg-white/5 transition">
                     <div class="flex items-center justify-between">
                         <span class="flex items-center gap-1 text-green-500 text-xs font-semibold">
                             <i class="fa-solid fa-angle-down"></i> Low
