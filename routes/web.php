@@ -47,17 +47,8 @@ Route::middleware([CheckAuth::class])->group(function () {
         return redirect('/setting');
     });
 
-    // Board (redirect ke project pertama milik user)
-    Route::get('/board', function () {
-        $userId = session('user')->id ?? 0;
-        $firstProject = \App\Models\ProjectUser::where('user_id', $userId)
-            ->with('project')
-            ->first();
-        if ($firstProject) {
-            return redirect('/projects/' . $firstProject->project_id);
-        }
-        return redirect('/projects');
-    });
+    // Board (Halaman pilih project sebelum membuka Kanban board)
+    Route::get('/board', [ProjectController::class, 'boardSelect'])->name('board.select');
     Route::get('/boards', function () {
         return redirect('/board');
     });
