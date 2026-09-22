@@ -168,13 +168,18 @@
                  <div class="flex flex-col sm:flex-row items-center gap-2"> 
                     
                  <div class="flex flex-row items-center gap-2"> 
-
-                    <p class="text-white text-xs sm:text-base mx-2">Board</p>
-                    <p class="text-white text-xs sm:text-base rotate-90 sm:rotate-0">&#8250;</p>
-
+                    @if(isset($project))
+                        <a href="{{ url('/board') }}" class="text-white hover:text-[#C7FF3D] text-xs sm:text-base mx-2 transition flex items-center gap-1.5 font-medium">
+                            <i class="fa-solid fa-arrow-left text-[10px] text-[#C7FF3D]"></i> Board
+                        </a>
+                        <p class="text-white/40 text-xs sm:text-base rotate-90 sm:rotate-0">&#8250;</p>
+                    @else
+                        <p class="text-white text-xs sm:text-base mx-2 font-medium">Board</p>
+                        <p class="text-white/40 text-xs sm:text-base rotate-90 sm:rotate-0">&#8250;</p>
+                    @endif
                 </div>
 
-                     <p class="text-[#C7FF3D] text-xs sm:text-base">Q4 Marketing Campaign</p>
+                     <p class="text-[#C7FF3D] text-xs sm:text-base font-semibold">{{ isset($project) ? $project->nama_project : 'Select Project' }}</p>
 
                 </div>
 
@@ -199,11 +204,12 @@
 
         </header>
 
+        @if(isset($project))
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
 
             <div>
-                <h2 class="text-xl sm:text-2xl font-bold text-white mb-1">Q4 Marketing Campaign</h2>
-                <h1 class="text-xs sm:text-base text-white">Manage deliverables and assets for the upcoming launch.</h1>
+                <h2 class="text-xl sm:text-2xl font-bold text-white mb-1">{{ $project->nama_project ?? 'Q4 Marketing Campaign' }}</h2>
+                <h1 class="text-xs sm:text-base text-white/70">{{ $project->deskripsi ?? 'Manage deliverables and assets for the upcoming launch.' }}</h1>
             </div>
 
          <div class="flex flex-row gap-2 relative self-end sm:self-auto">
@@ -848,13 +854,11 @@
 
         <script>
 
-        /* ── Filter Dropdown ── */
         function toggleFilterDropdown() {
             const dd = document.getElementById('filter-dropdown');
             const chevron = document.getElementById('filter-chevron');
             const isHidden = dd.classList.toggle('hidden');
             chevron.style.transform = isHidden ? '' : 'rotate(180deg)';
-            // Close sub-dropdowns when main closes
             if (isHidden) {
                 closeAssignSub();
                 closePrioritySub();
@@ -862,13 +866,12 @@
             }
         }
 
-        function toggleAssignSub(e) {
+        function toggleAssignSub(e) {   
             e.stopPropagation();
             const sub = document.getElementById('assign-sub');
             const chevron = document.getElementById('assign-chevron');
             const isHidden = sub.classList.toggle('hidden');
             chevron.style.transform = isHidden ? '' : 'rotate(180deg)';
-            // Close other subs if open
             closePrioritySub();
             closeDueDateSub();
         }
@@ -1101,6 +1104,141 @@
         }
 
         </script>
+        @else
+        <div class="mb-6">
+            <h1 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Select Project Board</h1>
+            <p class="text-xs sm:text-sm text-gray-400 mt-1">Pilih salah satu proyek di bawah ini untuk membuka tampilan papan tugas Kanban.</p>
+        </div>
+
+        <div class="flex flex-col lg:flex-row gap-6 items-start"> 
+
+         
+            <div class="flex-1 w-full grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-5" id="projectGrid">
+                @forelse($projects ?? [] as $p)
+                    @php
+                        $status = $p->calculated_status ?? 'Active';
+                        $progress = $p->calculated_progress ?? 0;
+                        $taskCount = $p->tasks->count();
+                        $priority = $p->priority ?? 'Medium';
+                        $dueDate = $p->deadline ? \Carbon\Carbon::parse($p->deadline)->format('M d') : 'Dec 15';
+
+                        // Badge Styling
+                        $badgeClasses = match($status) {
+                            'Active'    => 'bg-emerald-950/60 text-emerald-400 border-emerald-500/30',
+                            'In Review' => 'bg-blue-950/60 text-blue-400 border-blue-500/30',
+                            'Planning'  => 'bg-neutral-800 text-neutral-300 border-neutral-600',
+                            'On Hold'   => 'bg-amber-950/60 text-amber-400 border-amber-500/30',
+                            default     => 'bg-emerald-950/60 text-emerald-400 border-emerald-500/30',
+                        };
+
+                        // Priority Styling
+                        $priorityClasses = match(strtolower($priority)) {
+                            'critical', 'urgent' => ['text' => 'text-red-400', 'dot' => 'bg-red-500'],
+                            'high'               => ['text' => 'text-orange-400', 'dot' => 'bg-orange-400'],
+                            'low'                => ['text' => 'text-emerald-400', 'dot' => 'bg-emerald-400'],
+                            default              => ['text' => 'text-purple-400', 'dot' => 'bg-purple-400'],
+                        };
+                    @endphp
+
+                    <a href="{{ url('/projects/' . $p->id) }}" 
+                       class="project-card group relative bg-[#131515] border border-[#262626] rounded-2xl p-5 hover:border-[#C7FF3D]/70 hover:bg-[#181a1a] transition-all duration-200 shadow-xl flex flex-col justify-between cursor-pointer"
+                       data-name="{{ strtolower($p->nama_project) }}"
+                       data-key="{{ strtolower($p->key) }}">
+                        
+                        <div>
+                            <div class="flex items-start justify-between gap-3">
+                                <div>
+                                    <h3 class="text-base font-bold text-white group-hover:text-[#C7FF3D] transition line-clamp-1">
+                                        {{ $p->nama_project }}
+                                    </h3>
+                                    <p class="text-xs text-gray-400 font-mono mt-0.5">{{ $p->key }}</p>
+                                </div>
+                                
+                                <span class="px-2.5 py-0.5 text-xs font-semibold rounded-full border {{ $badgeClasses }} shrink-0">
+                                    {{ $status }}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between text-xs text-gray-400 mt-5 pt-3 border-t border-white/5">
+                            <div class="flex items-center gap-1.5 {{ $priorityClasses['text'] }} font-medium">
+                                <span class="w-2 h-2 rounded-full {{ $priorityClasses['dot'] }}"></span>
+                                <span>{{ ucfirst($priority) }} Priority</span>
+                            </div>
+
+                            <div class="flex items-center gap-1.5 text-gray-300">
+                                <i class="fa-regular fa-calendar text-gray-400"></i>
+                                <span>Due {{ $dueDate }}</span>
+                            </div>
+                        </div>
+                    </a>
+                @empty
+                    <div class="col-span-2 text-center py-12 bg-[#131515] border border-[#262626] rounded-2xl">
+                        <i class="fa-regular fa-folder-open text-4xl text-gray-600 mb-3 block"></i>
+                        <h4 class="text-base font-bold text-white mb-1">Belum Ada Proyek</h4>
+                        <p class="text-xs text-gray-400 mb-4">Buat proyek baru terlebih dahulu untuk melihat kanban board.</p>
+                        <a href="{{ url('/projects') }}" class="inline-flex items-center gap-2 bg-[#C7FF3D] text-black font-semibold text-xs px-4 py-2 rounded-xl hover:bg-[#d4ff33] transition">
+                            <i class="fa-solid fa-plus"></i> Buat Proyek
+                        </a>
+                    </div>
+                @endforelse
+            </div>
+
+            {{-- Kolom Kanan: Widgets Summary (Persis Gambar ke-2) --}}
+            <div class="w-full lg:w-72 xl:w-80 flex flex-col gap-5 shrink-0">
+                <div class="bg-[#131515] border border-[#262626] rounded-2xl p-5 shadow-xl">
+                    <h3 class="text-sm font-bold text-white mb-4">Project Status Summary</h3>
+                    <div class="flex flex-col gap-3.5">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2.5">
+                                <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                                <span class="text-xs text-gray-300 font-medium">Active</span>
+                            </div>
+                            <span class="text-xs font-bold text-white">{{ $statusCounts['Active'] ?? 0 }} Projects</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2.5">
+                                <span class="w-2 h-2 rounded-full bg-blue-400"></span>
+                                <span class="text-xs text-gray-300 font-medium">In Review</span>
+                            </div>
+                            <span class="text-xs font-bold text-white">{{ $statusCounts['In Review'] ?? 0 }} Project</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2.5">
+                                <span class="w-2 h-2 rounded-full bg-neutral-300"></span>
+                                <span class="text-xs text-gray-300 font-medium">Planning</span>
+                            </div>
+                            <span class="text-xs font-bold text-white">{{ $statusCounts['Planning'] ?? 0 }} Project</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2.5">
+                                <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+                                <span class="text-xs text-gray-300 font-medium">On Hold</span>
+                            </div>
+                            <span class="text-xs font-bold text-white">{{ $statusCounts['On Hold'] ?? 0 }} Project</span>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
+        <script>
+            function filterProjectCards() {
+                const query = document.getElementById('projectSearch')?.value.toLowerCase() || '';
+                const cards = document.querySelectorAll('.project-card');
+                cards.forEach(card => {
+                    const name = card.getAttribute('data-name') || '';
+                    const key = card.getAttribute('data-key') || '';
+                    if (name.includes(query) || key.includes(query)) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            }
+        </script>
+        @endif
 
     </main>
  
