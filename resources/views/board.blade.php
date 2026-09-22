@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ProSite - Board</title>
+    <link rel="icon" type="image/png" href="{{ asset('images/logo_itenas.png') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -1220,7 +1221,17 @@
                         </div>
                     </div>
                 </div>
-                
+
+                <div class="bg-[#131515] border border-[#262626] rounded-2xl p-5 shadow-xl">
+                    <h3 class="text-sm font-bold text-white mb-3">Overall Efficiency</h3>
+                    <div class="flex justify-between items-center text-xs text-gray-400 mb-2">
+                        <span>On-Time Delivery</span>
+                        <span class="font-bold text-white">94.2%</span>
+                    </div>
+                    <div class="w-full bg-[#202322] rounded-full h-1.5 overflow-hidden">
+                        <div class="bg-[#C7FF3D] h-1.5 rounded-full" style="width: 94.2%"></div>
+                    </div>
+                </div>
             </div>
         </div>
 
