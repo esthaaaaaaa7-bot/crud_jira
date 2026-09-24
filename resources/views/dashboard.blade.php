@@ -103,13 +103,6 @@
             </li>
 
             <li>
-                <a href="#" class="flex items-center gap-3 py-2 px-4 rounded-lg text-gray-400 hover:bg-[#1a1a1a] hover:text-white transition duration-200">
-                    <i class="fa-regular fa-square-check text-sm w-5 text-center"></i>
-                    <span class="text-sm">Tasks</span>
-                </a>
-            </li>
-
-            <li>
                 <a href="{{ url('/team') }}" class="flex items-center gap-3 py-2 px-4 rounded-lg text-gray-400 hover:bg-[#1a1a1a] hover:text-white transition duration-200">
                     <i class="fa-solid fa-user-group text-sm w-5 text-center"></i>
                     <span class="text-sm">Team</span>
