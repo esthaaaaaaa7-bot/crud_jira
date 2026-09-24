@@ -22,8 +22,15 @@
             }
         }
     </script>
-
-
+ <style> 
+        .bg-gradient-glow {
+            background-color: #000000;
+            background-image:
+                radial-gradient(circle at 0% 0%, rgba(199, 255, 61, 0.3) 0%, transparent 30%),
+                radial-gradient(circle at 100% 100%, rgba(199, 255, 61, 0.3) 0%, transparent 30%),
+                radial-gradient(circle at 50% 50%, rgba(199, 255, 61, 0.15) 0%, transparent 60%);
+        }
+    </style>
 
 </head>
 
@@ -71,14 +78,6 @@
                     <span class="text-sm">Boards</span>
                 </a>
             </li>
-
-            <li>
-                <a href="#" class="flex items-center gap-3 py-2 px-4 rounded-lg text-gray-400 hover:bg-[#1a1a1a] hover:text-white transition duration-200">
-                    <i class="fa-regular fa-square-check text-sm w-5 text-center"></i>
-                    <span class="text-sm">Tasks</span>
-                </a>
-            </li>
-
             <li>
                 <a href="{{ url('/team') }}" class="flex items-center gap-3 py-2 px-4 rounded-lg text-gray-400 hover:bg-[#1a1a1a] hover:text-white transition duration-200">
                     <i class="fa-solid fa-user-group text-sm w-5 text-center"></i>
@@ -139,17 +138,13 @@
 
         </header>
 
-        <div class="mb-6">
-            <div class="flex items-center gap-2 text-xs text-gray-400 mb-2">
-                <span>Projects</span>
-                <i class="fa-solid fa-greater-than text-[10px] text-gray-600"></i>
-                <span class="text-[#C7FF3D] font-medium">Q4 Marketing Campaign</span>
-                <i class="fa-solid fa-greater-than text-[10px] text-gray-600"></i>
-                <span class="text-[#C7FF3D] font-medium">Settings</span>
+        <div class="max-w-2xl mx-auto py-2">
+                <div class="mb-6">
+            <div class="flex items-center gap-2 text-xs text-[#C7FF3D] font-medium mb-1">
+                <span>Settings</span>
             </div>
 
             <h1 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Settings</h1>
-
         </div>
 
         <div class="max-w-2xl bg-[#121212] border border-[#262626] rounded-2xl p-6 sm:p-8 shadow-2xl">
