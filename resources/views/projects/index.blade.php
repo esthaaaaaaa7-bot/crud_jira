@@ -174,6 +174,18 @@
 
         </header>
 
+        @if (session('success'))
+            <div id="flash-message" class="mb-6 flex items-center justify-between p-4 bg-[#151515] border border-[#C7FF3D]/40 rounded-xl text-white text-xs shadow-lg">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-circle-check text-[#C7FF3D] text-base"></i>
+                    <span>{{ session('success') }}</span>
+                </div>
+                <button type="button" onclick="document.getElementById('flash-message').remove()" class="text-white/40 hover:text-white transition cursor-pointer">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
+            </div>
+        @endif
+
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
 
             <div>
@@ -182,12 +194,12 @@
             </div>
 
             <div class="flex flex-row gap-2">
-                <div onclick="openCreateModal()" class="flex items-center gap-1 border border-white/30 py-2 px-4 bg-[#c7ff3d] rounded-lg mt-3 hover:border-[#000000] transition-colors duration-200 cursor-pointer">
+                <button type="button" onclick="openCreateModal()" id="btn-create-project" class="flex items-center gap-1.5 border border-white/30 py-2 px-4 bg-[#c7ff3d] rounded-lg mt-3 hover:border-[#000000] hover:bg-[#dfff6f] transition-colors duration-200 cursor-pointer">
                     <i class="fa-solid fa-plus text-black text-xs"></i>
-                    <button class="text-black font-black text-xs">Create Project</button>
-                </div>
+                    <span class="text-black font-black text-xs">Create Project</span>
+                </button>
 
-                <!-- Filter Button & Dropdown -->
+            
                 <div class="relative mt-3" id="proj-filter-wrapper">
                     <button
                         id="proj-btn-filter"
@@ -198,12 +210,12 @@
                         <i class="fa-solid fa-chevron-down text-white/40 text-[10px] transition-transform duration-200" id="proj-filter-chevron"></i>
                     </button>
 
-                    <!-- Main Dropdown -->
+                 
                     <div
                         id="proj-filter-dropdown"
                         class="hidden absolute right-0 top-full mt-2 w-52 bg-[#111] border border-white/10 rounded-xl shadow-2xl z-50">
 
-                        <!-- By Assign Trigger -->
+                      
                         <div
                             id="proj-assign-trigger"
                             onclick="toggleProjAssignSub(event)"
@@ -215,7 +227,7 @@
                             <i class="fa-solid fa-chevron-down text-white/30 text-[10px] transition-transform duration-200" id="proj-assign-chevron"></i>
                         </div>
 
-                        <!-- Assign Sub -->
+                    
                         <div id="proj-assign-sub" class="hidden border-t border-white/5 bg-[#0a0a0a]">
                             <div onclick="selectProjFilter('assign_elvin')" class="flex items-center gap-2.5 pl-10 pr-4 py-2.5 hover:bg-white/5 cursor-pointer transition group">
                                 <div class="w-5 h-5 rounded-full bg-blue-500 flex items-center justify-center text-[10px] font-bold text-white shrink-0">E</div>
@@ -231,7 +243,7 @@
                             </div>
                         </div>
 
-                        <!-- Priority Trigger -->
+                    
                         <div
                             id="proj-priority-trigger"
                             onclick="toggleProjPrioritySub(event)"
@@ -243,7 +255,7 @@
                             <i class="fa-solid fa-chevron-down text-white/30 text-[10px] transition-transform duration-200" id="proj-priority-chevron"></i>
                         </div>
 
-                        <!-- Priority Sub -->
+                    
                         <div id="proj-priority-sub" class="hidden border-t border-white/5 bg-[#0a0a0a]">
                             <div onclick="selectProjFilter('priority_high')" class="flex items-center gap-3 pl-10 pr-4 py-2.5 hover:bg-white/5 cursor-pointer transition group">
                                 <i class="fa-solid fa-angle-up text-red-500 text-xs"></i>
@@ -259,7 +271,7 @@
                             </div>
                         </div>
 
-                        <!-- Status Trigger -->
+                        
                         <div
                             id="proj-status-trigger"
                             onclick="toggleProjStatusSub(event)"
@@ -271,7 +283,7 @@
                             <i class="fa-solid fa-chevron-down text-white/30 text-[10px] transition-transform duration-200" id="proj-status-chevron"></i>
                         </div>
 
-                        <!-- Status Sub -->
+                    
                         <div id="proj-status-sub" class="hidden border-t border-white/5 bg-[#0a0a0a]">
                             <div onclick="selectProjFilter('status_todo')" class="flex items-center gap-3 pl-10 pr-4 py-2.5 hover:bg-white/5 cursor-pointer transition group">
                                 <span class="w-2 h-2 rounded-full bg-gray-400 shrink-0"></span>
@@ -303,7 +315,7 @@
                             <i class="fa-solid fa-chevron-down text-white/30 text-[10px] transition-transform duration-200" id="proj-duedate-chevron"></i>
                         </div>
 
-                        <!-- Due Date Sub -->
+                        
                         <div id="proj-duedate-sub" class="hidden border-t border-white/5 bg-[#0a0a0a]">
                             <div onclick="selectProjFilter('duedate_newest')" class="flex items-center gap-3 pl-10 pr-4 py-2.5 hover:bg-white/5 cursor-pointer transition group">
                                 <i class="fa-solid fa-arrow-up text-white/40 text-xs group-hover:text-[#C7FF3D] transition"></i>
@@ -315,7 +327,7 @@
                             </div>
                         </div>
 
-                        <!-- Clear Filter -->
+                    
                         <div
                             onclick="clearProjFilter()"
                             class="flex items-center gap-3 px-4 py-3 hover:bg-red-500/10 cursor-pointer transition group border-t border-white/10 rounded-b-xl">
@@ -340,8 +352,8 @@
                         <tr class="border-b border-white/10">
 
                             <th class="px-8 py-4 text-white text-sm sm:text-md font-semibold">Project Name</th>
-                            <th class="px-8 py-4 text-white text-sm sm:text-md font-semibold">Project</th>
-                            <th class="px-8 py-4 text-white text-sm sm:text-md font-semibold">Assignee</th>
+                            <th class="px-8 py-4 text-white text-sm sm:text-md font-semibold">Description</th>
+                            <th class="px-8 py-4 text-white text-sm sm:text-md font-semibold">Reporter</th>
                             <th class="px-8 py-4 text-white text-sm sm:text-md font-semibold">Priority</th>
                             <th class="px-8 py-4 text-white text-sm sm:text-md font-semibold">Status</th>
                             <th class="px-8 py-4 text-white text-sm sm:text-md font-semibold">Due Date</th>
@@ -352,20 +364,20 @@
                     <tbody>
                         @forelse($projects as $project)
                         <tr class="border-b border-white/10 hover:bg-white/5 transition">
-                            <!-- 1. Project Name & Key -->
+                            
                             <td class="px-8 py-3">
                                 <p class="font-bold text-white text-xs sm:text-sm">{{ $project->nama_project }}</p>
                                 <p class="text-[10px] sm:text-xs text-[#C7FF3D] font-mono mt-0.5">{{ $project->key }}</p>
                             </td>
 
-                            <!-- 2. Deskripsi Project -->
+        
                             <td class="px-8 py-3">
                                 <p class="text-white text-xs sm:text-sm line-clamp-1">
                                     {{ $project->deskripsi ?? '-' }}
                                 </p>
                             </td>
 
-                            <!-- 3. Pembuat / User Login -->
+                            
                             <td class="px-8 py-3">
                                 <div class="flex items-center gap-2">
                                     <div class="w-7 h-7 rounded-full bg-[#2a2a2a] border border-white/20 flex items-center justify-center text-[10px] text-white font-bold shrink-0">
@@ -375,40 +387,68 @@
                                 </div>
                             </td>
 
-                            <!-- 4. Priority -->
+                        
                             <td class="px-8 py-3">
                                 <div class="flex items-center">
                                     @php
-                                    $priorityClass = match($project->priority) {
-                                        'Low' => 'bg-green-500/20 text-green-400',
-                                        'Medium' => 'bg-yellow-500/20 text-yellow-400',
-                                        'High' => 'bg-red-500/20 text-red-400',
-                                        default => 'bg-[#2a2a2a] text-[#C7FF3D]',
+                                    $pVal = $project->priority ?? 'Medium';
+                                    $priorityClass = match($pVal) {
+                                        'Low' => 'bg-green-500/15 text-green-400 border border-green-500/30',
+                                        'Medium' => 'bg-yellow-500/15 text-yellow-400 border border-yellow-500/30',
+                                        'High' => 'bg-red-500/15 text-red-400 border border-red-500/30',
+                                        'Highest' => 'bg-red-600/20 text-red-500 border border-red-500/40',
+                                        'Lowest' => 'bg-green-600/20 text-green-500 border border-green-500/40',
+                                        default => 'bg-yellow-500/15 text-yellow-400 border border-yellow-500/30',
+                                    };
+                                    $priorityIcon = match($pVal) {
+                                        'Low' => 'fa-solid fa-angle-down text-green-400',
+                                        'Medium' => 'fa-solid fa-minus text-yellow-400',
+                                        'High' => 'fa-solid fa-angle-up text-red-400',
+                                        'Highest' => 'fa-solid fa-angles-up text-red-500',
+                                        'Lowest' => 'fa-solid fa-angles-down text-green-500',
+                                        default => 'fa-solid fa-minus text-yellow-400',
                                     };
                                     @endphp
-                                    <span class="text-[10px] sm:text-xs font-semibold {{ $priorityClass }} px-2.5 py-1 rounded-lg">
-                                        {{ $project->priority }}
+                                    <span class="inline-flex items-center gap-1.5 text-[10px] sm:text-xs font-semibold {{ $priorityClass }} px-2.5 py-1 rounded-lg">
+                                        <i class="{{ $priorityIcon }} text-[11px]"></i>
+                                        <span>{{ $pVal }}</span>
                                     </span>
                                 </div>
                             </td>
-
-                            <!-- 5. Status Project -->
                             <td class="px-8 py-3">
                                 <div class="flex items-center">
-                                    <span class="text-[10px] sm:text-xs font-semibold bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-lg">
-                                        Active
+                                    @php
+                                    $projStatus = $project->status ?? 'To Do';
+                                    $statusBadgeClass = match($projStatus) {
+                                        'In Progress' => 'bg-blue-500/15 text-blue-400 border border-blue-500/30',
+                                        'Review' => 'bg-amber-500/15 text-amber-400 border border-amber-500/30',
+                                        'Done' => 'bg-[#C7FF3D]/15 text-[#C7FF3D] border border-[#C7FF3D]/30',
+                                        'Active' => 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30',
+                                        default => 'bg-zinc-500/15 text-zinc-300 border border-zinc-500/30',
+                                    };
+                                    $statusIcon = match($projStatus) {
+                                        'In Progress' => 'fa-solid fa-circle-half-stroke text-blue-400',
+                                        'Review' => 'fa-regular fa-clock text-amber-400',
+                                        'Done' => 'fa-solid fa-circle-check text-[#C7FF3D]',
+                                        'Active' => 'fa-solid fa-circle-dot text-emerald-400',
+                                        default => 'fa-regular fa-circle text-zinc-400',
+                                    };
+                                    @endphp
+                                    <span class="inline-flex items-center gap-1.5 text-[10px] sm:text-xs font-semibold {{ $statusBadgeClass }} px-2.5 py-1 rounded-lg">
+                                        <i class="{{ $statusIcon }} text-[10px]"></i>
+                                        <span>{{ $projStatus }}</span>
                                     </span>
                                 </div>
                             </td>
 
-                            <!-- 6. Due Date / Deadline -->
+                           
                             <td class="px-8 py-3">
                                 <p class="font-bold text-white text-xs sm:text-sm">
                                     {{ $project->deadline ? \Carbon\Carbon::parse($project->deadline)->format('M d, Y') : '-' }}
                                 </p>
                             </td>
 
-                            <!-- 7. Tombol Action Dropdown (Board + Edit + Hapus) -->
+               
                             <td class="px-8 py-3">
                                 <div class="relative inline-block">
                                     <button onclick="toggleDropdown(this)" class="w-8 h-8 flex items-center justify-center rounded-lg text-white hover:bg-white/10 transition">
@@ -417,21 +457,29 @@
 
                                     <div class="dropdown-menu hidden absolute right-0 mt-1 w-40 bg-[#1a1a1a] border border-white/10 rounded-xl shadow-xl z-50 overflow-hidden py-1">
 
-                                        <!-- 1. Tombol Buka Kanban Board -->
+                                        
                                         <a href="{{ url('/board?project_id='.$project->id) }}" class="w-full flex items-center gap-2.5 px-4 py-2 text-xs text-white hover:bg-white/5 transition">
                                             <i class="fa-solid fa-table-columns text-[#C7FF3D]"></i>
                                             <span>Buka Board</span>
                                         </a>
 
-                                        <!-- 2. Tombol Edit Project -->
-                                        <a href="{{ url('/projects/'.$project->id.'/edit') }}" class="w-full flex items-center gap-2.5 px-4 py-2 text-xs text-white hover:bg-white/5 transition">
+                                        
+                                        <button type="button"
+                                            onclick="openEditModal(this)"
+                                            data-id="{{ $project->id }}"
+                                            data-name="{{ $project->nama_project }}"
+                                            data-desc="{{ $project->deskripsi ?? '' }}"
+                                            data-priority="{{ $project->priority ?? 'Medium' }}"
+                                            data-status="{{ $project->status ?? 'To Do' }}"
+                                            data-deadline="{{ $project->deadline ? \Carbon\Carbon::parse($project->deadline)->format('Y-m-d') : '' }}"
+                                            class="w-full flex items-center gap-2.5 px-4 py-2 text-xs text-white hover:bg-white/5 transition text-left cursor-pointer">
                                             <i class="fa-solid fa-pen-to-square text-amber-400"></i>
                                             <span>Edit</span>
-                                        </a>
+                                        </button>
 
                                         <div class="border-t border-white/10 my-1"></div>
 
-                                        <!-- 3. Tombol Hapus Project -->
+                
                                         <form action="{{ url('/projects/'.$project->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus project {{ $project->nama_project }}?');">
                                             @csrf
                                             @method('DELETE')
@@ -446,7 +494,7 @@
                             </td>
                         </tr>
                         @empty
-                        <!-- Ditampilkan jika database masih kosong -->
+                    
                         <tr>
                             <td colspan="7" class="px-8 py-10 text-center text-gray-400 text-xs">
                                 <i class="fa-regular fa-folder-open text-2xl mb-2 block text-gray-500"></i>
@@ -456,7 +504,7 @@
                         @endforelse
                     </tbody>
                 </table>
-
+                
                 <div class="flex justify-between items-center my-2">
 
                     <p class="text-white text-xs mx-8">Showing {{ $projects->firstItem() }} to {{ $projects->lastItem() }} of {{ $projects->total() }}</p>
@@ -484,7 +532,7 @@
                         @endif
                     </div>
 
-                </div>
+
 
 
             </div>
@@ -500,15 +548,136 @@
                 backdrop.classList.toggle('hidden');
             }
 
+            /* ── Custom Priority Dropdown Helper ── */
+            const priorityConfig = {
+                High: {
+                    icon: 'fa-solid fa-angle-up text-red-500 text-xs',
+                    color: 'text-red-500 font-semibold',
+                    label: 'High'
+                },
+                Medium: {
+                    icon: 'fa-solid fa-minus text-orange-400 text-xs',
+                    color: 'text-orange-400 font-semibold',
+                    label: 'Medium'
+                },
+                Low: {
+                    icon: 'fa-solid fa-angle-down text-green-500 text-xs',
+                    color: 'text-green-500 font-semibold',
+                    label: 'Low'
+                }
+            };
+
+            function setCreatePriority(val) {
+                const config = priorityConfig[val] || priorityConfig['Medium'];
+                document.getElementById('modal_priority').value = val;
+                document.getElementById('create_priority_selected').innerHTML = `
+                    <i class="${config.icon}"></i>
+                    <span class="${config.color} text-xs">${config.label}</span>
+                `;
+            }
+
+            function selectCreatePriority(val) {
+                setCreatePriority(val);
+                closeCreatePriorityDropdown();
+            }
+
+            function toggleCreatePriorityDropdown(e) {
+                if (e) e.stopPropagation();
+                const dd = document.getElementById('create-priority-dropdown');
+                const chevron = document.getElementById('create_priority_chevron');
+                const isHidden = dd.classList.toggle('hidden');
+                chevron.style.transform = isHidden ? '' : 'rotate(180deg)';
+            }
+
+            function closeCreatePriorityDropdown() {
+                const dd = document.getElementById('create-priority-dropdown');
+                const chevron = document.getElementById('create_priority_chevron');
+                if (dd) dd.classList.add('hidden');
+                if (chevron) chevron.style.transform = '';
+            }
+
+            function setEditPriority(val) {
+                const config = priorityConfig[val] || priorityConfig['Medium'];
+                document.getElementById('edit_priority').value = val;
+                document.getElementById('edit_priority_selected').innerHTML = `
+                    <i class="${config.icon}"></i>
+                    <span class="${config.color} text-xs">${config.label}</span>
+                `;
+            }
+
+            function selectEditPriority(val) {
+                setEditPriority(val);
+                closeEditPriorityDropdown();
+            }
+
+            function toggleEditPriorityDropdown(e) {
+                if (e) e.stopPropagation();
+                const dd = document.getElementById('edit-priority-dropdown');
+                const chevron = document.getElementById('edit_priority_chevron');
+                const isHidden = dd.classList.toggle('hidden');
+                chevron.style.transform = isHidden ? '' : 'rotate(180deg)';
+            }
+
+            function closeEditPriorityDropdown() {
+                const dd = document.getElementById('edit-priority-dropdown');
+                const chevron = document.getElementById('edit_priority_chevron');
+                if (dd) dd.classList.add('hidden');
+                if (chevron) chevron.style.transform = '';
+            }
+
             function openCreateModal() {
+                setCreatePriority('Medium');
+                closeCreatePriorityDropdown();
                 const modal = document.getElementById('createProjectModal');
                 modal.classList.remove('hidden');
             }
 
             function closeCreateModal() {
+                closeCreatePriorityDropdown();
                 const modal = document.getElementById('createProjectModal');
                 modal.classList.add('hidden');
             }
+
+            function openEditModal(btn) {
+                const id = btn.getAttribute('data-id');
+                const name = btn.getAttribute('data-name') || '';
+                const desc = btn.getAttribute('data-desc') || '';
+                const priority = btn.getAttribute('data-priority') || 'Medium';
+                const status = btn.getAttribute('data-status') || 'To Do';
+                const deadline = btn.getAttribute('data-deadline') || '';
+
+                const form = document.getElementById('editProjectForm');
+                form.action = `{{ url('/projects') }}/${id}`;
+
+                document.getElementById('edit_nama_project').value = name;
+                document.getElementById('edit_deskripsi').value = desc;
+                setEditPriority(priority);
+                document.getElementById('edit_status').value = status;
+                document.getElementById('edit_deadline').value = deadline;
+
+                // Close any open dropdown menus
+                document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                    menu.classList.add('hidden');
+                });
+                closeCreatePriorityDropdown();
+                closeEditPriorityDropdown();
+
+                const modal = document.getElementById('editProjectModal');
+                modal.classList.remove('hidden');
+            }
+
+            function closeEditModal() {
+                closeEditPriorityDropdown();
+                const modal = document.getElementById('editProjectModal');
+                modal.classList.add('hidden');
+            }
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeCreateModal();
+                    closeEditModal();
+                }
+            });
 
             function toggleDropdown(btn) {
                 document.querySelectorAll('.dropdown-menu').forEach(menu => {
@@ -528,7 +697,7 @@
                 }
             });
 
-            /* ── Project Filter Dropdown ── */
+    
             function toggleProjFilter() {
                 const dd = document.getElementById('proj-filter-dropdown');
                 const chevron = document.getElementById('proj-filter-chevron');
@@ -642,11 +811,22 @@
                     document.getElementById('proj-filter-chevron').style.transform = '';
                     closeProjAssignSub(); closeProjPrioritySub(); closeProjStatusSub(); closeProjDueDateSub();
                 }
+
+                const createWrap = document.getElementById('create-priority-wrapper');
+                if (createWrap && !createWrap.contains(e.target)) {
+                    closeCreatePriorityDropdown();
+                }
+
+                const editWrap = document.getElementById('edit-priority-wrapper');
+                if (editWrap && !editWrap.contains(e.target)) {
+                    closeEditPriorityDropdown();
+                }
             });
         </script>
 
         <div id="createProjectModal"
-            class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm hidden p-4">
+            onclick="if(event.target === this) closeCreateModal()"
+            class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm hidden p-4">
             <div class="w-full max-w-lg bg-[#151515] border border-white/20 rounded-2xl p-6 shadow-2xl relative">
                 <h2 class="text-lg font-bold text-white mb-1">Create New Project</h2>
                 <p class="text-xs text-white mb-6"> Set up a new workspace for your team. You can modify these detail
@@ -661,8 +841,8 @@
                                 Project Name
                             </label>
                             <input type="text" name="nama_project" id="modal_project_name"
-                                class="w-full mt-1.5 pl-4 py-2.5 bg-[#000000] border border-white/20 text-xs text-white placeholder-white 
-                                rounded-lg pl-9 pr-4 py-2 focus:outline-none focus:border-[#C7FF3D] transition"
+                                class="w-full mt-1.5 px-4 py-2.5 bg-[#000000] border border-white/20 text-xs text-white placeholder-white/40 
+                                rounded-lg focus:outline-none focus:border-[#C7FF3D] transition"
                                 placeholder="e.g. Q4 Marketing Campaign" required>
                         </div>
 
@@ -672,21 +852,59 @@
                                 Project description
                             </label>
                             <textarea name="deskripsi" id="modal_project_desc" rows="3"
-                                class="w-full mt-1.5 pl-4 py-2.5 bg-[#000000] border border-white/20 text-xs text-white placeholder-white 
-                                rounded-lg pl-9 pr-4 py-2 focus:outline-none focus:border-[#C7FF3D] transition"
+                                class="w-full mt-1.5 px-4 py-2.5 bg-[#000000] border border-white/20 text-xs text-white placeholder-white/40 
+                                rounded-lg focus:outline-none focus:border-[#C7FF3D] transition resize-none"
                                 placeholder="Briefly describe the goals and scope..."></textarea>
-
                         </div>
 
-                        <div class="space-y-2">
-                            <label for="modal_project_name"
-                                class="block text-[11px] font-semibold tracking-wider text-white uppercase">
-                                Deadline
-                            </label>
-                            <input type="date" name="deadline" id="modal_deadline" placeholder="dd-mm-yyyy"
-                                class="w-full mt-1.5 pl-4 py-2.5 bg-[#000000] border border-white/20 text-xs text-white placeholder-white [color-scheme:dark]
-                                rounded-lg pl-9 pr-4 py-2 focus:outline-none focus:border-[#C7FF3D] transition"
-                                required>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="relative z-30" id="create-priority-wrapper">
+                                <label class="block text-[11px] font-semibold tracking-wider text-white uppercase">
+                                    Priority
+                                </label>
+                                <input type="hidden" name="priority" id="modal_priority" value="Medium">
+                                <button type="button"
+                                    onclick="toggleCreatePriorityDropdown(event)"
+                                    id="create_priority_btn"
+                                    class="flex items-center justify-between w-full mt-1.5 px-4 py-2.5 bg-[#000000] border border-white/20 text-xs text-white rounded-lg focus:outline-none focus:border-[#C7FF3D] hover:border-white/40 transition cursor-pointer">
+                                    <div class="flex items-center gap-2.5" id="create_priority_selected">
+                                        <i class="fa-solid fa-minus text-orange-400 text-xs"></i>
+                                        <span class="text-orange-400 text-xs font-semibold">Medium</span>
+                                    </div>
+                                    <i class="fa-solid fa-chevron-down text-white/40 text-[10px] transition-transform duration-200" id="create_priority_chevron"></i>
+                                </button>
+                                
+                                <div id="create-priority-dropdown"
+                                    class="hidden absolute left-0 top-full mt-1.5 w-full bg-[#111111] border border-white/10 rounded-xl shadow-2xl z-50 overflow-hidden py-1">
+                                    <div class="flex items-center gap-2.5 px-4 py-2 border-b border-white/5 text-white/60">
+                                        <i class="fa-solid fa-flag text-[#C7FF3D] text-xs"></i>
+                                        <span class="text-xs font-medium text-white/80">Priority</span>
+                                    </div>
+                                    <div onclick="selectCreatePriority('High')" class="flex items-center gap-3 px-4 py-2.5 hover:bg-white/5 cursor-pointer transition">
+                                        <i class="fa-solid fa-angle-up text-red-500 text-xs"></i>
+                                        <span class="text-red-500 text-xs font-semibold">High</span>
+                                    </div>
+                                    <div onclick="selectCreatePriority('Medium')" class="flex items-center gap-3 px-4 py-2.5 hover:bg-white/5 cursor-pointer transition border-t border-white/5">
+                                        <i class="fa-solid fa-minus text-orange-400 text-xs"></i>
+                                        <span class="text-orange-400 text-xs font-semibold">Medium</span>
+                                    </div>
+                                    <div onclick="selectCreatePriority('Low')" class="flex items-center gap-3 px-4 py-2.5 hover:bg-white/5 cursor-pointer transition border-t border-white/5">
+                                        <i class="fa-solid fa-angle-down text-green-500 text-xs"></i>
+                                        <span class="text-green-500 text-xs font-semibold">Low</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label for="modal_deadline"
+                                    class="block text-[11px] font-semibold tracking-wider text-white uppercase">
+                                    Deadline
+                                </label>
+                                <input type="date" name="deadline" id="modal_deadline" placeholder="dd-mm-yyyy"
+                                    class="w-full mt-1.5 px-4 py-2.5 bg-[#000000] border border-white/20 text-xs text-white placeholder-white/40 [color-scheme:dark]
+                                    rounded-lg focus:outline-none focus:border-[#C7FF3D] transition"
+                                    required>
+                            </div>
                         </div>
 
                         <div class="flex justify-end gap-3 pt-4 border-t border-[#1f2622]">
@@ -704,6 +922,124 @@
 
                     </div>
 
+                </form>
+            </div>
+        </div>
+        
+        <div id="editProjectModal"
+            onclick="if(event.target === this) closeEditModal()"
+            class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm hidden p-4">
+            <div class="w-full max-w-lg bg-[#151515] border border-white/20 rounded-2xl p-6 shadow-2xl relative">
+                <h2 class="text-lg font-bold text-white mb-1">Edit Project</h2>
+                <p class="text-xs text-white/60 mb-6">Update your workspace details. You can modify these details later</p>
+
+                <form id="editProjectForm" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <div class="space-y-4">
+                        <div>
+                            <label for="edit_nama_project"
+                                class="block text-[11px] font-semibold tracking-wider text-white uppercase">
+                                PROJECT NAME
+                            </label>
+                            <input type="text" name="nama_project" id="edit_nama_project"
+                                class="w-full mt-1.5 px-4 py-2.5 bg-[#000000] border border-white/20 text-xs text-white placeholder-white/40 
+                                rounded-lg focus:outline-none focus:border-[#C7FF3D] transition"
+                                placeholder="e.g. Q4 Marketing Campaign" required>
+                        </div>
+
+                        <div>
+                            <label for="edit_deskripsi"
+                                class="block text-[11px] font-semibold tracking-wider text-white uppercase">
+                                PROJECT DESCRIPTION
+                            </label>
+                            <textarea name="deskripsi" id="edit_deskripsi" rows="3"
+                                class="w-full mt-1.5 px-4 py-2.5 bg-[#000000] border border-white/20 text-xs text-white placeholder-white/40 
+                                rounded-lg focus:outline-none focus:border-[#C7FF3D] transition resize-none"
+                                placeholder="Briefly describe the goals and scope..."></textarea>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label for="edit_status"
+                                    class="block text-[11px] font-semibold tracking-wider text-white uppercase">
+                                    STATUS
+                                </label>
+                                <div class="relative mt-1.5">
+                                    <select name="status" id="edit_status"
+                                        class="w-full px-4 py-2.5 bg-[#000000] border border-white/20 text-xs text-white 
+                                        rounded-lg appearance-none focus:outline-none focus:border-[#C7FF3D] transition cursor-pointer pr-9">
+                                        <option value="To Do" class="bg-[#151515] text-white">To Do</option>
+                                        <option value="In Progress" class="bg-[#151515] text-white">In Progress</option>
+                                        <option value="Review" class="bg-[#151515] text-white">Review</option>
+                                        <option value="Done" class="bg-[#151515] text-white">Done</option>
+                                        <option value="Active" class="bg-[#151515] text-white">Active</option>
+                                    </select>
+                                    <i class="fa-solid fa-chevron-down absolute right-3.5 top-1/2 -translate-y-1/2 text-white/50 text-[10px] pointer-events-none"></i>
+                                </div>
+                            </div>
+
+                            <div class="relative z-30" id="edit-priority-wrapper">
+                                <label class="block text-[11px] font-semibold tracking-wider text-white uppercase">
+                                    PRIORITY
+                                </label>
+                                <input type="hidden" name="priority" id="edit_priority" value="Medium">
+                                <button type="button"
+                                    onclick="toggleEditPriorityDropdown(event)"
+                                    id="edit_priority_btn"
+                                    class="flex items-center justify-between w-full mt-1.5 px-4 py-2.5 bg-[#000000] border border-white/20 text-xs text-white rounded-lg focus:outline-none focus:border-[#C7FF3D] hover:border-white/40 transition cursor-pointer">
+                                    <div class="flex items-center gap-2.5" id="edit_priority_selected">
+                                        <i class="fa-solid fa-minus text-orange-400 text-xs"></i>
+                                        <span class="text-orange-400 text-xs font-semibold">Medium</span>
+                                    </div>
+                                    <i class="fa-solid fa-chevron-down text-white/40 text-[10px] transition-transform duration-200" id="edit_priority_chevron"></i>
+                                </button>
+
+                        
+                                <div id="edit-priority-dropdown"
+                                    class="hidden absolute left-0 top-full mt-1.5 w-full bg-[#111111] border border-white/10 rounded-xl shadow-2xl z-50 overflow-hidden py-1">
+                                    <div class="flex items-center gap-2.5 px-4 py-2 border-b border-white/5 text-white/60">
+                                        <i class="fa-solid fa-flag text-[#C7FF3D] text-xs"></i>
+                                        <span class="text-xs font-medium text-white/80">Priority</span>
+                                    </div>
+                                    <div onclick="selectEditPriority('High')" class="flex items-center gap-3 px-4 py-2.5 hover:bg-white/5 cursor-pointer transition">
+                                        <i class="fa-solid fa-angle-up text-red-500 text-xs"></i>
+                                        <span class="text-red-500 text-xs font-semibold">High</span>
+                                    </div>
+                                    <div onclick="selectEditPriority('Medium')" class="flex items-center gap-3 px-4 py-2.5 hover:bg-white/5 cursor-pointer transition border-t border-white/5">
+                                        <i class="fa-solid fa-minus text-orange-400 text-xs"></i>
+                                        <span class="text-orange-400 text-xs font-semibold">Medium</span>
+                                    </div>
+                                    <div onclick="selectEditPriority('Low')" class="flex items-center gap-3 px-4 py-2.5 hover:bg-white/5 cursor-pointer transition border-t border-white/5">
+                                        <i class="fa-solid fa-angle-down text-green-500 text-xs"></i>
+                                        <span class="text-green-500 text-xs font-semibold">Low</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="edit_deadline"
+                                class="block text-[11px] font-semibold tracking-wider text-white uppercase">
+                                DEADLINE
+                            </label>
+                            <input type="date" name="deadline" id="edit_deadline" placeholder="dd/mm/yyyy"
+                                class="w-full mt-1.5 px-4 py-2.5 bg-[#000000] border border-white/20 text-xs text-white placeholder-white/40 [color-scheme:dark]
+                                rounded-lg focus:outline-none focus:border-[#C7FF3D] transition">
+                        </div>
+
+                        <div class="flex justify-end gap-3 pt-4 border-t border-[#1f2622] mt-6">
+                            <button type="button" onclick="closeEditModal()"
+                                class="px-5 py-2 text-xs font-semibold text-white hover:bg-[#1a1d1d] transition-colors cursor-pointer rounded-xl">
+                                Cancel
+                            </button>
+
+                            <button type="submit"
+                                class="px-5 py-2 text-xs font-semibold bg-[#C7FF3D] text-black font-semibold rounded-xl hover:bg-[#dfff6f] transition cursor-pointer flex items-center gap-1.5">
+                                <i class="fa-solid fa-check"></i> Oke
+                            </button>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
