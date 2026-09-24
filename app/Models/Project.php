@@ -17,6 +17,7 @@ class Project extends Model
         'deskripsi',
         'deadline',
         'priority',
+        'status',
     ];
 
     /**

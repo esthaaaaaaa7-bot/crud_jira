@@ -38,12 +38,7 @@ class ProjectController extends Controller
 
     public function edit($id)
     {
-        $userId = session('user')->id ?? 0;
-        $project = Project::whereHas('projectUsers', function ($q) use ($userId) {
-            $q->where('user_id', $userId);
-        })->findOrFail($id);
-
-        return view('projects.edit', compact('project'));
+        return redirect('/projects');
     }
 
     public function update(Request $request, $id, ProjectService $projectService)
@@ -58,6 +53,7 @@ class ProjectController extends Controller
             'deskripsi'    => 'nullable|string',
             'deadline'     => 'nullable|date',
             'priority'     => 'required|in:Low,Medium,High',
+            'status'       => 'nullable|string|max:50',
         ]);
 
         $project->update($validated);

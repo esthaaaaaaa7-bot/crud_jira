@@ -26,7 +26,8 @@ class ProjectService
             'key'          => $data['key'],
             'nama_project' => $data['nama_project'],
             'deskripsi'    => $data['deskripsi'] ?? null,
-            'priority' => $data['priority'] ?? 'Medium',
+            'priority'     => $data['priority'] ?? 'Medium',
+            'status'       => $data['status'] ?? 'To Do',
             'deadline'     => $data['deadline'] ?? null,
         ]);
 
