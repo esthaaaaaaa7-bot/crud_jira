@@ -100,31 +100,46 @@
                 <button onclick="togglesidebar()" class="lg:hidden w-8 h-8 flex items-center justify-center rounded-xl bg-[#151515] border borde-white/10 text-gray-400 hover:text-white transition">
                     <i class="fa-solid fa-bars text-xs"></i>
                 </button>
-                <div class="flex items-center gap-2 text-xs text-gray-400">
-                    <a href="{{url('/board') }}" class="hover:text-white transition">Boards</a>
-                    <span>&rsaquo;
-                    </span>
-                    <span class="text-gray-300">Sprint 42 Board</span> 
-                    <span>&rsaquo;
-                    </span>
-                    <span class="text-[#C7FF3D] font-medium">{{ request('title', 'Task Log') }}</span>
+                                <div class="flex flex-row items-center gap-2">
+                    <!-- 1. BOARD: Klik untuk balik ke halaman pilih board -->
+                    <a href="{{ url('/board') }}" class="text-white hover:text-[#C7FF3D] text-xs sm:text-base transition flex items-center gap-1.5 font-medium cursor-pointer">
+                        <i class="fa-solid fa-arrow-left text-[10px] text-[#C7FF3D]"></i> Board
+                    </a>
+
+                    <p class="text-white/40 text-xs sm:text-base">&#8250;</p>
+
+                    <!-- 2. BUAT FRONT END: Klik untuk balik ke papan Kanban proyek -->
+                    <a href="javascript:history.back()" class="text-white hover:text-[#C7FF3D] text-xs sm:text-base transition font-medium cursor-pointer">
+                        {{ request('project', 'buat front end') }}
+                    </a>
+
+                    <p class="text-white/40 text-xs sm:text-base">&#8250;</p>
+
+                    <!-- 3. TASK LOG: Halaman yang sedang aktif (Hijau Neon) -->
+                    <p class="text-[#C7FF3D] text-xs sm:text-base font-semibold">
+                        Task Log
+                    </p>
                 </div>
             </div>
-             
+
             <!-- SEARCH & ICONS -->
-            <div class="flex items-center gap-3">
-                <div class="relative w-48 md:w-64">
+            <div class="flex items-center gap-2">
+                <div class="relative w-40 sm:w-56 md:w-64">
                     <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-white/40 text-xs"></i>
                     <input type="text" placeholder="search..." class="w-full bg-[#151515] border border-white/10 rounded-xl pl-9 pr-4 py-1.5 text-xs text-white placeholder-white/40 focus:outline-none focus:border-[#C7FF3D] transition">
                 </div>
-                <button class="w-8 h-8 flex-items-center justify-center rounded-xl bg-[#151515] border border-white/10 text-gray-400 hover:text-white transition">
-                    <i class="fa-reguler fa-sun text-xs"></i>
+                <!-- Lonceng Notifikasi -->
+                <button class="w-8 h-8 flex items-center justify-center rounded-xl bg-[#111111] border border-white/10 text-gray-400 hover:text-white hover:bg-[#1a1a1a] relative transition">
+                    <i class="fa-regular fa-bell text-sm"></i>
                 </button>
-                <!-- UBAH MENJADI: -->
-                <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-amber-600 to-amber-400 flex items-center justify-center text-xs font-bold text-white border border-white/20">
-                    EA
-                </div>
-
+                <!-- Mode / Matahari -->
+                <button class="w-8 h-8 flex items-center justify-center rounded-xl bg-[#111111] border border-white/10 text-gray-400 hover:text-white hover:bg-[#1a1a1a] relative transition">
+                    <i class="fa-regular fa-sun text-sm"></i>
+                </button>
+                <!-- User Profil -->
+                <button class="w-8 h-8 flex items-center justify-center rounded-xl bg-[#111111] border border-white/10 text-gray-400 hover:text-white hover:bg-[#1a1a1a] relative transition">
+                    <i class="fa-regular fa-user text-sm"></i>
+                </button>
             </div>
         </header>
 
@@ -161,19 +176,58 @@
                         <button class="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition">
                             <i class="fa-solid fa-expand text-xs"></i>
                         </button>
-                        <a href="{{ url('/board') }}" class="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition">
-                            <i class="fa-solid fa-xmark text-sm"></i>
-                        </a>
+                        <a href="javascript:history.back()" class="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition cursor-pointer">
+                        <i class="fa-solid fa-xmark text-sm"></i>
+                           </a> 
                         <div class="h-5 w-[1px] bg-white/10 mx-1"></div>
-                        <!-- STATUS DROPDOWN (IN PROGRESS) -->
-                        <button class="flex items-center gap-2 bg-[#1c2c4c] border border-[#234273] text-[#579dff] text-xs font-semibold px-3 py-1.5 rounded-lg hover:brightness-110 transition">
-                            <span>In Progress</span>
-                            <i class="fa-solid fa-chevron-down text-[10px]"></i>
-                        </button>
+                                                                        @php
+                            $statusParam = request('status', 'In Progress');
+                            $statusConfig = [
+                                'To Do'       => 'bg-[#22272b] border-[#343d46] text-gray-300',
+                                'In Progress' => 'bg-[#1c2c4c] border-[#234273] text-[#579dff]',
+                                'Review'      => 'bg-[#2e223d] border-[#4e356b] text-purple-400',
+                                'Done'        => 'bg-[#143228] border-[#1f513f] text-emerald-400',
+                            ];
+                            $activeClass = $statusConfig[$statusParam] ?? $statusConfig['In Progress'];
+                        @endphp
+
+                        <!-- STATUS DROPDOWN INTERAKTIF -->
+                        <div class="relative inline-block text-left" id="statusDropdownContainer">
+                            <!-- Tombol Utama Status Dinamis Sesuai Kolom -->
+                            <button id="statusBtn" type="button" onclick="toggleStatusDropdown(event)" class="flex items-center gap-2 border text-xs font-semibold px-3 py-1.5 rounded-lg hover:brightness-110 transition cursor-pointer {{ $activeClass }}">
+                                <span id="statusText">{{ $statusParam }}</span>
+                                <i class="fa-solid fa-chevron-down text-[10px]"></i>
+                            </button>
+
+                            <!-- Menu Pilihan Status -->
+                            <div id="statusMenu" class="hidden absolute right-0 mt-2 w-36 bg-[#161819] border border-white/10 rounded-xl shadow-2xl py-1.5 z-30">
+                                <!-- 1. To Do -->
+                                <button type="button" onclick="setStatus('To Do', 'bg-[#22272b] border-[#343d46] text-gray-300')" class="w-full text-left px-3 py-2 text-xs text-gray-300 hover:bg-white/5 flex items-center gap-2 transition cursor-pointer">
+                                    <span class="w-2 h-2 rounded-full bg-gray-400"></span>
+                                    <span>To Do</span>
+                                </button>
+                                <!-- 2. In Progress -->
+                                <button type="button" onclick="setStatus('In Progress', 'bg-[#1c2c4c] border-[#234273] text-[#579dff]')" class="w-full text-left px-3 py-2 text-xs text-[#579dff] hover:bg-white/5 flex items-center gap-2 transition cursor-pointer">
+                                    <span class="w-2 h-2 rounded-full bg-[#579dff]"></span>
+                                    <span>In Progress</span>
+                                </button>
+                                <!-- 3. Review -->
+                                <button type="button" onclick="setStatus('Review', 'bg-[#2e223d] border-[#4e356b] text-purple-400')" class="w-full text-left px-3 py-2 text-xs text-purple-400 hover:bg-white/5 flex items-center gap-2 transition cursor-pointer">
+                                    <span class="w-2 h-2 rounded-full bg-purple-400"></span>
+                                    <span>Review</span>
+                                </button>
+                                <!-- 4. Done -->
+                                <button type="button" onclick="setStatus('Done', 'bg-[#143228] border-[#1f513f] text-emerald-400')" class="w-full text-left px-3 py-2 text-xs text-emerald-400 hover:bg-white/5 flex items-center gap-2 transition cursor-pointer">
+                                    <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                                    <span>Done</span>
+                                </button>
+                            </div>
+                        </div>
                         <!-- FLAG ICON -->
                         <button class="w-8 h-8 flex items-center justify-center rounded-lg text-orange-400 hover:bg-white/5 transition">
                             <i class="fa-solid fa-flag text-xs"></i>
                         </button>
+
                         <!-- IMPROVE TASK (AI) -->
                         <button class="flex items-center gap-1.5 border border-white/15 bg-[#121413] text-white text-xs px-3 py-1.5 rounded-lg hover:border-[#C7FF3D] hover:text-[#C7FF3D] transition">
                             <i class="fa-solid fa-wand-magic-sparkles text-xs"></i>
@@ -364,6 +418,29 @@
             sidebar.classList.toggle('-translate-x-full');
             backdrop.classList.toggle('hidden');
         }
+        //Dropdown Status
+        function toggleStatusDropdown(event) {
+            if (event) event.stopPropagation();
+            const menu = document.getElementById('statusMenu');
+            menu.classList.toggle('hidden');
+        }
+        function setStatus(name, colorClasses) {
+            const btn = document.getElementById('statusBtn');
+            const text = document.getElementById('statusText');
+            
+            text.innerText = name;
+            btn.className = `flex items-center gap-2 border text-xs font-semibold px-3 py-1.5 rounded-lg hover:brightness-110 transition cursor-pointer ${colorClasses}`;
+            
+            document.getElementById('statusMenu').classList.add('hidden');
+        }
+        //tutup menu
+        window.addEventListener('click', function(e) {
+            const container = document.getElementById('statusDropdownContainer');
+            if (container && !container.contains(e.target)) {
+                const menu = document.getElementById('statusMenu');
+                if (menu) menu.classList.add('hidden');
+            }
+        });
     </script>
 </body>
 </html>

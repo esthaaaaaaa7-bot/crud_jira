@@ -127,13 +127,6 @@
             </li>
 
             <li>
-                <a href="#" class="flex items-center gap-3 py-2 px-4 rounded-lg text-gray-400 hover:bg-[#1a1a1a] hover:text-white transition duration-200">
-                    <i class="fa-regular fa-square-check text-sm w-5 text-center"></i>
-                    <span class="text-sm">Tasks</span>
-                </a>
-            </li>
-
-            <li>
                 <a href="{{ url('/team') }}" class="flex items-center gap-3 py-2 px-4 rounded-lg text-gray-400 hover:bg-[#1a1a1a] hover:text-white transition duration-200">
                     <i class="fa-solid fa-user-group text-sm w-5 text-center"></i>
                     <span class="text-sm">Team</span>
@@ -362,7 +355,7 @@
                     <i class="fa-solid fa-ellipsis text-white/40 text-sm"></i>
                 </div>
 
-                    <div onclick="window.location.href='{{ url('/task-log?title=Draft+initial+landing+page+copy&key=PRO-102') }}'" class="bg-[#000000] border border-white/10 rounded-xl p-3 flex flex-col gap-2 cursor-pointer hover:border-[#C7FF3D] hover:bg-white/5 transition"> 
+                    <div onclick="window.location.href='{{ url('/task-log?title=Draft+initial+landing+page+copy&key=PRO-102&status=To+Do') }}'" class="bg-[#000000] border border-white/10 rounded-xl p-3 flex flex-col gap-2 cursor-pointer hover:border-[#C7FF3D] hover:bg-white/5 transition">
                     <div class="flex items-center justify-between">
                         <span class="flex items-center gap-1 text-orange-400 text-xs font-semibold">
                             <i class="fa-solid fa-minus"></i> Medium
@@ -382,7 +375,7 @@
                     </div>
                 </div>
 
-                    <div onclick="window.location.href='{{ url('/task-log?title=Setup+Database+Authentication&key=PRO-103') }}'" class="bg-[#000000] border border-white/10 rounded-xl p-3 flex flex-col gap-2 cursor-pointer hover:border-[#C7FF3D] hover:bg-white/5 transition">
+                    <div onclick="window.location.href='{{ url('/task-log?title=Setup+Database+Authentication&key=PRO-103&status=To+Do') }}'" class="bg-[#000000] border border-white/10 rounded-xl p-3 flex flex-col gap-2 cursor-pointer hover:border-[#C7FF3D] hover:bg-white/5 transition">
                     <div class="flex items-center justify-between">
                         <span class="flex items-center gap-1 text-red-500 text-xs font-semibold">
                             <i class="fa-solid fa-angles-up"></i> Highest
@@ -463,7 +456,7 @@
                     </div>
                     <i class="fa-solid fa-ellipsis text-white/40 text-sm"></i>
                 </div>
-                    <div onclick="window.location.href='{{ url('/task-log?title=Design+UI+mockups+for+mobile+app&key=PRO-104') }}'" class="bg-[#000000] border border-white/10 rounded-xl p-3 flex flex-col gap-2 cursor-pointer hover:border-[#C7FF3D] hover:bg-white/5 transition">
+                    <div onclick="window.location.href='{{ url('/task-log?title=Design+UI+mockups+for+mobile+app&key=PRO-104&status=In+Progress') }}'" class="bg-[#000000] border border-white/10 rounded-xl p-3 flex flex-col gap-2 cursor-pointer hover:border-[#C7FF3D] hover:bg-white/5 transition">
                     <div class="flex items-center justify-between">
                         <span class="flex items-center gap-1 text-orange-400 text-xs font-semibold">
                             <i class="fa-solid fa-minus"></i> Medium
@@ -483,7 +476,7 @@
                     </div>
                 </div>
 
-                    <div onclick="window.location.href='{{ url('/task-log?title=Develop+API+Endpoint+for+Users&key=PRO-105') }}'" class="bg-[#000000] border border-white/10 rounded-xl p-3 flex flex-col gap-2 cursor-pointer hover:border-[#C7FF3D] hover:bg-white/5 transition">
+                    <div onclick="window.location.href='{{ url('/task-log?title=Develop+API+Endpoint+for+Users&key=PRO-105&status=In+Progress') }}'" class="bg-[#000000] border border-white/10 rounded-xl p-3 flex flex-col gap-2 cursor-pointer hover:border-[#C7FF3D] hover:bg-white/5 transition">
                     <div class="flex items-center justify-between">
                         <span class="flex items-center gap-1 text-red-500 text-xs font-semibold">
                             <i class="fa-solid fa-angle-up"></i> High
@@ -503,7 +496,7 @@
                     </div>
                 </div>
 
-                    <div onclick="window.location.href='{{ url('/task-log?title=Fix+Navbar+Responsive+Bug&key=PRO-106') }}'" class="bg-[#000000] border border-white/10 rounded-xl p-3 flex flex-col gap-2 cursor-pointer hover:border-[#C7FF3D] hover:bg-white/5 transition">
+                   <div onclick="window.location.href='{{ url('/task-log?title=Fix+Navbar+Responsive+Bug&key=PRO-106&status=In+Progress') }}'" class="bg-[#000000] border border-white/10 rounded-xl p-3 flex flex-col gap-2 cursor-pointer hover:border-[#C7FF3D] hover:bg-white/5 transition">
                     <div class="flex items-center justify-between">
                         <span class="flex items-center gap-1 text-green-500 text-xs font-semibold">
                             <i class="fa-solid fa-angle-down"></i> Low
@@ -585,7 +578,7 @@
                     <i class="fa-solid fa-ellipsis text-white/40 text-sm"></i>
                 </div>
 
-                <div class="bg-[#000000] border border-white/10 rounded-xl p-3 flex flex-col gap-2">
+                   <div onclick="window.location.href='{{ url('/task-log?title=Draft+initial+landing+page+copy&key=PRO-102&status=Review') }}'" class="bg-[#000000] border border-white/10 rounded-xl p-3 flex flex-col gap-2 cursor-pointer hover:border-[#C7FF3D] hover:bg-white/5 transition">
                     <div class="flex items-center justify-between">
                         <span class="flex items-center gap-1 text-green-500 text-xs font-semibold">
                             <i class="fa-solid fa-angles-down"></i> Lowest
@@ -667,7 +660,7 @@
                     <i class="fa-solid fa-ellipsis text-white/40 text-sm"></i>
                 </div>
 
-                <div class="bg-[#000000] border border-white/10 rounded-xl p-3 flex flex-col gap-2">
+                    <div onclick="window.location.href='{{ url('/task-log?title=Draft+initial+landing+page+copy&key=PRO-102&status=Done') }}'" class="bg-[#000000] border border-white/10 rounded-xl p-3 flex flex-col gap-2 cursor-pointer hover:border-[#C7FF3D] hover:bg-white/5 transition">
                     <div class="flex items-center justify-between">
                         <span class="flex items-center gap-1 text-orange-400 text-xs font-semibold">
                             <i class="fa-solid fa-minus"></i> Medium
@@ -687,7 +680,7 @@
                     </div>
                 </div>
 
-                <div class="bg-[#000000] border border-white/10 rounded-xl p-3 flex flex-col gap-2">
+                    <div onclick="window.location.href='{{ url('/task-log?title=Draft+initial+landing+page+copy&key=PRO-105&status=Done') }}'" class="bg-[#000000] border border-white/10 rounded-xl p-3 flex flex-col gap-2 cursor-pointer hover:border-[#C7FF3D] hover:bg-white/5 transition">
                     <div class="flex items-center justify-between">
                         <span class="flex items-center gap-1 text-red-500 text-xs font-semibold">
                             <i class="fa-solid fa-angle-up"></i> High
@@ -707,7 +700,7 @@
                     </div>
                 </div>
 
-                <div class="bg-[#000000] border border-white/10 rounded-xl p-3 flex flex-col gap-2">
+                    <div onclick="window.location.href='{{ url('/task-log?title=Draft+initial+landing+page+copy&key=PRO-106&status=Done') }}'" class="bg-[#000000] border border-white/10 rounded-xl p-3 flex flex-col gap-2 cursor-pointer hover:border-[#C7FF3D] hover:bg-white/5 transition">
                     <div class="flex items-center justify-between">
                         <span class="flex items-center gap-1 text-green-500 text-xs font-semibold">
                             <i class="fa-solid fa-angle-down"></i> Low
@@ -727,7 +720,7 @@
                     </div>
                 </div>
 
-                <div class="bg-[#000000] border border-white/10 rounded-xl p-3 flex flex-col gap-2">
+                    <div onclick="window.location.href='{{ url('/task-log?title=Draft+initial+landing+page+copy&key=PRO-106&status=Done') }}'" class="bg-[#000000] border border-white/10 rounded-xl p-3 flex flex-col gap-2 cursor-pointer hover:border-[#C7FF3D] hover:bg-white/5 transition">
                     <div class="flex items-center justify-between">
                         <span class="flex items-center gap-1 text-green-500 text-xs font-semibold">
                             <i class="fa-solid fa-angles-down"></i> Lowest
