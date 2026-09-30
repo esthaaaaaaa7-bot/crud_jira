@@ -11,6 +11,16 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ asset('css/theme.css') }}?v={{ filemtime(public_path('css/theme.css')) }}">
+    
+    <script>
+        
+        if (localStorage.getItem('theme') === 'light') {
+            document.documentElement.classList.add('light');
+        } else {
+            document.documentElement.classList.remove('light');
+        }
+    </script>
     <script>
         tailwind.config = {
             theme: {
@@ -87,7 +97,7 @@
 
             <li>
                 <a href="{{ url('/projects') }}"
-                    class="flex items-center gap-3 py-2 px-4 rounded-lg bg-[#1a1a1a] text-white font-medium transition duration-200 border border-[#2a2a2a]">
+                    class="active-nav flex items-center gap-3 py-2 px-4 rounded-lg bg-[#1a1a1a] text-white font-medium transition duration-200 border border-[#2a2a2a]">
                     <i class="fa-regular fa-folder text-sm w-5 text-center"></i>
                     <span class="text-sm">Projects</span>
                 </a>
@@ -101,13 +111,6 @@
                 </a>
             </li>
 
-            <li>
-                <a href="#"
-                    class="flex items-center gap-3 py-2 px-4 rounded-lg text-gray-400 hover:bg-[#1a1a1a] hover:text-white transition duration-200">
-                    <i class="fa-regular fa-square-check text-sm w-5 text-center"></i>
-                    <span class="text-sm">Tasks</span>
-                </a>
-            </li>
 
             <li>
                 <a href="{{ url('/team') }}" class="flex items-center gap-3 py-2 px-4 rounded-lg text-gray-400 hover:bg-[#1a1a1a] hover:text-white transition duration-200">
@@ -159,16 +162,49 @@
                                 border-white/10 text-gray-400 hover:text-white hover:bg-[#1a1a1a] relative transition">
                     <i class="fa-regular fa-bell text-sm"></i>
                 </button>
-                <button
+                <button onclick="toggleTheme()"
                     class="w-8 h-8 flex items-center justify-center rounded-xl bg-[#111111] border 
                                 border-white/10 text-gray-400 hover:text-white hover:bg-[#1a1a1a] relative transition">
-                    <i class="fa-regular fa-sun text-sm"></i>
+                    <i id="theme-icon" class="fa-regular fa-sun text-sm"></i>
                 </button>
-                <button
-                    class="w-8 h-8 flex items-center justify-center rounded-xl bg-[#111111] border 
-                                border-white/10 text-gray-400 hover:text-white hover:bg-[#1a1a1a] relative transition">
-                    <i class="fa-regular fa-user text-sm"></i>
-                </button>
+                <!-- User Profile Dropdown -->
+                <div class="relative" id="profileDropdownContainer">
+                    <button id="profileDropdownBtn" onclick="toggleProfileDropdown(event)" type="button" class="w-8 h-8 flex items-center justify-center rounded-xl bg-[#111111] border border-white/10 text-gray-400 hover:text-white hover:bg-[#1a1a1a] relative transition cursor-pointer">
+                        <i class="fa-regular fa-user text-sm"></i>
+                    </button>
+
+                    <!-- Dropdown Menu -->
+                    <div id="profileDropdownMenu" class="hidden absolute right-0 mt-2 w-56 bg-[#151515] border border-white/10 rounded-2xl shadow-2xl p-2 z-50 transition-all">
+                        <!-- User Info -->
+                        <div class="px-3 py-2.5 border-b border-white/10">
+                            <div class="flex items-center gap-2.5">
+                                <div class="w-8 h-8 rounded-xl bg-[#C7FF3D]/15 border border-[#C7FF3D]/30 flex items-center justify-center text-[#C7FF3D] font-bold text-xs uppercase shrink-0">
+                                    {{ strtoupper(substr(session('user')?->name ?? session('user')?->username ?? 'U', 0, 1)) }}
+                                </div>
+                                <div class="overflow-hidden">
+                                    <p class="text-xs font-semibold text-white truncate">{{ session('user')?->name ?? 'Developer' }}</p>
+                                    <p class="text-[11px] text-gray-400 truncate">{{ '@' . (session('user')?->username ?? 'developer') }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Menu Links -->
+                        <div class="py-1 space-y-0.5">
+                            <a href="{{ url('/setting') }}" class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-gray-300 hover:text-white hover:bg-white/5 transition">
+                                <i class="fa-solid fa-gear text-xs text-gray-400 w-4 text-center"></i>
+                                <span>Settings</span>
+                            </a>
+                        </div>
+
+                        <!-- Logout -->
+                        <div class="pt-1 border-t border-white/10">
+                            <a href="{{ url('/logout') }}" class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-red-400 hover:text-red-300 hover:bg-red-500/10 transition">
+                                <i class="fa-solid fa-arrow-right-from-bracket text-xs w-4 text-center"></i>
+                                <span>Logout</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
 
 
@@ -540,6 +576,25 @@
             </div>
 
         <script>
+            /* ── Theme Toggle ── */
+            function toggleTheme() {
+                const isLight = document.documentElement.classList.toggle('light');
+                localStorage.setItem('theme', isLight ? 'light' : 'dark');
+                const icon = document.getElementById('theme-icon');
+                if (isLight) {
+                    icon.className = 'fa-regular fa-moon text-sm';
+                } else {
+                    icon.className = 'fa-regular fa-sun text-sm';
+                }
+            }
+            // Set icon on load
+            (function() {
+                const icon = document.getElementById('theme-icon');
+                if (icon && localStorage.getItem('theme') === 'light') {
+                    icon.className = 'fa-regular fa-moon text-sm';
+                }
+            })();
+
             function toggleSidebar() {
                 const sidebar = document.getElementById('sidebar');
                 const backdrop = document.getElementById('sidebar-backdrop');
@@ -547,6 +602,20 @@
                 sidebar.classList.toggle('-translate-x-full');
                 backdrop.classList.toggle('hidden');
             }
+
+            /* ── Profile Dropdown ── */
+            function toggleProfileDropdown(event) {
+                if (event) event.stopPropagation();
+                const menu = document.getElementById('profileDropdownMenu');
+                if (menu) menu.classList.toggle('hidden');
+            }
+            window.addEventListener('click', function(e) {
+                const container = document.getElementById('profileDropdownContainer');
+                if (container && !container.contains(e.target)) {
+                    const menu = document.getElementById('profileDropdownMenu');
+                    if (menu) menu.classList.add('hidden');
+                }
+            });
 
             /* ── Custom Priority Dropdown Helper ── */
             const priorityConfig = {

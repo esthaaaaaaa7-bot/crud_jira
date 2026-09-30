@@ -11,7 +11,25 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+    <link rel="stylesheet" href="{{ asset('css/theme.css') }}?v={{ filemtime(public_path('css/theme.css')) }}">
+    <script>
+        if (localStorage.getItem('theme') === 'light') {
+            document.documentElement.classList.add('light');
+        } else {
+            document.documentElement.classList.remove('light');
+        }
+    </script>
+        <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
     <style>
         body { font-family: 'Inter', sans-serif; }
         .bg-gradient-glow {
@@ -36,22 +54,18 @@
     <!-- SIDEBAR ITENSFLOW -->
     <aside id="sidebar" class="fixed lg:relative inset-y-0 left-0 z-50 w-[200px] md:w-56 bg-[#080808] text-white flex flex-col p-5 shadow-lg border-r border-white/10 -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out shrink-0">
         
-        <!-- LOGO -->
-        <div class="flex items-center gap-3 mx-2 pb-4 mb-4 border-b border-white/20">
-            <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0">
-                <img src="{{ asset('images/logo_itenas.png') }}" alt="Logo" class="w-8 h-8 rounded-lg">
+                <!-- LOGO --> 
+        <div class="flex items-center gap-3 mx-4 px-0 md:px-4 pb-4 mb-4 mt-0 border-b border-white/30">
+            <div class="w-8 h-8 rounded-[9px] flex items-center justify-center shrink-0">
+                <img src="{{ asset('images/logo_itenas.png') }}" alt="ProSite Logo" class="w-8 h-8 rounded-[9px]">
             </div>
-            <h2 class="text-md font-bold text-white tracking-wide">ItensFlow</h2>
+            <h2 class="text-md font-bold text-white tracking-wide">
+                ItensFlow 
+            </h2>
         </div>
 
-        <!-- NEW PROJECT BUTTON -->
-        <a href="{{ url('/projects') }}" class="w-full bg-[#C7FF3D] text-black font-semibold text-xs py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 mb-4 hover:bg-[#b8f52e] transition">
-            <i class="fa-solid fa-plus text-xs"></i>
-            <span>New Project</span>
-        </a>
-
         <!-- MENU -->
-        <ul class="space-y-1 flex-1">
+        <ul class="space-y-1 flex-1 mt-1">
             <li>
                 <a href="{{ url('/dashboard') }}" class="flex items-center gap-3 py-2 px-4 rounded-lg text-gray-400 hover:bg-[#1a1a1a] hover:text-white transition">
                     <i class="fa-solid fa-chart-line text-sm w-5 text-center"></i>
@@ -65,15 +79,9 @@
                 </a>
             </li>
             <li>
-                <a href="{{ url('/board') }}" class="flex items-center gap-3 py-2 px-4 rounded-lg bg-[#1a1a1a] text-white font-medium border border-[#2a2a2a] transition">
+                <a href="{{ url('/board') }}" class="active-nav flex items-center gap-3 py-2 px-4 rounded-lg bg-[#1a1a1a] text-white font-medium border border-[#2a2a2a] transition">
                     <i class="fa-solid fa-table-columns text-sm w-5 text-center"></i>
-                    <span class="text-sm">Board</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="flex items-center gap-3 py-2 px-4 rounded-lg text-gray-400 hover:bg-[#1a1a1a] hover:text-white transition">
-                    <i class="fa-regular fa-square-check text-sm w-5 text-center"></i>
-                    <span class="text-sm">Tasks</span>
+                    <span class="text-sm">Boards</span>
                 </a>
             </li>
             <li>
@@ -83,7 +91,7 @@
                 </a>
             </li>
             <li>
-                <a href="#" class="flex items-center gap-3 py-2 px-4 rounded-lg text-gray-400 hover:bg-[#1a1a1a] hover:text-white transition mt-2">
+                <a href="{{ url('/setting') }}" class="flex items-center gap-3 py-2 px-4 rounded-lg text-gray-400 hover:bg-[#1a1a1a] hover:text-white transition mt-2">
                     <i class="fa-solid fa-gear text-sm w-5 text-center"></i>
                     <span class="text-sm">Settings</span>
                 </a>
@@ -91,57 +99,97 @@
         </ul>
     </aside>
 
-    <!-- MAIN CONTENT AREA-->
-    <div class="flex-1 flex flex-col h-screen overflow-hidden bg-gradient-glow">
+        <!-- MAIN CONTENT AREA (SAMA PERSIS STRUKTUR BOARD) -->
+    <main class="flex-1 p-8 pt-0 overflow-y-auto bg-gradient-glow custom-scroll">
         <!-- TOP NAVBAR / BREADCRUMB -->
-        <header class="flex items-center justify-between py-3.5 px-8 border-b border-white/10 bg-black/40 backdrop-blur-md sticky top-0 z-20">
-            <!-- BREADCRUMB & BURGER MENU -->
-            <div class="flex items-center gap-3">
-                <button onclick="togglesidebar()" class="lg:hidden w-8 h-8 flex items-center justify-center rounded-xl bg-[#151515] border borde-white/10 text-gray-400 hover:text-white transition">
-                    <i class="fa-solid fa-bars text-xs"></i>
-                </button>
-                                <div class="flex flex-row items-center gap-2">
-                    <!-- 1. BOARD: Klik untuk balik ke halaman pilih board -->
-                    <a href="{{ url('/board') }}" class="text-white hover:text-[#C7FF3D] text-xs sm:text-base transition flex items-center gap-1.5 font-medium cursor-pointer">
-                        <i class="fa-solid fa-arrow-left text-[10px] text-[#C7FF3D]"></i> Board
+        <header class="flex items-center justify-between py-3 sm:py-4 mb-8 border-b border-white/10 -mx-8 px-8 sticky top-0 z-10 bg-transparent backdrop-blur-lg">
+    
+    <!-- KIRI: BURGER MENU MOBILE & BREADCRUMB -->
+    <div class="flex items-center gap-6 sm:gap-2">
+        <!-- Tombol Burger Mobile -->
+        <button onclick="toggleSidebar()" 
+            class="lg:hidden w-8 h-8 -ml-3 flex items-center justify-center rounded-xl 
+            bg-[#151515] border border-white/10 text-gray-400 
+            hover:text-white hover:bg-[#1a1a1a] transition">
+            <i class="fa-solid fa-bars text-xs"></i>
+        </button>
+
+                    <!-- Breadcrumb Navigasi (Ukuran text-base persis seperti di Board) -->
+        <div class="flex items-center gap-2"> 
+            <!-- 1. Board -->
+            <a href="{{ url('/board') }}" class="text-white hover:text-[#C7FF3D] text-base mx-1 sm:mx-2 transition flex items-center gap-1.5 font-medium cursor-pointer">
+                <i class="fa-solid fa-arrow-left text-xs text-[#C7FF3D]"></i> Board
+            </a>
+            <p class="text-white/40 text-base rotate-90 sm:rotate-0">&#8250;</p>
+
+            <!-- 2. Project Board -->
+            <a href="{{ request('project_id') ? url('/projects/' . request('project_id')) : 'javascript:history.back()' }}" class="text-white hover:text-[#C7FF3D] text-base transition flex items-center font-medium cursor-pointer">
+                {{ request('project', 'Project Board') }}
+            </a>
+            <p class="text-white/40 text-base rotate-90 sm:rotate-0">&#8250;</p>
+
+            <!-- 3. Task Log -->
+            <p class="text-[#C7FF3D] text-base font-semibold">
+                Task Log
+            </p>
+        </div>
+    </div>
+
+    <!-- KANAN: ICONS & PROFIL DROPDOWN -->
+    <div class="flex items-center -mr-4 gap-2">
+        <!-- Lonceng Notifikasi -->
+        <button class="w-8 h-8 flex items-center justify-center rounded-xl bg-[#111111] border 
+                        border-white/10 text-gray-400 hover:text-white hover:bg-[#1a1a1a] relative transition">
+            <i class="fa-regular fa-bell text-sm"></i>
+        </button>
+
+        <!-- Toggle Mode Terang/Gelap (Matahari / Bulan) -->
+        <button onclick="toggleTheme()" class="w-8 h-8 flex items-center justify-center rounded-xl bg-[#111111] border 
+                        border-white/10 text-gray-400 hover:text-white hover:bg-[#1a1a1a] relative transition">
+            <i id="theme-icon" class="fa-regular fa-sun text-sm"></i>
+        </button>
+
+        <!-- User Profile Dropdown -->
+        <div class="relative" id="profileDropdownContainer">
+            <button id="profileDropdownBtn" onclick="toggleProfileDropdown(event)" type="button" class="w-8 h-8 flex items-center justify-center rounded-xl bg-[#111111] border border-white/10 text-gray-400 hover:text-white hover:bg-[#1a1a1a] relative transition cursor-pointer">
+                <i class="fa-regular fa-user text-sm"></i>
+            </button>
+
+            <!-- Menu Dropdown Pop-up -->
+            <div id="profileDropdownMenu" class="hidden absolute right-0 mt-2 w-56 bg-[#151515] border border-white/10 rounded-2xl shadow-2xl p-2 z-50 transition-all">
+                <!-- Info Akun User Login -->
+                <div class="px-3 py-2.5 border-b border-white/10">
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-8 h-8 rounded-xl bg-[#C7FF3D]/15 border border-[#C7FF3D]/30 flex items-center justify-center text-[#C7FF3D] font-bold text-xs uppercase shrink-0">
+                            {{ strtoupper(substr(session('user')?->name ?? session('user')?->username ?? 'U', 0, 1)) }}
+                        </div>
+                        <div class="overflow-hidden">
+                            <p class="text-xs font-semibold text-white truncate">{{ session('user')?->name ?? 'Developer' }}</p>
+                            <p class="text-[11px] text-gray-400 truncate">{{ '@' . (session('user')?->username ?? 'developer') }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Menu Link Settings -->
+                <div class="py-1 space-y-0.5">
+                    <a href="{{ url('/setting') }}" class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-gray-300 hover:text-white hover:bg-white/5 transition">
+                        <i class="fa-solid fa-gear text-xs text-gray-400 w-4 text-center"></i>
+                        <span>Settings</span>
                     </a>
+                </div>
 
-                    <p class="text-white/40 text-xs sm:text-base">&#8250;</p>
-
-                    <!-- 2. BUAT FRONT END: Klik untuk balik ke papan Kanban proyek -->
-                    <a href="javascript:history.back()" class="text-white hover:text-[#C7FF3D] text-xs sm:text-base transition font-medium cursor-pointer">
-                        {{ request('project', 'buat front end') }}
+                <!-- Tombol Logout -->
+                <div class="pt-1 border-t border-white/10">
+                    <a href="{{ url('/logout') }}" class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-red-400 hover:text-red-300 hover:bg-red-500/10 transition">
+                        <i class="fa-solid fa-arrow-right-from-bracket text-xs w-4 text-center"></i>
+                        <span>Logout</span>
                     </a>
-
-                    <p class="text-white/40 text-xs sm:text-base">&#8250;</p>
-
-                    <!-- 3. TASK LOG: Halaman yang sedang aktif (Hijau Neon) -->
-                    <p class="text-[#C7FF3D] text-xs sm:text-base font-semibold">
-                        Task Log
-                    </p>
                 </div>
             </div>
+        </div>
+    </div>
 
-            <!-- SEARCH & ICONS -->
-            <div class="flex items-center gap-2">
-                <div class="relative w-40 sm:w-56 md:w-64">
-                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-white/40 text-xs"></i>
-                    <input type="text" placeholder="search..." class="w-full bg-[#151515] border border-white/10 rounded-xl pl-9 pr-4 py-1.5 text-xs text-white placeholder-white/40 focus:outline-none focus:border-[#C7FF3D] transition">
-                </div>
-                <!-- Lonceng Notifikasi -->
-                <button class="w-8 h-8 flex items-center justify-center rounded-xl bg-[#111111] border border-white/10 text-gray-400 hover:text-white hover:bg-[#1a1a1a] relative transition">
-                    <i class="fa-regular fa-bell text-sm"></i>
-                </button>
-                <!-- Mode / Matahari -->
-                <button class="w-8 h-8 flex items-center justify-center rounded-xl bg-[#111111] border border-white/10 text-gray-400 hover:text-white hover:bg-[#1a1a1a] relative transition">
-                    <i class="fa-regular fa-sun text-sm"></i>
-                </button>
-                <!-- User Profil -->
-                <button class="w-8 h-8 flex items-center justify-center rounded-xl bg-[#111111] border border-white/10 text-gray-400 hover:text-white hover:bg-[#1a1a1a] relative transition">
-                    <i class="fa-regular fa-user text-sm"></i>
-                </button>
-            </div>
-        </header>
+</header>
 
         <!--  KONTEN TASK LOG (SCROLLABLE) -->
         <main class="flex-1 overflow-y-auto custom-scroll p-6 lg:p-8">
@@ -412,13 +460,23 @@
 
     <!-- JAVASCRIPT TOGGLE SIDEBAR -->
     <script>
+        function toggleTheme() {
+            const isLight = document.documentElement.classList.toggle('light');
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+            const icon = document.getElementById('theme-icon');
+            if (icon) icon.className = isLight ? 'fa-regular fa-moon text-sm' : 'fa-regular fa-sun text-sm';
+        }
+        (function() {
+            const icon = document.getElementById('theme-icon');
+            if (icon && localStorage.getItem('theme') === 'light') icon.className = 'fa-regular fa-moon text-sm';
+        })();
+
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             const backdrop = document.getElementById('sidebar-backdrop');
             sidebar.classList.toggle('-translate-x-full');
             backdrop.classList.toggle('hidden');
         }
-        //Dropdown Status
         function toggleStatusDropdown(event) {
             if (event) event.stopPropagation();
             const menu = document.getElementById('statusMenu');
@@ -427,20 +485,32 @@
         function setStatus(name, colorClasses) {
             const btn = document.getElementById('statusBtn');
             const text = document.getElementById('statusText');
-            
             text.innerText = name;
             btn.className = `flex items-center gap-2 border text-xs font-semibold px-3 py-1.5 rounded-lg hover:brightness-110 transition cursor-pointer ${colorClasses}`;
-            
             document.getElementById('statusMenu').classList.add('hidden');
         }
-        //tutup menu
         window.addEventListener('click', function(e) {
             const container = document.getElementById('statusDropdownContainer');
             if (container && !container.contains(e.target)) {
                 const menu = document.getElementById('statusMenu');
                 if (menu) menu.classList.add('hidden');
             }
+
+          const profileContainer = document.getElementById('profileDropdownContainer');
+if (profileContainer && !profileContainer.contains(e.target)) {
+    const profileMenu = document.getElementById('profileDropdownMenu');
+    if (profileMenu) profileMenu.classList.add('hidden');
+}
+
         });
+
+        /* ── Profile Dropdown ── */
+function toggleProfileDropdown(event) {
+    if (event) event.stopPropagation();
+    const menu = document.getElementById('profileDropdownMenu');
+    if (menu) menu.classList.toggle('hidden');
+}
+
     </script>
 </body>
 </html>
