@@ -8,10 +8,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CheckAuth
 {
-    /**
-     * Cek apakah user sudah login.
-     * Jika belum, redirect ke halaman login.
-     */
     public function handle(Request $request, Closure $next): Response
     {
         if (!session('user')) {

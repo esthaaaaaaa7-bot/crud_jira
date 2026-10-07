@@ -294,118 +294,51 @@
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
 
+                    @foreach ($statuses as $status)
+                    @php
+                    // Ambil task milik user untuk status ini (kosong kalau tidak ada)
+                    $tasks = $myTasks->get($status->id, collect());
+                    @endphp
                     <div>
 
                         <div class="flex items-center justify-between mb-3">
                             <div class="flex items-center gap-2">
-                                <span class="w-2 h-2 rounded-full bg-white"></span>
-                                <span class="text-sm font-semibold text-white">To Do</span>
+                                <span class="w-2 h-2 rounded-full {{ $loop->last ? 'bg-[#C7FF3D]' : 'bg-white' }}"></span>
+                                <span class="text-sm font-semibold text-white">{{ $status->nama_status }}</span>
                             </div>
-                            <span class="text-xs bg-[#1a1a1a] border border-white/10 text-gray-400 px-2 py-0.5 rounded-full">5</span>
+                            <span class="text-xs bg-[#1a1a1a] border border-white/10 text-gray-400 px-2 py-0.5 rounded-full">{{ $tasks->count() }}</span>
                         </div>
 
-                        <div class="bg-[#151515] border border-white/10 rounded-xl p-4 mb-3 hover:border-white/30 transition cursor-pointer">
+                        @forelse ($tasks as $task)
+                        @php
+                        // Overdue = deadline sudah lewat & task belum Done (sama seperti kartu statistik Overdue Tasks)
+                        $isOverdue = $task->deadline
+                            && \Carbon\Carbon::parse($task->deadline)->lt(\Carbon\Carbon::today())
+                            && $task->status_id != 4;
+                        $taskBadgeClass = $isOverdue ? 'bg-red-500/20 text-red-400' : 'bg-green-500/20 text-green-400';
+                        @endphp
+                        <a href="{{ route('tasks.show', $task->id) }}" class="block bg-[#151515] border border-white/10 rounded-xl p-4 mb-3 hover:border-white/30 transition cursor-pointer">
                             <div class="flex justify-between items-center mb-2">
-                                <span class="text-[10px] font-bold bg-orange-500/20 text-orange-400 px-2 py-0.5 rounded">High</span>
-                                <span class="text-[10px] text-gray-500">PRJ-142</span>
+                                <span class="text-[10px] font-bold {{ $taskBadgeClass }} px-2 py-0.5 rounded">{{ $isOverdue ? 'Overdue' : 'Active' }}</span>
+                                <span class="text-[10px] text-gray-500">{{ $task->formatted_key }}</span>
                             </div>
-                            <p class="text-sm text-white pb-4 border-b border-white/10 font-medium mb-3 leading-snug">Implement OAuth2 Authentication System</p>
+                            <p class="text-sm text-white pb-4 border-b border-white/10 font-medium mb-3 leading-snug">{{ $task->judul_task }}</p>
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center gap-2">
                                     <div class="w-6 h-6 rounded-full bg-[#2a2a2a] border border-white/20 flex items-center justify-center">
                                         <i class="fa-solid fa-user text-[9px] text-gray-400"></i>
                                     </div>
-                                    <span class="text-[10px] text-gray-500">Oct 24</span>
+                                    <span class="text-[10px] text-gray-500">{{ $task->deadline ? \Carbon\Carbon::parse($task->deadline)->format('M d') : '-' }}</span>
                                 </div>
-                                <span class="text-[10px] bg-[#1a1a1a] text-gray-400 px-2 py-0.5 rounded">Security</span>
+                                <span class="text-[10px] bg-[#1a1a1a] text-gray-400 px-2 py-0.5 rounded">{{ $task->project->nama_project ?? '-' }}</span>
                             </div>
-                        </div>
+                        </a>
+                        @empty
+                        <p class="text-xs text-gray-500">Tidak ada task</p>
+                        @endforelse
 
                     </div>
-
-                    <div>
-                        <div class="flex items-center justify-between mb-3">
-                            <div class="flex items-center gap-2">
-                                <span class="w-2 h-2 rounded-full bg-white"></span>
-                                <span class="text-sm font-semibold text-white">In Progress</span>
-                            </div>
-                            <span class="text-xs bg-[#1a1a1a] border border-white/10 text-gray-400 px-2 py-0.5 rounded-full">4</span>
-                        </div>
-
-                        <div class="bg-[#151515] border border-white/10 rounded-xl p-4 mb-3 hover:border-white/30 transition cursor-pointer">
-                            <div class="flex justify-between items-center mb-2">
-                                <span class="text-[10px] font-bold bg-red-500/20 text-red-400 px-2 py-0.5 rounded">Critical</span>
-                                <span class="text-[10px] text-gray-500">PRJ-138</span>
-                            </div>
-                            <p class="text-sm text-white pb-4 border-b border-white/10 font-medium mb-3 leading-snug">Design System UI Component Library</p>
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center gap-2">
-                                    <div class="w-6 h-6 rounded-full bg-[#2a2a2a] border border-white/20 flex items-center justify-center">
-                                        <i class="fa-solid fa-user text-[9px] text-gray-400"></i>
-                                    </div>
-                                    <span class="text-[10px] text-gray-500">Oct 21</span>
-                                </div>
-                                <span class="text-[10px] bg-[#1a1a1a] text-gray-400 px-2 py-0.5 rounded">Frontend</span>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div>
-                        <div class="flex items-center justify-between mb-3">
-                            <div class="flex items-center gap-2">
-                                <span class="w-2 h-2 rounded-full bg-white"></span>
-                                <span class="text-sm font-semibold text-white">Review</span>
-                            </div>
-                            <span class="text-xs bg-[#1a1a1a] border border-white/10 text-gray-400 px-2 py-0.5 rounded-full">3</span>
-                        </div>
-
-                        <div class="bg-[#151515] border border-white/10 rounded-xl p-4 mb-3 hover:border-white/30 transition cursor-pointer">
-                            <div class="flex justify-between items-center mb-2">
-                                <span class="text-[10px] font-bold bg-orange-500/20 text-orange-400 px-2 py-0.5 rounded">High</span>
-                                <span class="text-[10px] text-gray-500">PRJ-155</span>
-                            </div>
-                            <p class="text-sm text-white pb-4 border-b border-white/10 font-medium mb-3 leading-snug">API Rate Limiting & Gateway Config</p>
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center gap-2">
-                                    <div class="w-6 h-6 rounded-full bg-[#2a2a2a] border border-white/20 flex items-center justify-center">
-                                        <i class="fa-solid fa-user text-[9px] text-gray-400"></i>
-                                    </div>
-                                    <span class="text-[10px] text-gray-500">Oct 19</span>
-                                </div>
-                                <span class="text-[10px] bg-[#1a1a1a] text-gray-400 px-2 py-0.5 rounded">Backend</span>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div>
-                        <div class="flex items-center justify-between mb-3">
-                            <div class="flex items-center gap-2">
-                                <span class="w-2 h-2 rounded-full bg-[#C7FF3D]"></span>
-                                <span class="text-sm font-semibold text-white">Done</span>
-                            </div>
-                            <span class="text-xs bg-[#1a1a1a] border border-white/10 text-gray-400 px-2 py-0.5 rounded-full">6</span>
-                        </div>
-
-                        <div class="bg-[#151515] border border-white/10 rounded-xl p-4 mb-3 hover:border-white/30 transition cursor-pointer">
-                            <div class="flex justify-between items-center mb-2">
-                                <span class="text-[10px] font-bold bg-green-500/20 text-green-400 px-2 py-0.5 rounded">Low</span>
-                                <span class="text-[10px] text-gray-500">PRJ-161</span>
-                            </div>
-                            <p class="text-sm text-white pb-4 border-b border-white/10 font-medium mb-3 leading-snug">PostgreSQL Database Migration Script</p>
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center gap-2">
-                                    <div class="w-6 h-6 rounded-full bg-[#2a2a2a] border border-white/20 flex items-center justify-center">
-                                        <i class="fa-solid fa-user text-[9px] text-gray-400"></i>
-                                    </div>
-                                    <span class="text-[10px] text-gray-500">Oct 15</span>
-                                </div>
-                                <span class="text-[10px] bg-[#1a1a1a] text-gray-400 px-2 py-0.5 rounded">Database</span>
-                            </div>
-                        </div>
-
-                    </div>
+                    @endforeach
 
                 </div>
             </div>
@@ -438,7 +371,7 @@
                 </div>
 
                 <div class="bg-[#151515] border border-white/10 rounded-2xl p-5">
-                    <h3 class="text-sm font-bold text-white mb-4">Recent Activity</h3>
+                    <h3 class="text-sm font-bold text-white mb-4" id="recent-activity">Recent Activity</h3>
 
                     <div class="flex flex-col gap-4">
                         @forelse ($recentActivities as $activity)
@@ -459,6 +392,57 @@
                         <p class="text-xs text-gray-500">Belum ada aktivitas.</p>
                         @endforelse
                     </div>
+
+                    {{-- Pagination controls --}}
+                    @if ($recentActivities->lastPage() > 1)
+                    <div class="flex items-center justify-between mt-5 pt-4 border-t border-white/10">
+                        {{-- Prev --}}
+                        @if ($recentActivities->onFirstPage())
+                            <span class="text-[11px] text-white/20 flex items-center gap-1 cursor-not-allowed">
+                                <i class="fa-solid fa-chevron-left text-[10px]"></i> Prev
+                            </span>
+                        @else
+                            <a href="{{ $recentActivities->previousPageUrl() }}#recent-activity"
+                                class="text-[11px] text-gray-400 hover:text-white flex items-center gap-1 transition">
+                                <i class="fa-solid fa-chevron-left text-[10px]"></i> Prev
+                            </a>
+                        @endif
+
+                        {{-- Page numbers --}}
+                        <div class="flex items-center gap-1">
+                            @foreach ($recentActivities->getUrlRange(1, $recentActivities->lastPage()) as $page => $url)
+                                @if ($page == $recentActivities->currentPage())
+                                    <span class="w-6 h-6 flex items-center justify-center rounded-lg bg-[#C7FF3D] text-black text-[11px] font-bold">
+                                        {{ $page }}
+                                    </span>
+                                @else
+                                    <a href="{{ $url }}#recent-activity"
+                                        class="w-6 h-6 flex items-center justify-center rounded-lg text-gray-400 hover:bg-white/10 hover:text-white text-[11px] transition">
+                                        {{ $page }}
+                                    </a>
+                                @endif
+                            @endforeach
+                        </div>
+
+                        {{-- Next --}}
+                        @if ($recentActivities->hasMorePages())
+                            <a href="{{ $recentActivities->nextPageUrl() }}#recent-activity"
+                                class="text-[11px] text-gray-400 hover:text-white flex items-center gap-1 transition">
+                                Next <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                            </a>
+                        @else
+                            <span class="text-[11px] text-white/20 flex items-center gap-1 cursor-not-allowed">
+                                Next <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                            </span>
+                        @endif
+                    </div>
+
+                    {{-- Info halaman --}}
+                    <p class="text-[10px] text-gray-600 text-center mt-2">
+                        Page {{ $recentActivities->currentPage() }} of {{ $recentActivities->lastPage() }}
+                        · {{ $recentActivities->total() }} total activities
+                    </p>
+                    @endif
                 </div>
             </div>
         </div>

@@ -13,6 +13,7 @@ return new class extends Migration {
             $table->string('nama_project');
             $table->text('deskripsi')->nullable();
             $table->enum('priority', ['Low', 'Medium', 'High'])->default('Medium');
+            $table->enum('status', ['active', 'overdue'])->default('active');
             $table->date('deadline')->nullable();
             $table->timestamps();
         });

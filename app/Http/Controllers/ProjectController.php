@@ -53,7 +53,6 @@ class ProjectController extends Controller
             'deskripsi'    => 'nullable|string',
             'deadline'     => 'nullable|date',
             'priority'     => 'required|in:Low,Medium,High',
-            'status'       => 'nullable|string|max:50',
         ]);
 
         $project->update($validated);
@@ -73,22 +72,14 @@ class ProjectController extends Controller
         return redirect('/projects')->with('success', "Proyek berhasil dihapus!");
     }
 
-    /**
-     * Halaman pemilihan project sebelum membuka Board Kanban
-     */
     public function boardSelect()
     {
         $userId = session('user')->id ?? 0;
-        $projects = Project::with(['tasks.status'])->get();
-
-        $demoDefaults = [
-            'PRJ-001' => ['progress' => 78, 'tasks' => 34, 'status' => 'Active', 'priority' => 'High', 'due' => 'Dec 15'],
-            'PRJ-002' => ['progress' => 65, 'tasks' => 52, 'status' => 'Active', 'priority' => 'Critical', 'due' => 'Nov 30'],
-            'PRJ-003' => ['progress' => 92, 'tasks' => 28, 'status' => 'In Review', 'priority' => 'Medium', 'due' => 'Oct 20'],
-            'PRJ-004' => ['progress' => 45, 'tasks' => 41, 'status' => 'Active', 'priority' => 'High', 'due' => 'Jan 10'],
-            'PRJ-005' => ['progress' => 12, 'tasks' => 15, 'status' => 'Planning', 'priority' => 'Low', 'due' => 'Feb 28'],
-            'PRJ-006' => ['progress' => 33, 'tasks' => 22, 'status' => 'On Hold', 'priority' => 'Medium', 'due' => 'Mar 15'],
-        ];
+        $projects = Project::with(['tasks.status'])
+            ->whereHas('projectUsers', function ($q) use ($userId) {
+                $q->where('user_id', $userId);
+            })
+            ->get();
 
         $statusCounts = [
             'Active'    => 0,
@@ -145,4 +136,3 @@ class ProjectController extends Controller
         return view('board', compact('projects', 'statusCounts'));
     }
 }
-
