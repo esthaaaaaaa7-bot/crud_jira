@@ -1,0 +1,313 @@
+*,
+*::before,
+*::after {
+    transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+}
+
+/* Exclude transforms/filters from the blanket transition */
+[class*="translate"],
+[class*="rotate"],
+[class*="scale"] {
+    transition: transform 0.2s ease;
+}
+
+/* ============================================================
+   LIGHT MODE OVERRIDES
+   ============================================================ */
+
+/* ── Body / Page Background ── */
+html.light body,
+html.light .bg-gradient-glow,
+html.light [class*="bg-[#000000]"],
+html.light [class*="bg-[#080808]"],
+html.light [class*="bg-[#0a0a0a]"],
+html.light [class*="bg-[#0e100f]"],
+html.light [class*="bg-black"] {
+    background-color: #f0f2f5 !important;
+    color: #111111;
+}
+
+/* ── Cards / Panels ── */
+html.light [class*="bg-[#111111]"],
+html.light [class*="bg-[#111]"],
+html.light [class*="bg-[#121212]"],
+html.light [class*="bg-[#121413]"],
+html.light [class*="bg-[#121614]"],
+html.light [class*="bg-[#131515]"],
+html.light [class*="bg-[#151515]"],
+html.light [class*="bg-[#161819]"],
+html.light [class*="bg-[#0f0f0f]"],
+html.light [class*="bg-[#0d0d0d]"],
+html.light [class*="bg-[#101010]"] {
+    background-color: #ffffff !important;
+}
+
+/* ── Hover / Elevated Surfaces ── */
+html.light [class*="bg-[#1a1a1a]"],
+html.light [class*="bg-[#1a1d1a]"],
+html.light [class*="bg-[#1a1d1c]"],
+html.light [class*="bg-[#1a1d1d]"],
+html.light [class*="bg-[#181a1a]"],
+html.light [class*="bg-[#1f2622]"],
+html.light [class*="bg-[#22272b]"],
+html.light [class*="bg-[#232d27]"],
+html.light [class*="bg-[#2a2a2a]"],
+html.light [class*="bg-[#2e223d]"],
+html.light [class*="bg-[#202020]"],
+html.light [class*="bg-[#1e1e1e]"],
+html.light [class*="bg-[#181818]"] {
+    background-color: #e8eaed !important;
+}
+
+/* ── Settings-specific borders & dividers ── */
+html.light [class*="border-[#262626]"],
+html.light [class*="border-[#2d2d2d]"],
+html.light [class*="border-[#383838]"],
+html.light [class*="border-[#2a2a2a]"] {
+    border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+/* ── Select / Option elements ── */
+html.light select {
+    background-color: #f3f4f6 !important;
+    color: #111111 !important;
+    border-color: rgba(0, 0, 0, 0.15) !important;
+}
+
+html.light option {
+    background-color: #ffffff;
+    color: #111111;
+}
+
+/* ── Input / Form Fields ── */
+html.light [class*="bg-[#0a0d0b]"] {
+    background-color: #f3f4f6 !important;
+    color: #111111 !important;
+}
+
+/* ── Text Colors ── */
+html.light .text-white,
+html.light [class*="text-white"] {
+    color: #111111 !important;
+}
+
+html.light .text-gray-400,
+html.light .text-gray-300,
+html.light .text-gray-500 {
+    color: #555555 !important;
+}
+
+/* Preserve accent + status colors */
+html.light .text-\[\#C7FF3D\],
+html.light [class*="text-[#C7FF3D]"] {
+    color: #5a8a00 !important;
+    /* darker lime for readability on white */
+}
+
+html.light .text-red-400,
+html.light .text-red-500 {
+    color: #c0392b !important;
+}
+
+html.light .text-orange-400 {
+    color: #d35400 !important;
+}
+
+html.light .text-green-400,
+html.light .text-green-500 {
+    color: #27ae60 !important;
+}
+
+html.light .text-blue-300,
+html.light .text-blue-400,
+html.light .text-blue-500 {
+    color: #2980b9 !important;
+}
+
+html.light .text-yellow-300,
+html.light .text-yellow-400 {
+    color: #d4a017 !important;
+}
+
+html.light .text-purple-400 {
+    color: #8e44ad !important;
+}
+
+/* ── Borders ── */
+html.light [class*="border-white\/10"],
+html.light [class*="border-white\/20"],
+html.light [class*="border-white\/30"],
+html.light [class*="border-white\/40"] {
+    border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+html.light [class*="border-[#232d27]"],
+html.light [class*="border-[#1f2622]"],
+html.light [class*="border-[#2a2a2a]"] {
+    border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+/* ── Sidebar ── */
+html.light aside {
+    background-color: #ffffff !important;
+    border-right-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Inactive links default (plain white/transparent with dark gray text) */
+html.light aside a:not(.active-nav):not(.sidebar-active) {
+    background-color: transparent !important;
+    border: 1.5px solid transparent !important;
+    color: #475569 !important;
+}
+html.light aside a:not(.active-nav):not(.sidebar-active) span {
+    color: #475569 !important;
+    font-weight: 500 !important;
+}
+html.light aside a:not(.active-nav):not(.sidebar-active) i {
+    color: #64748b !important;
+}
+
+/* Inactive links hover: soft gray background */
+html.light aside a:not(.active-nav):not(.sidebar-active):hover {
+    background-color: #f1f5f9 !important;
+    border: 1.5px solid transparent !important;
+    color: #0f172a !important;
+}
+html.light aside a:not(.active-nav):not(.sidebar-active):hover span {
+    color: #0f172a !important;
+}
+html.light aside a:not(.active-nav):not(.sidebar-active):hover i {
+    color: #0f172a !important;
+}
+
+/* ── ONLY Active Sidebar Item (Signature Lime #C7FF3D Theme) ── */
+/* Dark Mode Active */
+aside a.active-nav,
+aside a.sidebar-active {
+    background-color: rgba(199, 255, 61, 0.12) !important;
+    border: 1.5px solid rgba(199, 255, 61, 0.35) !important;
+    border-radius: 12px !important;
+    color: #C7FF3D !important;
+}
+aside a.active-nav span,
+aside a.sidebar-active span {
+    color: #C7FF3D !important;
+    font-weight: 600 !important;
+}
+aside a.active-nav i,
+aside a.sidebar-active i {
+    color: #C7FF3D !important;
+}
+aside a.active-nav:hover,
+aside a.sidebar-active:hover {
+    background-color: rgba(199, 255, 61, 0.18) !important;
+    border-color: #C7FF3D !important;
+}
+
+/* Light Mode Active (matches #C7FF3D brand color) */
+html.light aside a.active-nav,
+html.light aside a.sidebar-active {
+    background-color: rgba(199, 255, 61, 0.22) !important;
+    border: 1.5px solid #99db12 !important;
+    border-radius: 12px !important;
+    color: #5a8a00 !important;
+}
+
+html.light aside a.active-nav span,
+html.light aside a.sidebar-active span {
+    color: #5a8a00 !important;
+    font-weight: 600 !important;
+}
+
+html.light aside a.active-nav i,
+html.light aside a.sidebar-active i {
+    color: #5a8a00 !important;
+}
+
+/* Keep active styling on hover in light mode */
+html.light aside a.active-nav:hover,
+html.light aside a.sidebar-active:hover {
+    background-color: rgba(199, 255, 61, 0.3) !important;
+    border: 1.5px solid #82bc09 !important;
+}
+html.light aside a.active-nav:hover span,
+html.light aside a.sidebar-active:hover span {
+    color: #5a8a00 !important;
+}
+html.light aside a.active-nav:hover i,
+html.light aside a.sidebar-active:hover i {
+    color: #5a8a00 !important;
+}
+
+/* Click / pressed state */
+html.light aside a:active {
+    background-color: rgba(199, 255, 61, 0.35) !important;
+    border: 1.5px solid #72a607 !important;
+}
+html.light aside a:active span,
+html.light aside a:active i {
+    color: #497000 !important;
+}
+
+/* ── Header ── */
+html.light header {
+    background-color: #ffffff !important;
+    border-bottom-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+/* ── Scrollbar ── */
+html.light .custom-scroll::-webkit-scrollbar-track {
+    background: #e8eaed;
+}
+
+html.light .custom-scroll::-webkit-scrollbar-thumb {
+    background: #aac919;
+}
+
+/* ── Kanban columns ── */
+html.light [class*="bg-[#0f0f0f]"] {
+    background-color: #f0f2f5 !important;
+}
+
+/* ── Placeholder text ── */
+html.light ::placeholder {
+    color: #999999 !important;
+}
+
+/* ── Table rows hover ── */
+html.light [class*="hover:bg-white\/5"]:hover {
+    background-color: rgba(0, 0, 0, 0.04) !important;
+}
+
+/* ── Backdrop / overlay ── */
+html.light .backdrop-blur-sm {
+    background-color: rgba(0, 0, 0, 0.3) !important;
+}
+
+/* ── Sun icon: change to moon in light mode ── */
+html.light .theme-icon::before {
+    font-family: "Font Awesome 6 Free";
+    font-weight: 400;
+    content: "\f186";
+    /* fa-moon */
+}
+
+html.light .theme-icon {
+    color: #555 !important;
+}
+
+/* ── Logo: white in dark mode → natural; black in light mode via brightness(0) ── */
+img[alt="ProSite Logo"],
+img[alt="ItensFlow Logo"],
+img[src*="logo_itenas.png"] {
+    filter: none;
+    /* logo asli bodas, cocok di dark mode */
+    transition: filter 0.25s ease;
+}
+
+html.light img[alt="ProSite Logo"],
+html.light img[alt="ItensFlow Logo"],
+html.light img[src*="logo_itenas.png"] {
+    filter: brightness(0) !important;
+    /* balik jadi hideung di light mode */
+}

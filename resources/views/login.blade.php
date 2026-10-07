@@ -10,6 +10,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ asset('css/theme.css') }}?v={{ filemtime(public_path('css/theme.css')) }}">
+    <script>
+        if (localStorage.getItem('theme') === 'light') {
+            document.documentElement.classList.add('light');
+        } else {
+            document.documentElement.classList.remove('light');
+        }
+    </script>
 </head>
 
 <script>
@@ -40,7 +48,12 @@
 
     </style>
  
-<body class="bg-gradient-glow">
+<body class="bg-gradient-glow relative">
+    <div class="fixed top-5 right-5 z-50">
+        <button onclick="toggleTheme()" class="w-9 h-9 flex items-center justify-center rounded-xl bg-[#111111] border border-white/10 text-gray-400 hover:text-white transition shadow-lg cursor-pointer">
+            <i id="theme-icon" class="fa-regular fa-sun text-sm"></i>
+        </button>
+    </div>
     <div class="min-h-screen w-screen flex flex-col justify-center items-center">
           <div class="w-full max-w-[370px] bg-[#151515] border border-[#303030] rounded-[18px] py-6 px-6 flex flex-col items-center shadow-2xl">
               <div class="text-center flex flex-col items-center mb-6">
@@ -155,6 +168,17 @@
                 }
             });
         });
+
+        function toggleTheme() {
+            const isLight = document.documentElement.classList.toggle('light');
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+            const icon = document.getElementById('theme-icon');
+            if (icon) icon.className = isLight ? 'fa-regular fa-moon text-sm' : 'fa-regular fa-sun text-sm';
+        }
+        (function() {
+            const icon = document.getElementById('theme-icon');
+            if (icon && localStorage.getItem('theme') === 'light') icon.className = 'fa-regular fa-moon text-sm';
+        })();
     </script>
 </body>
 

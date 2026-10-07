@@ -24,14 +24,15 @@
             }
         }
 
-        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark');
+        if (localStorage.getItem('theme') === 'light') {
+            document.documentElement.classList.add('light');
         } else {
-            document.documentElement.classList.remove('dark');
+            document.documentElement.classList.remove('light');
         }
     </script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ asset('css/theme.css') }}?v={{ filemtime(public_path('css/theme.css')) }}">
 
     <style>
         body {
@@ -103,7 +104,7 @@
 
             <li>
                 <!-- MENU TEAM (SEDANG AKTIF) -->
-                <a href="{{ url('/team') }}" class="flex items-center gap-3 py-2 px-4 rounded-lg bg-[#1a1a1a] text-white font-medium border border-[#2a2a2a] transition duration-200">
+                <a href="{{ url('/team') }}" class="active-nav flex items-center gap-3 py-2 px-4 rounded-lg bg-[#1a1a1a] text-white font-medium border border-[#2a2a2a] transition duration-200">
                     <i class="fa-solid fa-user-group text-sm w-5 text-center"></i>
                     <span class="text-sm">Team</span>
                 </a>
