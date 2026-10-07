@@ -9,29 +9,23 @@ use Illuminate\Support\Str;
 
 class ProjectService
 {
-    /**
-     * Membuat proyek baru, otomatis men-generate key unik dan memasukkan pembuat sebagai Administrator.
-     */
     public function createProject(array $data, int $userId): Project
     {
-        // Generate kode key jika tidak diisi oleh pengguna (misal: "Prosite Platform" => "PROS")
         if (empty($data['key'])) {
             $data['key'] = $this->generateProjectKey($data['nama_project']);
         } else {
             $data['key'] = strtoupper($data['key']);
         }
 
-        // Buat proyek
         $project = Project::create([
             'key'          => $data['key'],
             'nama_project' => $data['nama_project'],
             'deskripsi'    => $data['deskripsi'] ?? null,
             'priority'     => $data['priority'] ?? 'Medium',
-            'status'       => $data['status'] ?? 'To Do',
+            'status'       => $data['status'] ?? 'Active',
             'deadline'     => $data['deadline'] ?? null,
         ]);
 
-        // Masukkan pembuat proyek sebagai Administrator di pivot project_users
         ProjectUser::create([
             'project_id' => $project->id,
             'user_id'    => $userId,
@@ -41,9 +35,6 @@ class ProjectService
         return $project;
     }
 
-    /**
-     * Ambil seluruh proyek yang mana user terdaftar di dalamnya
-     */
     public function getProjectsForUser(int $userId)
     {
         $user = User::find($userId);
@@ -54,9 +45,6 @@ class ProjectService
         return $user->projects()->withCount('tasks')->latest('projects.created_at')->paginate(5);
     }
 
-    /**
-     * Helper untuk membuat key unik (3-5 huruf kapital) berdasarkan nama proyek
-     */
     private function generateProjectKey(string $projectName): string
     {
         $words = explode(' ', trim($projectName));
@@ -77,7 +65,6 @@ class ProjectService
 
         $key = substr($key, 0, 5);
 
-        // Jika key sudah digunakan, tambahkan suffix angka acak
         $baseKey = $key;
         $counter = 1;
         while (Project::where('key', $key)->exists()) {

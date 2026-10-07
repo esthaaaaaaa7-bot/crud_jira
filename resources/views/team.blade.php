@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>ItensFlow - Team</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="icon" type="image/png" href="{{ asset('images/logo_itenas.png') }}">
@@ -12,7 +13,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
 
     <script>
-
         tailwind.config = {
             darkMode: 'class',
             theme: {
@@ -29,7 +29,6 @@
         } else {
             document.documentElement.classList.remove('dark');
         }
-
     </script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -135,30 +134,30 @@
                         <input type="text" placeholder="search anything, task, issues..." class="w-full bg-[#151515] border border-white/10 text-xs text-white placeholder-white/50 rounded-xl pl-9 pr-4 py-2 focus:outline-none focus:border-[#C7FF3D] transition">
                     </div>
                 </div>
-                
-                 <div class="flex items-center -mr-4 gap-2">
-                <!-- Mobile: icon only -->
-                <button onclick="openmodal()" class="sm:hidden w-8 h-8 flex items-center justify-center rounded-xl bg-[#C7FF3D] text-black hover:opacity-90 transition">
-                    <i class="fa-solid fa-plus text-xs"></i>
-                </button>
-                <!-- Desktop: full label -->
-                <button onclick="openmodal()" class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-[#C7FF3D] text-black text-xs font-bold rounded-lg hover:opacity-90 transition">
-                    <i class="fa-solid fa-plus text-[10px]"></i>
-                    Create Team
-                </button>
-                <button class="w-8 h-8 flex items-center justify-center rounded-xl bg-[#111111] border 
+
+                <div class="flex items-center -mr-4 gap-2">
+                    <!-- Mobile: icon only -->
+                    <button onclick="openmodal()" class="sm:hidden w-8 h-8 flex items-center justify-center rounded-xl bg-[#C7FF3D] text-black hover:opacity-90 transition">
+                        <i class="fa-solid fa-plus text-xs"></i>
+                    </button>
+                    <!-- Desktop: full label -->
+                    <button onclick="openmodal()" class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-[#C7FF3D] text-black text-xs font-bold rounded-lg hover:opacity-90 transition">
+                        <i class="fa-solid fa-plus text-[10px]"></i>
+                        Create Team
+                    </button>
+                    <button class="w-8 h-8 flex items-center justify-center rounded-xl bg-[#111111] border 
                                 border-white/10 text-gray-400 hover:text-white hover:bg-[#1a1a1a] relative transition">
-                    <i class="fa-regular fa-bell text-sm"></i>
-                </button>
-                <button class="w-8 h-8 flex items-center justify-center rounded-xl bg-[#111111] border 
+                        <i class="fa-regular fa-bell text-sm"></i>
+                    </button>
+                    <button class="w-8 h-8 flex items-center justify-center rounded-xl bg-[#111111] border 
                                 border-white/10 text-gray-400 hover:text-white hover:bg-[#1a1a1a] relative transition">
-                    <i class="fa-regular fa-sun text-sm"></i>
-                </button>
-                <button class="w-8 h-8 flex items-center justify-center rounded-xl bg-[#111111] border 
+                        <i class="fa-regular fa-sun text-sm"></i>
+                    </button>
+                    <button class="w-8 h-8 flex items-center justify-center rounded-xl bg-[#111111] border 
                                 border-white/10 text-gray-400 hover:text-white hover:bg-[#1a1a1a] relative transition">
-                    <i class="fa-regular fa-user text-sm"></i>
-                </button>
-            </div>
+                        <i class="fa-regular fa-user text-sm"></i>
+                    </button>
+                </div>
 
         </header>
 
@@ -166,11 +165,18 @@
             <h2 class="text-xl sm:text-2xl font-bold text-white mb-1">Teams</h2>
             <p class="text-xs sm:text-sm text-white/50">Manage and organize your team members.</p>
         </div>
-        
+
         <main class="flex-1 overflow-y-auto px-8 pb-8">
 
-            <!-- Empty State -->
-            <div id="empty-state" class="flex flex-col items-center justify-center py-20 text-center max-w-lg mx-auto">
+            {{-- Flash message --}}
+            @if (session('success'))
+            <div class="mb-4 text-xs text-green-400 bg-green-400/10 border border-green-400/20 rounded-xl px-4 py-3">
+                <i class="fa-solid fa-circle-check mr-1"></i> {{ session('success') }}
+            </div>
+            @endif
+
+            <!-- Empty State (tampil kalau $teams kosong) -->
+            <div id="empty-state" class="flex flex-col items-center justify-center py-20 text-center max-w-lg mx-auto {{ $teams->isEmpty() ? '' : 'hidden' }}">
                 <div class="relative mb-6">
                     <div class="w-24 sm:w-32 h-24 sm:h-32 bg-[#151515] rounded-3xl flex items-center justify-center shadow-lg">
                         <i class="fa-solid fa-users text-3xl text-gray-400"></i>
@@ -188,29 +194,108 @@
                 </button>
             </div>
 
-            <!-- Team Table (hidden until first team created) -->
-            <div id="team-table-section" class="hidden">
+            <!-- Team Table -->
+            <div id="team-table-section" class="{{ $teams->isEmpty() ? 'hidden' : '' }}">
                 <div class="bg-[#111111] border border-white/10 rounded-2xl overflow-hidden">
                     <div class="overflow-x-auto custom-scroll">
                         <table class="w-full min-w-max text-sm text-left">
                             <thead>
                                 <tr class="border-b border-white/10">
                                     <th class="px-6 py-4 text-white text-sm font-semibold">Team Name</th>
+                                    <th class="px-6 py-4 text-white text-sm font-semibold">Project</th>
                                     <th class="px-6 py-4 text-white text-sm font-semibold">Members</th>
                                     <th class="px-6 py-4 text-white text-sm font-semibold">Total</th>
                                     <th class="px-6 py-4 text-white text-sm font-semibold">Actions</th>
                                 </tr>
                             </thead>
                             <tbody id="team-table-body">
-                                <!-- rows injected by JS -->
+                                @foreach ($teams as $team)
+                                <tr class="border-b border-white/10 hover:bg-white/5 transition" id="team-row-{{ $team->id }}">
+                                    <td class="px-6 py-3.5">
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-8 h-8 rounded-lg bg-[#C7FF3D]/10 flex items-center justify-center">
+                                                <i class="fa-solid fa-users text-[#C7FF3D] text-xs"></i>
+                                            </div>
+                                            <span class="text-white text-sm font-semibold">{{ $team->nama_team }}</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-3.5">
+                                        <span class="text-xs text-gray-400">{{ $team->project->nama_project ?? '-' }}</span>
+                                    </td>
+                                    <td class="px-6 py-3.5">
+                                        <div class="flex items-center">
+                                            @foreach ($team->users->take(5) as $member)
+                                            @php $init = strtoupper(substr($member->name, 0, 1)); @endphp
+                                            <div class="w-7 h-7 rounded-full bg-blue-500 flex items-center justify-center text-[10px] font-bold text-white shrink-0 -ml-1 first:ml-0 border border-[#111]" title="{{ $member->name }}">{{ $init }}</div>
+                                            @endforeach
+                                            @if ($team->users->count() > 5)
+                                            <div class="w-7 h-7 rounded-full bg-gray-600 flex items-center justify-center text-[10px] font-bold text-white shrink-0 -ml-1 border border-[#111]">+{{ $team->users->count() - 5 }}</div>
+                                            @endif
+                                        </div>
+                                        <p class="text-xs text-white/40 mt-0.5">{{ $team->users->pluck('name')->join(', ') }}</p>
+                                    </td>
+                                    <td class="px-6 py-3.5">
+                                        <span class="text-sm text-white/60">{{ $team->users->count() }} member{{ $team->users->count() !== 1 ? 's' : '' }}</span>
+                                    </td>
+                                    <td class="px-6 py-3">
+                                        {{-- Hanya Administrator project ini yang bisa Edit/Delete --}}
+                                        @if ($adminProjectIds->contains($team->project_id))
+                                        <div class="relative inline-block">
+                                            <button data-row-trigger onclick="toggleRowDropdown({{ $team->id }})"
+                                                class="w-8 h-8 flex items-center justify-center rounded-lg text-white/40 hover:bg-white/10 hover:text-white transition">
+                                                <i class="fa-solid fa-ellipsis-vertical text-xs"></i>
+                                            </button>
+                                            <div id="row-menu-{{ $team->id }}" data-row-menu
+                                                class="hidden absolute right-0 mt-1 w-36 bg-[#1a1a1a] border border-white/10 rounded-xl shadow-xl z-50 overflow-hidden">
+                                                <button onclick="openEditModal({{ $team->id }}, '{{ addslashes($team->nama_team) }}', {{ $team->users->pluck('id') }})"
+                                                    class="w-full flex items-center gap-2 px-4 py-2.5 text-xs text-white hover:bg-white/5 transition">
+                                                    <i class="fa-solid fa-pen-to-square text-[#C7FF3D]"></i> Edit
+                                                </button>
+                                                <button onclick="deleteTeam({{ $team->id }})"
+                                                    class="w-full flex items-center gap-2 px-4 py-2.5 text-xs text-red-400 hover:bg-white/5 transition">
+                                                    <i class="fa-solid fa-trash"></i> Hapus
+                                                </button>
+                                            </div>
+                                        </div>
+                                        @else
+                                        <span class="text-xs text-white/20 px-2">—</span>
+                                        @endif
+                                    </td>
+                                </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
 
                     <!-- Pagination Footer -->
                     <div class="flex justify-between items-center my-2" id="pagination-bar">
-                        <p id="pagination-info" class="text-white text-xs mx-8">Showing 0 to 0 of 0</p>
-                        <div class="flex flex-row gap-1 items-center mx-6" id="pagination-controls"></div>
+                        <p class="text-white text-xs mx-8">
+                            Showing {{ $teams->firstItem() ?? 0 }} to {{ $teams->lastItem() ?? 0 }} of {{ $teams->total() }}
+                        </p>
+                        <div class="flex flex-row gap-1 items-center mx-6">
+                            {{-- Prev --}}
+                            @if ($teams->onFirstPage())
+                            <span class="w-8 h-8 flex items-center justify-center border border-white/10 rounded-lg text-white/30 text-xs cursor-not-allowed">&#8249;</span>
+                            @else
+                            <a href="{{ $teams->previousPageUrl() }}" class="w-8 h-8 flex items-center justify-center border border-white/10 rounded-lg text-white text-xs hover:bg-[#1a1a1a] transition">&#8249;</a>
+                            @endif
+
+                            {{-- Page numbers --}}
+                            @foreach ($teams->getUrlRange(1, $teams->lastPage()) as $page => $url)
+                            @if ($page == $teams->currentPage())
+                            <button class="w-8 h-8 flex items-center justify-center bg-[#1a1a1a] border border-white/10 rounded-lg text-white text-xs">{{ $page }}</button>
+                            @else
+                            <a href="{{ $url }}" class="w-8 h-8 flex items-center justify-center rounded-lg text-white text-xs hover:bg-[#1a1a1a] transition">{{ $page }}</a>
+                            @endif
+                            @endforeach
+
+                            {{-- Next --}}
+                            @if ($teams->hasMorePages())
+                            <a href="{{ $teams->nextPageUrl() }}" class="w-8 h-8 flex items-center justify-center border border-white/10 rounded-lg text-white text-xs hover:bg-[#1a1a1a] transition">&#8250;</a>
+                            @else
+                            <span class="w-8 h-8 flex items-center justify-center border border-white/10 rounded-lg text-white/30 text-xs cursor-not-allowed">&#8250;</span>
+                            @endif
+                        </div>
                     </div>
 
                 </div>
@@ -231,30 +316,50 @@
                 </div>
                 <p class="text-[11px] text-gray-400 mb-5 ml-7">Required fields are marked with an asterisk <span class="text-red-500">*</span></p>
                 <div class="border-t border-[#1f2622] pt-5 space-y-5">
+                    {{-- Project --}}
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-300 mb-1.5">Project <span class="text-red-500">*</span></label>
+                        <select id="create-project-id"
+                            class="w-full bg-[#0a0d0b] border border-[#232d27] rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-[#C7FF3D] transition">
+                            <option value="">-- Select Project --</option>
+                            @foreach ($projects as $project)
+                            <option value="{{ $project->id }}">{{ $project->nama_project }}</option>
+                            @endforeach
+                        </select>
+                        <p id="project-error" class="hidden text-[10px] text-red-400 mt-1">Please select a project.</p>
+                    </div>
+                    {{-- Team Name --}}
                     <div>
                         <label class="block text-xs font-semibold text-gray-300 mb-1.5">Team Name <span class="text-red-500">*</span></label>
                         <input id="input-team-name" type="text" placeholder="Enter team name"
                             class="w-full bg-[#0a0d0b] border border-[#232d27] rounded-xl px-4 py-2.5 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-[#C7FF3D] transition">
                         <p id="name-error" class="hidden text-[10px] text-red-400 mt-1">Team name is required.</p>
                     </div>
+                    {{-- Members --}}
                     <div>
                         <label class="block text-xs font-semibold text-gray-300 mb-2">Members <span class="text-red-500">*</span></label>
-                        <div class="flex flex-col gap-2">
-                            <label class="flex items-center gap-3 px-3 py-2.5 bg-[#0a0d0b] border border-[#232d27] rounded-xl cursor-pointer hover:border-[#C7FF3D]/50 transition has-[:checked]:border-[#C7FF3D]">
-                                <input type="checkbox" value="elvin" class="member-checkbox accent-[#C7FF3D] w-3.5 h-3.5">
-                                <div class="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center text-[10px] font-bold text-white shrink-0">E</div>
-                                <span class="text-white text-xs">Elvin Alfabian</span>
+                        {{-- Search bar --}}
+                        <div class="relative mb-2">
+                            <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-white/30 text-[10px]"></i>
+                            <input
+                                id="create-member-search"
+                                type="text"
+                                placeholder="Search member by name or username..."
+                                oninput="filterMembers('create-member-search', 'create-member-list')"
+                                class="w-full bg-[#0a0d0b] border border-[#232d27] rounded-xl pl-8 pr-4 py-2 text-xs text-white placeholder-gray-600 focus:outline-none focus:border-[#C7FF3D] transition">
+                        </div>
+                        <div id="create-member-list" class="flex flex-col gap-2 max-h-48 overflow-y-auto">
+                            @foreach ($availableUsers as $user)
+                            @php $init = strtoupper(substr($user->name, 0, 1)); @endphp
+                            <label data-name="{{ strtolower($user->name . ' ' . $user->username) }}" class="flex items-center gap-3 px-3 py-2.5 bg-[#0a0d0b] border border-[#232d27] rounded-xl cursor-pointer hover:border-[#C7FF3D]/50 transition has-[:checked]:border-[#C7FF3D]">
+                                <input type="checkbox" value="{{ $user->id }}" class="member-checkbox accent-[#C7FF3D] w-3.5 h-3.5">
+                                <div class="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center text-[10px] font-bold text-white shrink-0">{{ $init }}</div>
+                                <div class="flex flex-col leading-tight">
+                                    <span class="text-white text-xs">{{ $user->name }}</span>
+                                    <span class="text-gray-500 text-[10px]">{{ '@' . $user->username }}</span>
+                                </div>
                             </label>
-                            <label class="flex items-center gap-3 px-3 py-2.5 bg-[#0a0d0b] border border-[#232d27] rounded-xl cursor-pointer hover:border-[#C7FF3D]/50 transition has-[:checked]:border-[#C7FF3D]">
-                                <input type="checkbox" value="ibom" class="member-checkbox accent-[#C7FF3D] w-3.5 h-3.5">
-                                <div class="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center text-[10px] font-bold text-white shrink-0">I</div>
-                                <span class="text-white text-xs">Ibom Gans</span>
-                            </label>
-                            <label class="flex items-center gap-3 px-3 py-2.5 bg-[#0a0d0b] border border-[#232d27] rounded-xl cursor-pointer hover:border-[#C7FF3D]/50 transition has-[:checked]:border-[#C7FF3D]">
-                                <input type="checkbox" value="syafiq" class="member-checkbox accent-[#C7FF3D] w-3.5 h-3.5">
-                                <div class="w-6 h-6 rounded-full bg-purple-500 flex items-center justify-center text-[10px] font-bold text-white shrink-0">S</div>
-                                <span class="text-white text-xs">Syafiq Khayru</span>
-                            </label>
+                            @endforeach
                         </div>
                         <p id="member-error" class="hidden text-[10px] text-red-400 mt-1">Select at least one member.</p>
                     </div>
@@ -282,7 +387,7 @@
                 </div>
                 <p class="text-[11px] text-gray-400 mb-5 ml-7">Update team name or members.</p>
                 <div class="border-t border-[#1f2622] pt-5 space-y-5">
-                    <input type="hidden" id="edit-team-index">
+                    <input type="hidden" id="edit-team-id">
                     <div>
                         <label class="block text-xs font-semibold text-gray-300 mb-1.5">Team Name <span class="text-red-500">*</span></label>
                         <input id="edit-team-name" type="text" placeholder="Enter team name"
@@ -291,22 +396,28 @@
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-gray-300 mb-2">Members <span class="text-red-500">*</span></label>
-                        <div class="flex flex-col gap-2">
-                            <label class="flex items-center gap-3 px-3 py-2.5 bg-[#0a0d0b] border border-[#232d27] rounded-xl cursor-pointer hover:border-[#C7FF3D]/50 transition has-[:checked]:border-[#C7FF3D]">
-                                <input type="checkbox" value="elvin" class="edit-member-checkbox accent-[#C7FF3D] w-3.5 h-3.5">
-                                <div class="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center text-[10px] font-bold text-white shrink-0">E</div>
-                                <span class="text-white text-xs">Elvin Alfabian</span>
+                        {{-- Search bar --}}
+                        <div class="relative mb-2">
+                            <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-white/30 text-[10px]"></i>
+                            <input
+                                id="edit-member-search"
+                                type="text"
+                                placeholder="Search member by name or username..."
+                                oninput="filterMembers('edit-member-search', 'edit-member-list')"
+                                class="w-full bg-[#0a0d0b] border border-[#232d27] rounded-xl pl-8 pr-4 py-2 text-xs text-white placeholder-gray-600 focus:outline-none focus:border-[#C7FF3D] transition">
+                        </div>
+                        <div id="edit-member-list" class="flex flex-col gap-2 max-h-48 overflow-y-auto">
+                            @foreach ($availableUsers as $user)
+                            @php $init = strtoupper(substr($user->name, 0, 1)); @endphp
+                            <label data-name="{{ strtolower($user->name . ' ' . $user->username) }}" class="flex items-center gap-3 px-3 py-2.5 bg-[#0a0d0b] border border-[#232d27] rounded-xl cursor-pointer hover:border-[#C7FF3D]/50 transition has-[:checked]:border-[#C7FF3D]">
+                                <input type="checkbox" value="{{ $user->id }}" class="edit-member-checkbox accent-[#C7FF3D] w-3.5 h-3.5">
+                                <div class="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center text-[10px] font-bold text-white shrink-0">{{ $init }}</div>
+                                <div class="flex flex-col leading-tight">
+                                    <span class="text-white text-xs">{{ $user->name }}</span>
+                                    <span class="text-gray-500 text-[10px]">{{ '@' . $user->username }}</span>
+                                </div>
                             </label>
-                            <label class="flex items-center gap-3 px-3 py-2.5 bg-[#0a0d0b] border border-[#232d27] rounded-xl cursor-pointer hover:border-[#C7FF3D]/50 transition has-[:checked]:border-[#C7FF3D]">
-                                <input type="checkbox" value="ibom" class="edit-member-checkbox accent-[#C7FF3D] w-3.5 h-3.5">
-                                <div class="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center text-[10px] font-bold text-white shrink-0">I</div>
-                                <span class="text-white text-xs">Ibom Gans</span>
-                            </label>
-                            <label class="flex items-center gap-3 px-3 py-2.5 bg-[#0a0d0b] border border-[#232d27] rounded-xl cursor-pointer hover:border-[#C7FF3D]/50 transition has-[:checked]:border-[#C7FF3D]">
-                                <input type="checkbox" value="syafiq" class="edit-member-checkbox accent-[#C7FF3D] w-3.5 h-3.5">
-                                <div class="w-6 h-6 rounded-full bg-purple-500 flex items-center justify-center text-[10px] font-bold text-white shrink-0">S</div>
-                                <span class="text-white text-xs">Syafiq Khayru</span>
-                            </label>
+                            @endforeach
                         </div>
                         <p id="edit-member-error" class="hidden text-[10px] text-red-400 mt-1">Select at least one member.</p>
                     </div>
@@ -319,14 +430,9 @@
                 </div>
             </div>
         </div>
-        <script>
-            const memberData = {
-                elvin:  { name: 'Elvin Alfabian',  initial: 'E', color: 'bg-blue-500' },
-                ibom:   { name: 'Ibom Gans',        initial: 'I', color: 'bg-green-500' },
-                syafiq: { name: 'Syafiq Khayru',   initial: 'S', color: 'bg-purple-500' }
-            };
 
-            let teams = [];
+        <script>
+            const CSRF = document.querySelector('meta[name="csrf-token"]').content;
 
             function toggleSidebar() {
                 const sidebar = document.getElementById('sidebar');
@@ -335,74 +441,184 @@
                 backdrop.classList.toggle('hidden');
             }
 
+            /* ── SEARCH / FILTER MEMBER ── */
+            function filterMembers(searchId, listId) {
+                const query = document.getElementById(searchId).value.toLowerCase().trim();
+                const labels = document.querySelectorAll('#' + listId + ' label[data-name]');
+                labels.forEach(label => {
+                    const name = label.getAttribute('data-name');
+                    label.style.display = name.includes(query) ? '' : 'none';
+                });
+            }
+
             /* ── CREATE MODAL ── */
             function openmodal() {
                 document.getElementById('createTeamModal').classList.remove('hidden');
                 document.getElementById('input-team-name').value = '';
+                document.getElementById('create-project-id').value = '';
+                document.getElementById('create-member-search').value = '';
+                filterMembers('create-member-search', 'create-member-list'); // reset filter
                 document.querySelectorAll('.member-checkbox').forEach(cb => cb.checked = false);
                 document.getElementById('name-error').classList.add('hidden');
                 document.getElementById('member-error').classList.add('hidden');
+                document.getElementById('project-error').classList.add('hidden');
             }
+
             function closeModal() {
                 document.getElementById('createTeamModal').classList.add('hidden');
             }
 
             function submitTeam() {
                 const name = document.getElementById('input-team-name').value.trim();
-                const selected = [...document.querySelectorAll('.member-checkbox:checked')].map(cb => cb.value);
+                const projectId = document.getElementById('create-project-id').value;
+                const members = [...document.querySelectorAll('.member-checkbox:checked')].map(cb => cb.value);
+
                 let valid = true;
-                if (!name) { document.getElementById('name-error').classList.remove('hidden'); valid = false; }
-                else { document.getElementById('name-error').classList.add('hidden'); }
-                if (selected.length === 0) { document.getElementById('member-error').classList.remove('hidden'); valid = false; }
-                else { document.getElementById('member-error').classList.add('hidden'); }
+                if (!projectId) {
+                    document.getElementById('project-error').classList.remove('hidden');
+                    valid = false;
+                } else {
+                    document.getElementById('project-error').classList.add('hidden');
+                }
+                if (!name) {
+                    document.getElementById('name-error').classList.remove('hidden');
+                    valid = false;
+                } else {
+                    document.getElementById('name-error').classList.add('hidden');
+                }
+                if (members.length === 0) {
+                    document.getElementById('member-error').classList.remove('hidden');
+                    valid = false;
+                } else {
+                    document.getElementById('member-error').classList.add('hidden');
+                }
                 if (!valid) return;
-                teams.push({ name, members: selected });
-                closeModal();
-                renderTable();
+
+                fetch('{{ route("teams.store") }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
+                            'X-CSRF-TOKEN': CSRF
+                        },
+                        body: JSON.stringify({
+                            nama_team: name,
+                            project_id: projectId,
+                            members
+                        })
+                    })
+                    .then(r => r.json())
+                    .then(data => {
+                        if (data.success) {
+                            closeModal();
+                            // Reload halaman untuk tampilkan data baru dari DB
+                            location.reload();
+                        }
+                    })
+                    .catch(() => alert('Gagal membuat team.'));
             }
 
             /* ── EDIT MODAL ── */
-            function openEditModal(index) {
+            function openEditModal(teamId, teamName, currentMemberIds) {
                 closeAllRowDropdowns();
-                const team = teams[index];
-                document.getElementById('edit-team-index').value = index;
-                document.getElementById('edit-team-name').value = team.name;
+                document.getElementById('edit-team-id').value = teamId;
+                document.getElementById('edit-team-name').value = teamName;
+                document.getElementById('edit-member-search').value = '';
+                filterMembers('edit-member-search', 'edit-member-list'); // reset filter
                 document.querySelectorAll('.edit-member-checkbox').forEach(cb => {
-                    cb.checked = team.members.includes(cb.value);
+                    cb.checked = currentMemberIds.includes(parseInt(cb.value));
                 });
                 document.getElementById('edit-name-error').classList.add('hidden');
                 document.getElementById('edit-member-error').classList.add('hidden');
                 document.getElementById('editTeamModal').classList.remove('hidden');
             }
+
             function closeEditModal() {
                 document.getElementById('editTeamModal').classList.add('hidden');
             }
+
             function saveEdit() {
-                const index = parseInt(document.getElementById('edit-team-index').value);
+                const teamId = document.getElementById('edit-team-id').value;
                 const name = document.getElementById('edit-team-name').value.trim();
-                const selected = [...document.querySelectorAll('.edit-member-checkbox:checked')].map(cb => cb.value);
+                const members = [...document.querySelectorAll('.edit-member-checkbox:checked')].map(cb => cb.value);
+
                 let valid = true;
-                if (!name) { document.getElementById('edit-name-error').classList.remove('hidden'); valid = false; }
-                else { document.getElementById('edit-name-error').classList.add('hidden'); }
-                if (selected.length === 0) { document.getElementById('edit-member-error').classList.remove('hidden'); valid = false; }
-                else { document.getElementById('edit-member-error').classList.add('hidden'); }
+                if (!name) {
+                    document.getElementById('edit-name-error').classList.remove('hidden');
+                    valid = false;
+                } else {
+                    document.getElementById('edit-name-error').classList.add('hidden');
+                }
+                if (members.length === 0) {
+                    document.getElementById('edit-member-error').classList.remove('hidden');
+                    valid = false;
+                } else {
+                    document.getElementById('edit-member-error').classList.add('hidden');
+                }
                 if (!valid) return;
-                teams[index] = { name, members: selected };
-                closeEditModal();
-                renderTable();
+
+                fetch(`/teams/${teamId}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
+                            'X-CSRF-TOKEN': CSRF
+                        },
+                        body: JSON.stringify({
+                            nama_team: name,
+                            members
+                        })
+                    })
+                    .then(r => r.json())
+                    .then(data => {
+                        if (data.success) {
+                            closeEditModal();
+                            location.reload();
+                        }
+                    })
+                    .catch(() => alert('Gagal mengupdate team.'));
+            }
+
+            /* ── DELETE ── */
+            function deleteTeam(teamId) {
+                if (!confirm('Yakin ingin menghapus team ini?')) return;
+
+                fetch(`/teams/${teamId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Accept': 'application/json',
+                            'X-CSRF-TOKEN': CSRF
+                        }
+                    })
+                    .then(r => r.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Hapus baris dari tabel langsung (tanpa reload)
+                            const row = document.getElementById('team-row-' + teamId);
+                            if (row) row.remove();
+
+                            // Kalau tabel kosong, tampilkan empty state
+                            const tbody = document.getElementById('team-table-body');
+                            if (tbody && tbody.querySelectorAll('tr').length === 0) {
+                                document.getElementById('team-table-section').classList.add('hidden');
+                                document.getElementById('empty-state').classList.remove('hidden');
+                            }
+                        }
+                    })
+                    .catch(() => alert('Gagal menghapus team.'));
             }
 
             /* ── ROW DROPDOWN ── */
-            function toggleRowDropdown(index) {
-                const menu = document.getElementById('row-menu-' + index);
+            function toggleRowDropdown(id) {
+                const menu = document.getElementById('row-menu-' + id);
                 const isHidden = menu.classList.toggle('hidden');
                 if (!isHidden) {
-                    // close others
                     document.querySelectorAll('[id^="row-menu-"]').forEach(m => {
-                        if (m.id !== 'row-menu-' + index) m.classList.add('hidden');
+                        if (m.id !== 'row-menu-' + id) m.classList.add('hidden');
                     });
                 }
             }
+
             function closeAllRowDropdowns() {
                 document.querySelectorAll('[id^="row-menu-"]').forEach(m => m.classList.add('hidden'));
             }
@@ -411,123 +627,6 @@
                     closeAllRowDropdowns();
                 }
             });
-
-            /* ── DELETE ── */
-            function deleteTeam(index) {
-                teams.splice(index, 1);
-                renderTable();
-            }
-
-            const PER_PAGE = 5;
-            let currentPage = 1;
-
-            /* ── RENDER TABLE ── */
-            function renderTable() {
-                const empty = document.getElementById('empty-state');
-                const section = document.getElementById('team-table-section');
-                const tbody = document.getElementById('team-table-body');
-
-                if (teams.length === 0) {
-                    empty.classList.remove('hidden');
-                    section.classList.add('hidden');
-                    currentPage = 1;
-                    return;
-                }
-                empty.classList.add('hidden');
-                section.classList.remove('hidden');
-
-                const totalPages = Math.ceil(teams.length / PER_PAGE);
-                if (currentPage > totalPages) currentPage = totalPages;
-
-                const start = (currentPage - 1) * PER_PAGE;
-                const end   = Math.min(start + PER_PAGE, teams.length);
-                const pageTeams = teams.slice(start, end);
-
-                tbody.innerHTML = pageTeams.map((team, localIdx) => {
-                    const i = start + localIdx; // real index in teams array
-                    const avatars = team.members.map(m => {
-                        const d = memberData[m];
-                        return `<div class="w-7 h-7 rounded-full ${d.color} flex items-center justify-center text-[10px] font-bold text-white shrink-0 -ml-1 first:ml-0 border border-[#111]" title="${d.name}">${d.initial}</div>`;
-                    }).join('');
-                    const memberNames = team.members.map(m => memberData[m].name).join(', ');
-
-                    return `
-                    <tr class="border-b border-white/10 hover:bg-white/5 transition">
-                        <td class="px-6 py-3.5">
-                            <div class="flex items-center gap-2">
-                                <div class="w-8 h-8 rounded-lg bg-[#C7FF3D]/10 flex items-center justify-center">
-                                    <i class="fa-solid fa-users text-[#C7FF3D] text-xs"></i>
-                                </div>
-                                <span class="text-white text-sm font-semibold">${team.name}</span>
-                            </div>
-                        </td>
-                        <td class="px-6 py-3.5">
-                            <div class="flex items-center">${avatars}</div>
-                            <p class="text-xs text-white/40 mt-0.5">${memberNames}</p>
-                        </td>
-                        <td class="px-6 py-3.5">
-                            <span class="text-sm text-white/60">${team.members.length} member${team.members.length > 1 ? 's' : ''}</span>
-                        </td>
-                        <td class="px-6 py-3">
-                            <div class="relative inline-block">
-                                <button data-row-trigger onclick="toggleRowDropdown(${i})"
-                                    class="w-8 h-8 flex items-center justify-center rounded-lg text-white/40 hover:bg-white/10 hover:text-white transition">
-                                    <i class="fa-solid fa-ellipsis-vertical text-xs"></i>
-                                </button>
-                                <div id="row-menu-${i}" data-row-menu
-                                    class="hidden absolute right-0 mt-1 w-36 bg-[#1a1a1a] border border-white/10 rounded-xl shadow-xl z-50 overflow-hidden">
-                                    <button onclick="openEditModal(${i})"
-                                        class="w-full flex items-center gap-2 px-4 py-2.5 text-xs text-white hover:bg-white/5 transition">
-                                        <i class="fa-solid fa-pen-to-square text-[#C7FF3D]"></i> Edit
-                                    </button>
-                                    <button onclick="deleteTeam(${i})"
-                                        class="w-full flex items-center gap-2 px-4 py-2.5 text-xs text-red-400 hover:bg-white/5 transition">
-                                        <i class="fa-solid fa-trash"></i> Hapus
-                                    </button>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>`;
-                }).join('');
-
-                // --- Pagination info ---
-                document.getElementById('pagination-info').textContent =
-                    `Showing ${teams.length === 0 ? 0 : start + 1} to ${end} of ${teams.length}`;
-
-                // --- Pagination controls ---
-                const controls = document.getElementById('pagination-controls');
-                let html = '';
-
-                // Prev
-                if (currentPage === 1) {
-                    html += `<span class="w-8 h-8 flex items-center justify-center border border-white/10 rounded-lg text-white/30 text-xs cursor-not-allowed">&#8249;</span>`;
-                } else {
-                    html += `<button onclick="goPage(${currentPage - 1})" class="w-8 h-8 flex items-center justify-center border border-white/10 rounded-lg text-white text-xs hover:bg-[#1a1a1a] transition">&#8249;</button>`;
-                }
-
-                // Page numbers
-                for (let p = 1; p <= totalPages; p++) {
-                    if (p === currentPage) {
-                        html += `<button class="w-8 h-8 flex items-center justify-center bg-[#1a1a1a] border border-white/10 rounded-lg text-white text-xs">${p}</button>`;
-                    } else {
-                        html += `<button onclick="goPage(${p})" class="w-8 h-8 flex items-center justify-center rounded-lg text-white text-xs hover:bg-[#1a1a1a] transition">${p}</button>`;
-                    }
-                }
-
-                // Next
-                if (currentPage === totalPages) {
-                    html += `<span class="w-8 h-8 flex items-center justify-center border border-white/10 rounded-lg text-white/30 text-xs cursor-not-allowed">&#8250;</span>`;
-                } else {
-                    html += `<button onclick="goPage(${currentPage + 1})" class="w-8 h-8 flex items-center justify-center border border-white/10 rounded-lg text-white text-xs hover:bg-[#1a1a1a] transition">&#8250;</button>`;
-                }
-
-                controls.innerHTML = html;
-            }
-
-            function goPage(p) {
-                currentPage = p;
-                renderTable();
-            }
         </script>
 </body>
 

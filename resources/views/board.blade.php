@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ProSite - Board</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>ItensFlow - Board</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -42,40 +43,48 @@
         .custom-scroll::-webkit-scrollbar {
             height: 7px;
             width: 8px;
-          }
-          .custom-scroll::-webkit-scrollbar-track {
-            background: #1a1a1a; 
+        }
+
+        .custom-scroll::-webkit-scrollbar-track {
+            background: #1a1a1a;
             border-radius: 10px;
-          }
-           .custom-scroll::-webkit-scrollbar-thumb {
+        }
+
+        .custom-scroll::-webkit-scrollbar-thumb {
             background: #c7ff3d;
             border-radius: 10px;
-          }
-           .custom-scroll::-webkit-scrollbar-thumb:hover {
-            background: #a8d930;
-          }
-          
-          .flatpickr-calendar {
-    background: #151515 !important;
-    border: 1px solid rgba(255,255,255,0.1) !important;
-    border-radius: 12px !important;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.5) !important;
-}
-.flatpickr-day.selected {
-    background: #C7FF3D !important;
-    border-color: #C7FF3D !important;
-    color: #000 !important;
-}
-.flatpickr-day:hover {
-    background: rgba(199,255,61,0.2) !important;
-}
-.flatpickr-months, .flatpickr-weekdays, .flatpickr-day {
-    color: white !important;
-}
-.flatpickr-day.today {
-    border-color: #C7FF3D !important;
-}
+        }
 
+        .custom-scroll::-webkit-scrollbar-thumb:hover {
+            background: #a8d930;
+        }
+
+        .flatpickr-calendar {
+            background: #151515 !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-radius: 12px !important;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5) !important;
+        }
+
+        .flatpickr-day.selected {
+            background: #C7FF3D !important;
+            border-color: #C7FF3D !important;
+            color: #000 !important;
+        }
+
+        .flatpickr-day:hover {
+            background: rgba(199, 255, 61, 0.2) !important;
+        }
+
+        .flatpickr-months,
+        .flatpickr-weekdays,
+        .flatpickr-day {
+            color: white !important;
+        }
+
+        .flatpickr-day.today {
+            border-color: #C7FF3D !important;
+        }
     </style>
 
 
@@ -83,16 +92,16 @@
 
 <body class="flex h-screen overflow-hidden bg-[#080808] font-sans">
 
-    <div id="sidebar-backdrop" 
-         class="fixed inset-0 bg-black/60 z-40 lg:hidden hidden backdrop-blur-sm" 
-         onclick="toggleSidebar()">
+    <div id="sidebar-backdrop"
+        class="fixed inset-0 bg-black/60 z-40 lg:hidden hidden backdrop-blur-sm"
+        onclick="toggleSidebar()">
     </div>
 
-   <aside id="sidebar" class="fixed lg:relative inset-y-0 left-0 z-50 w-[200px] md:w-56 bg-[#080808] text-white flex flex-col p-5 shadow-lg 
+    <aside id="sidebar" class="fixed lg:relative inset-y-0 left-0 z-50 w-[200px] md:w-56 bg-[#080808] text-white flex flex-col p-5 shadow-lg 
               border-r border-white/10 -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out">
-               
+
         <div class="flex items-center gap-3 mx-4 px-0 md:px-4 pb-4 mb-4 mt-0 border-b border-white/30">
-           
+
             <div class="w-8 h-8 rounded-[9px] flex items-center justify-center shrink-0">
                 <img src="{{ asset('images/logo_itenas.png') }}" alt="ProSite Logo" class="w-8 h-8 rounded-[9px]">
             </div>
@@ -151,28 +160,28 @@
 
             <div class="flex items-center gap-6 sm:gap-2">
 
-                <button onclick="toggleSidebar()" 
+                <button onclick="toggleSidebar()"
                     class="lg:hidden w-8 h-8 -ml-3 flex items-center justify-center rounded-xl 
                    bg-[#151515] border border-white/10 text-gray-400 
                    hover:text-white hover:bg-[#1a1a1a] transition">
-                <i class="fa-solid fa-bars text-xs"></i>
+                    <i class="fa-solid fa-bars text-xs"></i>
                 </button>
 
-                 <div class="flex flex-col sm:flex-row items-center gap-2"> 
-                    
-                 <div class="flex flex-row items-center gap-2"> 
-                    @if(isset($project))
+                <div class="flex flex-col sm:flex-row items-center gap-2">
+
+                    <div class="flex flex-row items-center gap-2">
+                        @if(isset($project))
                         <a href="{{ url('/board') }}" class="text-white hover:text-[#C7FF3D] text-xs sm:text-base mx-2 transition flex items-center gap-1.5 font-medium">
                             <i class="fa-solid fa-arrow-left text-[10px] text-[#C7FF3D]"></i> Board
                         </a>
                         <p class="text-white/40 text-xs sm:text-base rotate-90 sm:rotate-0">&#8250;</p>
-                    @else
+                        @else
                         <p class="text-white text-xs sm:text-base mx-2 font-medium">Board</p>
                         <p class="text-white/40 text-xs sm:text-base rotate-90 sm:rotate-0">&#8250;</p>
-                    @endif
-                </div>
+                        @endif
+                    </div>
 
-                     <p class="text-[#C7FF3D] text-xs sm:text-base font-semibold">{{ isset($project) ? $project->nama_project : 'Select Project' }}</p>
+                    <p class="text-[#C7FF3D] text-xs sm:text-base font-semibold">{{ isset($project) ? $project->nama_project : 'Select Project' }}</p>
 
                 </div>
 
@@ -205,838 +214,530 @@
                 <h1 class="text-xs sm:text-base text-white/70">{{ $project->deskripsi ?? 'Manage deliverables and assets for the upcoming launch.' }}</h1>
             </div>
 
-         <div class="flex flex-row gap-2 relative self-end sm:self-auto">
+            <div class="flex flex-row gap-2 relative self-end sm:self-auto">
 
-                    <div class="relative mt-3" id="filter-wrapper">
-                        <button
-                            id="btn-filter"
-                            onclick="toggleFilterDropdown()"
-                            class="flex items-center gap-2 border border-white/30 py-2 px-4 bg-[#000000] rounded-lg hover:border-[#C7FF3D] transition-colors duration-200">
-                            <i class="fa-solid fa-filter text-white text-xs"></i>
-                            <span class="text-white text-xs">Filter</span>
-                            <i class="fa-solid fa-chevron-down text-white/40 text-[10px] transition-transform duration-200" id="filter-chevron"></i>
-                        </button>
+                <div class="relative mt-3" id="filter-wrapper">
+                    <button
+                        id="btn-filter"
+                        onclick="toggleFilterDropdown()"
+                        class="flex items-center gap-2 border border-white/30 py-2 px-4 bg-[#000000] rounded-lg hover:border-[#C7FF3D] transition-colors duration-200">
+                        <i class="fa-solid fa-filter text-white text-xs"></i>
+                        <span class="text-white text-xs">Filter</span>
+                        <i class="fa-solid fa-chevron-down text-white/40 text-[10px] transition-transform duration-200" id="filter-chevron"></i>
+                    </button>
+
+                    <div
+                        id="filter-dropdown"
+                        class="hidden absolute right-0 top-full mt-2 w-52 bg-[#111] border border-white/10 rounded-xl shadow-2xl z-50">
 
                         <div
-                            id="filter-dropdown"
-                            class="hidden absolute right-0 top-full mt-2 w-52 bg-[#111] border border-white/10 rounded-xl shadow-2xl z-50">
+                            id="filter-assign-trigger"
+                            onclick="toggleAssignSub(event)"
+                            class="flex items-center justify-between gap-3 px-4 py-3 hover:bg-white/5 cursor-pointer transition group rounded-t-xl">
+                            <div class="flex items-center gap-3">
+                                <i class="fa-regular fa-user text-white/50 text-xs group-hover:text-[#C7FF3D] transition"></i>
+                                <span class="text-white text-xs">By Assign</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-down text-white/30 text-[10px] transition-transform duration-200" id="assign-chevron"></i>
+                        </div>
 
+                        <div
+                            id="assign-sub"
+                            class="hidden border-t border-white/5 bg-[#0a0a0a]">
                             <div
-                                id="filter-assign-trigger"
-                                onclick="toggleAssignSub(event)"
-                                class="flex items-center justify-between gap-3 px-4 py-3 hover:bg-white/5 cursor-pointer transition group rounded-t-xl">
-                                <div class="flex items-center gap-3">
-                                    <i class="fa-regular fa-user text-white/50 text-xs group-hover:text-[#C7FF3D] transition"></i>
-                                    <span class="text-white text-xs">By Assign</span>
-                                </div>
-                                <i class="fa-solid fa-chevron-down text-white/30 text-[10px] transition-transform duration-200" id="assign-chevron"></i>
+                                onclick="selectFilter('assign_elvin')"
+                                class="flex items-center gap-2.5 pl-10 pr-4 py-2.5 hover:bg-white/5 cursor-pointer transition group">
+                                <div class="w-5 h-5 rounded-full bg-blue-500 flex items-center justify-center text-[10px] font-bold text-white shrink-0">E</div>
+                                <span class="text-white/80 group-hover:text-white text-xs transition">Elvin Alfabian</span>
                             </div>
-
                             <div
-                                id="assign-sub"
-                                class="hidden border-t border-white/5 bg-[#0a0a0a]">
-                                <div
-                                    onclick="selectFilter('assign_elvin')"
-                                    class="flex items-center gap-2.5 pl-10 pr-4 py-2.5 hover:bg-white/5 cursor-pointer transition group">
-                                    <div class="w-5 h-5 rounded-full bg-blue-500 flex items-center justify-center text-[10px] font-bold text-white shrink-0">E</div>
-                                    <span class="text-white/80 group-hover:text-white text-xs transition">Elvin Alfabian</span>
-                                </div>
-                                <div
-                                    onclick="selectFilter('assign_ibom')"
-                                    class="flex items-center gap-2.5 pl-10 pr-4 py-2.5 hover:bg-white/5 cursor-pointer transition group border-t border-white/5">
-                                    <div class="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center text-[10px] font-bold text-white shrink-0">I</div>
-                                    <span class="text-white/80 group-hover:text-white text-xs transition">Ibom Gans</span>
-                                </div>
-                                <div
-                                    onclick="selectFilter('assign_syafiq')"
-                                    class="flex items-center gap-2.5 pl-10 pr-4 py-2.5 hover:bg-white/5 cursor-pointer transition group border-t border-white/5">
-                                    <div class="w-5 h-5 rounded-full bg-purple-500 flex items-center justify-center text-[10px] font-bold text-white shrink-0">S</div>
-                                    <span class="text-white/80 group-hover:text-white text-xs transition">Syafiq Khayru</span>
-                                </div>
+                                onclick="selectFilter('assign_ibom')"
+                                class="flex items-center gap-2.5 pl-10 pr-4 py-2.5 hover:bg-white/5 cursor-pointer transition group border-t border-white/5">
+                                <div class="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center text-[10px] font-bold text-white shrink-0">I</div>
+                                <span class="text-white/80 group-hover:text-white text-xs transition">Ibom Gans</span>
                             </div>
-
                             <div
-                                id="filter-priority-trigger"
-                                onclick="togglePrioritySub(event)"
-                                class="flex items-center justify-between gap-3 px-4 py-3 hover:bg-white/5 cursor-pointer transition group border-t border-white/5">
-                                <div class="flex items-center gap-3">
-                                    <i class="fa-solid fa-flag text-white/50 text-xs group-hover:text-[#C7FF3D] transition"></i>
-                                    <span class="text-white text-xs">Priority</span>
-                                </div>
-                                <i class="fa-solid fa-chevron-down text-white/30 text-[10px] transition-transform duration-200" id="priority-chevron"></i>
+                                onclick="selectFilter('assign_syafiq')"
+                                class="flex items-center gap-2.5 pl-10 pr-4 py-2.5 hover:bg-white/5 cursor-pointer transition group border-t border-white/5">
+                                <div class="w-5 h-5 rounded-full bg-purple-500 flex items-center justify-center text-[10px] font-bold text-white shrink-0">S</div>
+                                <span class="text-white/80 group-hover:text-white text-xs transition">Syafiq Khayru</span>
                             </div>
+                        </div>
 
+                        <div
+                            id="filter-priority-trigger"
+                            onclick="togglePrioritySub(event)"
+                            class="flex items-center justify-between gap-3 px-4 py-3 hover:bg-white/5 cursor-pointer transition group border-t border-white/5">
+                            <div class="flex items-center gap-3">
+                                <i class="fa-solid fa-flag text-white/50 text-xs group-hover:text-[#C7FF3D] transition"></i>
+                                <span class="text-white text-xs">Priority</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-down text-white/30 text-[10px] transition-transform duration-200" id="priority-chevron"></i>
+                        </div>
+
+                        <div
+                            id="priority-sub"
+                            class="hidden border-t border-white/5 bg-[#0a0a0a]">
                             <div
-                                id="priority-sub"
-                                class="hidden border-t border-white/5 bg-[#0a0a0a]">
-                                <div
-                                    onclick="selectFilter('priority_highest')"
-                                    class="flex items-center gap-3 pl-10 pr-4 py-2.5 hover:bg-white/5 cursor-pointer transition group">
-                                    <i class="fa-solid fa-angles-up text-red-500 text-xs"></i>
-                                    <span class="text-red-500 text-xs font-semibold">Highest</span>
-                                </div>
-                                <div
-                                    onclick="selectFilter('priority_high')"
-                                    class="flex items-center gap-3 pl-10 pr-4 py-2.5 hover:bg-white/5 cursor-pointer transition group border-t border-white/5">
-                                    <i class="fa-solid fa-angle-up text-red-500 text-xs"></i>
-                                    <span class="text-red-500 text-xs font-semibold">High</span>
-                                </div>
-                                <div
-                                    onclick="selectFilter('priority_medium')"
-                                    class="flex items-center gap-3 pl-10 pr-4 py-2.5 hover:bg-white/5 cursor-pointer transition group border-t border-white/5">
-                                    <i class="fa-solid fa-minus text-orange-400 text-xs"></i>
-                                    <span class="text-orange-400 text-xs font-semibold">Medium</span>
-                                </div>
-                                <div
-                                    onclick="selectFilter('priority_low')"
-                                    class="flex items-center gap-3 pl-10 pr-4 py-2.5 hover:bg-white/5 cursor-pointer transition group border-t border-white/5">
-                                    <i class="fa-solid fa-angle-down text-green-500 text-xs"></i>
-                                    <span class="text-green-500 text-xs font-semibold">Low</span>
-                                </div>
-                                <div
-                                    onclick="selectFilter('priority_lowest')"
-                                    class="flex items-center gap-3 pl-10 pr-4 py-2.5 hover:bg-white/5 cursor-pointer transition group border-t border-white/5">
-                                    <i class="fa-solid fa-angles-down text-green-500 text-xs"></i>
-                                    <span class="text-green-500 text-xs font-semibold">Lowest</span>
-                                </div>
-                            </div>
-
-                            <div
-                                id="filter-duedate-trigger"
-                                onclick="toggleDueDateSub(event)"
-                                class="flex items-center justify-between gap-3 px-4 py-3 hover:bg-white/5 cursor-pointer transition group border-t border-white/5">
-                                <div class="flex items-center gap-3">
-                                    <i class="fa-regular fa-calendar text-white/50 text-xs group-hover:text-[#C7FF3D] transition"></i>
-                                    <span class="text-white text-xs">Due Date</span>
-                                </div>
-                                <i class="fa-solid fa-chevron-down text-white/30 text-[10px] transition-transform duration-200" id="duedate-chevron"></i>
-                            </div>
-
-                            <div
-                                id="duedate-sub"
-                                class="hidden border-t border-white/5 bg-[#0a0a0a]">
-                                <div
-                                    onclick="selectFilter('duedate_newest')"
-                                    class="flex items-center gap-3 pl-10 pr-4 py-2.5 hover:bg-white/5 cursor-pointer transition group">
-                                    <i class="fa-solid fa-arrow-up text-white/40 text-xs group-hover:text-[#C7FF3D] transition"></i>
-                                    <span class="text-white/80 text-xs">Terbaru ke Terlama</span>
-                                </div>
-                                <div
-                                    onclick="selectFilter('duedate_oldest')"
-                                    class="flex items-center gap-3 pl-10 pr-4 py-2.5 hover:bg-white/5 cursor-pointer transition group border-t border-white/5">
-                                    <i class="fa-solid fa-arrow-down text-white/40 text-xs group-hover:text-[#C7FF3D] transition"></i>
-                                    <span class="text-white/80 text-xs">Terlama ke Terbaru</span>
-                                </div>
-                            </div>
-
-                            <div
-                                onclick="clearFilter()"
-                                class="flex items-center gap-3 px-4 py-3 hover:bg-red-500/10 cursor-pointer transition group border-t border-white/10 rounded-b-xl">
-                                <i class="fa-solid fa-xmark text-red-400/70 text-xs group-hover:text-red-400 transition"></i>
-                                <span class="text-red-400/70 text-xs group-hover:text-red-400 transition">Clear Filter</span>
-                            </div>
-
-                        </div>
-                    </div>
-               </div>
-                
-        </div>
-
-        <div class="flex flex-row items-start gap-4 mt-6 overflow-x-auto pb-4 custom-scroll">
-
-            <div class="w-[295px] bg-[#151515] border border-white/10 rounded-2xl p-4 flex flex-col gap-3 shrink-0">
-    
-                <div class="flex items-center justify-between mb-1">
-                    <div class="flex items-center gap-2">
-                        <span class="w-2 h-2 rounded-full bg-gray-400"></span>
-                        <p class="text-white text-sm font-semibold">To Do</p>
-                        <span class="text-xs bg-white/10 text-white/60 px-2 py-0.5 rounded-full">2</span>
-                    </div>
-                    <i class="fa-solid fa-ellipsis text-white/40 text-sm"></i>
-                </div>
-
-                    <div onclick="window.location.href='{{ url('/task-log?title=Draft+initial+landing+page+copy&key=PRO-102&status=To+Do') }}'" class="bg-[#000000] border border-white/10 rounded-xl p-3 flex flex-col gap-2 cursor-pointer hover:border-[#C7FF3D] hover:bg-white/5 transition">
-                    <div class="flex items-center justify-between">
-                        <span class="flex items-center gap-1 text-orange-400 text-xs font-semibold">
-                            <i class="fa-solid fa-minus"></i> Medium
-                        </span>
-                        <span class="text-white/40 text-xs">#PRO-102</span>
-                    </div>
-                    <p class="text-white text-sm font-semibold">Draft initial landing page copy</p>
-                    <p class="text-white/50 text-xs">Create the hero section and feature highlights for the main product</p>
-                    <div class="flex items-center justify-between mt-1">
-                        <div class="flex flex-col gap-0.5">
-                            <span class="text-[9px] text-white/40 uppercase tracking-wider font-semibold">Due date</span>
-                            <span class="flex items-center gap-1.5 text-white font-medium text-xs">
-                                <i class="fa-regular fa-calendar text-xs"></i> 18 Sept 2026
-                            </span>
-                        </div>
-                        <div class="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center text-[10px] font-bold text-white">S</div>
-                    </div>
-                </div>
-
-                    <div onclick="window.location.href='{{ url('/task-log?title=Setup+Database+Authentication&key=PRO-103&status=To+Do') }}'" class="bg-[#000000] border border-white/10 rounded-xl p-3 flex flex-col gap-2 cursor-pointer hover:border-[#C7FF3D] hover:bg-white/5 transition">
-                    <div class="flex items-center justify-between">
-                        <span class="flex items-center gap-1 text-red-500 text-xs font-semibold">
-                            <i class="fa-solid fa-angles-up"></i> Highest
-                        </span>
-                        <span class="text-white/40 text-xs">#PRO-102</span>
-                    </div>
-                    <p class="text-white text-sm font-semibold">Draft initial landing page copy</p>
-                    <p class="text-white/50 text-xs">Create the hero section and feature highlights for the main product</p>
-                    <div class="flex items-center justify-between mt-1">
-                        <div class="flex flex-col gap-0.5">
-                            <span class="text-[9px] text-white/40 uppercase tracking-wider font-semibold">Due date</span>
-                            <span class="flex items-center gap-1.5 text-white font-medium text-xs">
-                                <i class="fa-regular fa-calendar text-xs"></i> 18 Sept 2026
-                            </span>
-                        </div>
-                        <div class="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center text-[10px] font-bold text-white">S</div>
-                    </div>
-                </div>
-
-                <button onclick="openInlineTask('c1')" id="btn-c1"
-                    class="w-full text-white/40 text-xs border border-white/10 rounded-xl py-2 hover:border-[#C7FF3D] hover:text-white transition mt-1">
-                    + Add Task
-                </button>
-
-                <div id="form-c1" class="hidden bg-[#000000] border-2 border-[#C7FF3D]/40 rounded-xl p-3 mt-1">
-                    <textarea rows="3" placeholder="What needs to be done?"
-                        oninput="toggleSubmitBtn('c1', this.value)"
-                        class="w-full bg-transparent text-xs text-white placeholder-white/40 focus:outline-none resize-none mb-2">
-                    </textarea>
-                    <input type="date" id="c1-date" onchange="setDate('c1', this.value)" class="absolute opacity-0 w-0 h-0 pointer-events-none">
-                    <div id="c1-assign" class="hidden mb-2">
-                        <div class="bg-[#111] border border-white/10 rounded-lg overflow-hidden">
-                            <div onclick="setAssign('c1', 'Elvin Alfabian')" class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition">
-                                <div class="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center text-[10px] font-bold text-white shrink-0">E</div>
-                                <span class="text-white text-xs">Elvin Alfabian</span>
-                            </div>
-                            <div onclick="setAssign('c1', 'Ibom Gans')" class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition">
-                                <div class="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center text-[10px] font-bold text-white shrink-0">I</div>
-                                <span class="text-white text-xs">Ibom Gans</span>
-                            </div>
-                            <div onclick="setAssign('c1', 'Syafiq Khayru')" class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition">
-                                <div class="w-6 h-6 rounded-full bg-purple-500 flex items-center justify-center text-[10px] font-bold text-white shrink-0">S</div>
-                                <span class="text-white text-xs">Syafiq Khayru</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="c1-priority" class="hidden mb-2">
-                        <div class="bg-[#111] border border-white/10 rounded-lg overflow-hidden">
-                            <div onclick="setPriority('c1', 'highest', 'fa-angles-up', 'text-red-500')" class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition"><i class="fa-solid fa-angles-up text-red-500 text-xs"></i><span class="text-red-500 text-xs font-semibold">Highest</span></div>
-                            <div onclick="setPriority('c1', 'high', 'fa-angle-up', 'text-orange-400')" class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition"><i class="fa-solid fa-angle-up text-orange-400 text-xs"></i><span class="text-orange-400 text-xs font-semibold">High</span></div>
-                            <div onclick="setPriority('c1', 'medium', 'fa-minus', 'text-orange-400')" class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition"><i class="fa-solid fa-minus text-orange-400 text-xs"></i><span class="text-orange-400 text-xs font-semibold">Medium</span></div>
-                            <div onclick="setPriority('c1', 'low', 'fa-angle-down', 'text-gray-400')" class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition"><i class="fa-solid fa-angle-down text-green-500 text-xs"></i><span class="text-green-500 text-xs font-semibold">Low</span></div>
-                            <div onclick="setPriority('c1', 'lowest', 'fa-angles-down', 'text-gray-500')" class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition"><i class="fa-solid fa-angles-down text-green-500 text-xs"></i><span class="text-green-500 text-xs font-semibold">Lowest</span></div>
-                        </div>
-                    </div>
-                    <div class="flex items-center justify-between mt-1">
-                        <div class="flex items-center gap-3">
-                            <i onclick="openDatePicker('c1')" class="fa-regular fa-calendar text-white/40 text-sm cursor-pointer hover:text-[#C7FF3D] transition"></i>
-                            <i onclick="toggleField('c1-assign')" class="fa-regular fa-user text-white/40 text-sm cursor-pointer hover:text-[#C7FF3D] transition"></i>
-                            <i onclick="toggleField('c1-priority')" class="fa-solid fa-flag text-white/40 text-sm cursor-pointer hover:text-[#C7FF3D] transition"></i>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <button onclick="closeInlineTask('c1')" class="w-7 h-7 flex items-center justify-center bg-white/10 rounded-lg hover:bg-red-500/30 hover:text-red-400 transition text-white/40 text-xs"><i class="fa-solid fa-xmark"></i></button>
-                            <button id="btn-submit-c1" onclick="submitTask('c1')" disabled class="w-7 h-7 flex items-center justify-center bg-white/10 rounded-lg transition text-white/20 text-xs cursor-not-allowed"><i class="fa-solid fa-arrow-turn-down rotate-90"></i></button>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="w-[295px] bg-[#151515] border border-white/10 rounded-2xl p-4 flex flex-col gap-3 shrink-0">
-    
-                <div class="flex items-center justify-between mb-1">
-                    <div class="flex items-center gap-2">
-                        <span class="w-2 h-2 rounded-full bg-gray-400"></span>
-                        <p class="text-white text-sm font-semibold">In Progres</p>
-                        <span class="text-xs bg-white/10 text-white/60 px-2 py-0.5 rounded-full">3</span>
-                    </div>
-                    <i class="fa-solid fa-ellipsis text-white/40 text-sm"></i>
-                </div>
-                    <div onclick="window.location.href='{{ url('/task-log?title=Design+UI+mockups+for+mobile+app&key=PRO-104&status=In+Progress') }}'" class="bg-[#000000] border border-white/10 rounded-xl p-3 flex flex-col gap-2 cursor-pointer hover:border-[#C7FF3D] hover:bg-white/5 transition">
-                    <div class="flex items-center justify-between">
-                        <span class="flex items-center gap-1 text-orange-400 text-xs font-semibold">
-                            <i class="fa-solid fa-minus"></i> Medium
-                        </span>
-                        <span class="text-white/40 text-xs">#PRO-102</span>
-                    </div>
-                    <p class="text-white text-sm font-semibold">Draft initial landing page copy</p>
-                    <p class="text-white/50 text-xs">Create the hero section and feature highlights for the main product</p>
-                    <div class="flex items-center justify-between mt-1">
-                        <div class="flex flex-col gap-0.5">
-                            <span class="text-[9px] text-white/40 uppercase tracking-wider font-semibold">Due date</span>
-                            <span class="flex items-center gap-1.5 text-white font-medium text-xs">
-                                <i class="fa-regular fa-calendar text-xs"></i> 18 Sept 2026
-                            </span>
-                        </div>
-                        <div class="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center text-[10px] font-bold text-white">S</div>
-                    </div>
-                </div>
-
-                    <div onclick="window.location.href='{{ url('/task-log?title=Develop+API+Endpoint+for+Users&key=PRO-105&status=In+Progress') }}'" class="bg-[#000000] border border-white/10 rounded-xl p-3 flex flex-col gap-2 cursor-pointer hover:border-[#C7FF3D] hover:bg-white/5 transition">
-                    <div class="flex items-center justify-between">
-                        <span class="flex items-center gap-1 text-red-500 text-xs font-semibold">
-                            <i class="fa-solid fa-angle-up"></i> High
-                        </span>
-                        <span class="text-white/40 text-xs">#PRO-105</span>
-                    </div>
-                    <p class="text-white text-sm font-semibold">Draft initial landing page copy</p>
-                    <p class="text-white/50 text-xs">Create the hero section and feature highlights for the main product</p>
-                    <div class="flex items-center justify-between mt-1">
-                        <div class="flex flex-col gap-0.5">
-                            <span class="text-[9px] text-white/40 uppercase tracking-wider font-semibold">Due date</span>
-                            <span class="flex items-center gap-1.5 text-white font-medium text-xs">
-                                <i class="fa-regular fa-calendar text-xs"></i> 18 Sept 2026
-                            </span>
-                        </div>
-                        <div class="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center text-[10px] font-bold text-white">S</div>
-                    </div>
-                </div>
-
-                   <div onclick="window.location.href='{{ url('/task-log?title=Fix+Navbar+Responsive+Bug&key=PRO-106&status=In+Progress') }}'" class="bg-[#000000] border border-white/10 rounded-xl p-3 flex flex-col gap-2 cursor-pointer hover:border-[#C7FF3D] hover:bg-white/5 transition">
-                    <div class="flex items-center justify-between">
-                        <span class="flex items-center gap-1 text-green-500 text-xs font-semibold">
-                            <i class="fa-solid fa-angle-down"></i> Low
-                        </span>
-                        <span class="text-white/40 text-xs">#PRO-106</span>
-                    </div>
-                    <p class="text-white text-sm font-semibold">Draft initial landing page copy</p>
-                    <p class="text-white/50 text-xs">Create the hero section and feature highlights for the main product</p>
-                    <div class="flex items-center justify-between mt-1">
-                        <div class="flex flex-col gap-0.5">
-                            <span class="text-[9px] text-white/40 uppercase tracking-wider font-semibold">Due date</span>
-                            <span class="flex items-center gap-1.5 text-white font-medium text-xs">
-                                <i class="fa-regular fa-calendar text-xs"></i> 18 Sept 2026
-                            </span>
-                        </div>
-                        <div class="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center text-[10px] font-bold text-white">S</div>
-                    </div>
-                </div>
-
-                <button onclick="openInlineTask('c2')" id="btn-c2"
-                    class="w-full text-white/40 text-xs border border-white/10 rounded-xl py-2 hover:border-[#C7FF3D] hover:text-white transition mt-1">
-                    + Add Task
-                </button>
-
-                <div id="form-c2" class="hidden bg-[#000000] border-2 border-[#C7FF3D]/40 rounded-xl p-3 mt-1">
-                    <textarea rows="3" placeholder="What needs to be done?"
-                        oninput="toggleSubmitBtn('c2', this.value)"
-                        class="w-full bg-transparent text-xs text-white placeholder-white/40 focus:outline-none resize-none mb-2">
-                    </textarea>
-                    <input type="date" id="c2-date" onchange="setDate('c2', this.value)" class="absolute opacity-0 w-0 h-0 pointer-events-none">
-                    <div id="c2-assign" class="hidden mb-2">
-                        <div class="bg-[#111] border border-white/10 rounded-lg overflow-hidden">
-                            <div onclick="setAssign('c2', 'Elvin Alfabian')" class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition">
-                                <div class="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center text-[10px] font-bold text-white shrink-0">E</div>
-                                <span class="text-white text-xs">Elvin Alfabian</span>
-                            </div>
-                            <div onclick="setAssign('c2', 'Ibom Gans')" class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition">
-                                <div class="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center text-[10px] font-bold text-white shrink-0">I</div>
-                                <span class="text-white text-xs">Ibom Gans</span>
-                            </div>
-                            <div onclick="setAssign('c2', 'Syafiq Khayru')" class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition">
-                                <div class="w-6 h-6 rounded-full bg-purple-500 flex items-center justify-center text-[10px] font-bold text-white shrink-0">S</div>
-                                <span class="text-white text-xs">Syafiq Khayru</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="c2-priority" class="hidden mb-2">
-                        <div class="bg-[#111] border border-white/10 rounded-lg overflow-hidden">
-                            <div onclick="setPriority('c2', 'highest', 'fa-angles-up', 'text-red-500')" class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition"><i class="fa-solid fa-angles-up text-red-500 text-xs"></i><span class="text-red-500 text-xs font-semibold">Highest</span></div>
-                            <div onclick="setPriority('c2', 'high', 'fa-angle-up', 'text-orange-400')" class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition"><i class="fa-solid fa-angle-up text-orange-400 text-xs"></i><span class="text-orange-400 text-xs font-semibold">High</span></div>
-                            <div onclick="setPriority('c2', 'medium', 'fa-minus', 'text-orange-400')" class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition"><i class="fa-solid fa-minus text-orange-400 text-xs"></i><span class="text-orange-400 text-xs font-semibold">Medium</span></div>
-                            <div onclick="setPriority('c2', 'low', 'fa-angle-down', 'text-gray-400')" class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition"><i class="fa-solid fa-angle-down text-green-500 text-xs"></i><span class="text-green-500 text-xs font-semibold">Low</span></div>
-                            <div onclick="setPriority('c2', 'lowest', 'fa-angles-down', 'text-gray-500')" class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition"><i class="fa-solid fa-angles-down text-green-500 text-xs"></i><span class="text-green-500 text-xs font-semibold">Lowest</span></div>
-                        </div>
-                    </div>
-                    <div class="flex items-center justify-between mt-1">
-                        <div class="flex items-center gap-3">
-                            <i onclick="openDatePicker('c2')" class="fa-regular fa-calendar text-white/40 text-sm cursor-pointer hover:text-[#C7FF3D] transition"></i>
-                            <i onclick="toggleField('c2-assign')" class="fa-regular fa-user text-white/40 text-sm cursor-pointer hover:text-[#C7FF3D] transition"></i>
-                            <i onclick="toggleField('c2-priority')" class="fa-solid fa-flag text-white/40 text-sm cursor-pointer hover:text-[#C7FF3D] transition"></i>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <button onclick="closeInlineTask('c2')" class="w-7 h-7 flex items-center justify-center bg-white/10 rounded-lg hover:bg-red-500/30 hover:text-red-400 transition text-white/40 text-xs"><i class="fa-solid fa-xmark"></i></button>
-                            <button id="btn-submit-c2" onclick="submitTask('c2')" disabled class="w-7 h-7 flex items-center justify-center bg-white/10 rounded-lg transition text-white/20 text-xs cursor-not-allowed"><i class="fa-solid fa-arrow-turn-down rotate-90"></i></button>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="w-[295px] bg-[#151515] border border-white/10 rounded-2xl p-4 flex flex-col gap-3 shrink-0">
-    
-                <div class="flex items-center justify-between mb-1">
-                    <div class="flex items-center gap-2">
-                        <span class="w-2 h-2 rounded-full bg-gray-400"></span>
-                        <p class="text-white text-sm font-semibold">Review</p>
-                        <span class="text-xs bg-white/10 text-white/60 px-2 py-0.5 rounded-full">1</span>
-                    </div>
-                    <i class="fa-solid fa-ellipsis text-white/40 text-sm"></i>
-                </div>
-
-                   <div onclick="window.location.href='{{ url('/task-log?title=Draft+initial+landing+page+copy&key=PRO-102&status=Review') }}'" class="bg-[#000000] border border-white/10 rounded-xl p-3 flex flex-col gap-2 cursor-pointer hover:border-[#C7FF3D] hover:bg-white/5 transition">
-                    <div class="flex items-center justify-between">
-                        <span class="flex items-center gap-1 text-green-500 text-xs font-semibold">
-                            <i class="fa-solid fa-angles-down"></i> Lowest
-                        </span>
-                        <span class="text-white/40 text-xs">#PRO-102</span>
-                    </div>
-                    <p class="text-white text-sm font-semibold">Draft initial landing page copy</p>
-                    <p class="text-white/50 text-xs">Create the hero section and feature highlights for the main product</p>
-                    <div class="flex items-center justify-between mt-1">
-                        <div class="flex flex-col gap-0.5">
-                            <span class="text-[9px] text-white/40 uppercase tracking-wider font-semibold">Due date</span>
-                            <span class="flex items-center gap-1.5 text-white font-medium text-xs">
-                                <i class="fa-regular fa-calendar text-xs"></i> 18 Sept 2026
-                            </span>
-                        </div>
-                        <div class="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center text-[10px] font-bold text-white">S</div>
-                    </div>
-                </div>
-
-                <button onclick="openInlineTask('c3')" id="btn-c3"
-                    class="w-full text-white/40 text-xs border border-white/10 rounded-xl py-2 hover:border-[#C7FF3D] hover:text-white transition mt-1">
-                    + Add Task
-                </button>
-
-                <div id="form-c3" class="hidden bg-[#000000] border-2 border-[#C7FF3D]/40 rounded-xl p-3 mt-1">
-                    <textarea rows="3" placeholder="What needs to be done?"
-                        oninput="toggleSubmitBtn('c3', this.value)"
-                        class="w-full bg-transparent text-xs text-white placeholder-white/40 focus:outline-none resize-none mb-2">
-                    </textarea>
-                    <input type="date" id="c3-date" onchange="setDate('c3', this.value)" class="absolute opacity-0 w-0 h-0 pointer-events-none">
-                    <div id="c3-assign" class="hidden mb-2">
-                        <div class="bg-[#111] border border-white/10 rounded-lg overflow-hidden">
-                            <div onclick="setAssign('c3', 'Elvin Alfabian')" class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition">
-                                <div class="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center text-[10px] font-bold text-white shrink-0">E</div>
-                                <span class="text-white text-xs">Elvin Alfabian</span>
-                            </div>
-                            <div onclick="setAssign('c3', 'Ibom Gans')" class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition">
-                                <div class="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center text-[10px] font-bold text-white shrink-0">I</div>
-                                <span class="text-white text-xs">Ibom Gans</span>
-                            </div>
-                            <div onclick="setAssign('c3', 'Syafiq Khayru')" class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition">
-                                <div class="w-6 h-6 rounded-full bg-purple-500 flex items-center justify-center text-[10px] font-bold text-white shrink-0">S</div>
-                                <span class="text-white text-xs">Syafiq Khayru</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="c3-priority" class="hidden mb-2">
-                        <div class="bg-[#111] border border-white/10 rounded-lg overflow-hidden">
-                            <div onclick="setPriority('c3', 'highest', 'fa-angles-up', 'text-red-500')" class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition"><i class="fa-solid fa-angles-up text-red-500 text-xs"></i><span class="text-red-500 text-xs font-semibold">Highest</span></div>
-                            <div onclick="setPriority('c3', 'high', 'fa-angle-up', 'text-orange-400')" class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition"><i class="fa-solid fa-angle-up text-orange-400 text-xs"></i><span class="text-orange-400 text-xs font-semibold">High</span></div>
-                            <div onclick="setPriority('c3', 'medium', 'fa-minus', 'text-orange-400')" class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition"><i class="fa-solid fa-minus text-orange-400 text-xs"></i><span class="text-orange-400 text-xs font-semibold">Medium</span></div>
-                            <div onclick="setPriority('c3', 'low', 'fa-angle-down', 'text-gray-400')" class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition"><i class="fa-solid fa-angle-down text-green-500 text-xs"></i><span class="text-green-500 text-xs font-semibold">Low</span></div>
-                            <div onclick="setPriority('c3', 'lowest', 'fa-angles-down', 'text-gray-500')" class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition"><i class="fa-solid fa-angles-down text-green-500 text-xs"></i><span class="text-green-500 text-xs font-semibold">Lowest</span></div>
-                        </div>
-                    </div>
-                    <div class="flex items-center justify-between mt-1">
-                        <div class="flex items-center gap-3">
-                            <i onclick="openDatePicker('c3')" class="fa-regular fa-calendar text-white/40 text-sm cursor-pointer hover:text-[#C7FF3D] transition"></i>
-                            <i onclick="toggleField('c3-assign')" class="fa-regular fa-user text-white/40 text-sm cursor-pointer hover:text-[#C7FF3D] transition"></i>
-                            <i onclick="toggleField('c3-priority')" class="fa-solid fa-flag text-white/40 text-sm cursor-pointer hover:text-[#C7FF3D] transition"></i>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <button onclick="closeInlineTask('c3')" class="w-7 h-7 flex items-center justify-center bg-white/10 rounded-lg hover:bg-red-500/30 hover:text-red-400 transition text-white/40 text-xs"><i class="fa-solid fa-xmark"></i></button>
-                            <button id="btn-submit-c3" onclick="submitTask('c3')" disabled class="w-7 h-7 flex items-center justify-center bg-white/10 rounded-lg transition text-white/20 text-xs cursor-not-allowed"><i class="fa-solid fa-arrow-turn-down rotate-90"></i></button>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="w-[295px] bg-[#151515] border border-white/10 rounded-2xl p-4 flex flex-col gap-3 shrink-0">
-    
-                <div class="flex items-center justify-between mb-1">
-                    <div class="flex items-center gap-2">
-                        <span class="w-2 h-2 rounded-full bg-[#C7FF3D]"></span>
-                        <p class="text-white text-sm font-semibold">Done</p>
-                        <span class="text-xs bg-white/10 text-white/60 px-2 py-0.5 rounded-full">4</span>
-                    </div>
-                    <i class="fa-solid fa-ellipsis text-white/40 text-sm"></i>
-                </div>
-
-                    <div onclick="window.location.href='{{ url('/task-log?title=Draft+initial+landing+page+copy&key=PRO-102&status=Done') }}'" class="bg-[#000000] border border-white/10 rounded-xl p-3 flex flex-col gap-2 cursor-pointer hover:border-[#C7FF3D] hover:bg-white/5 transition">
-                    <div class="flex items-center justify-between">
-                        <span class="flex items-center gap-1 text-orange-400 text-xs font-semibold">
-                            <i class="fa-solid fa-minus"></i> Medium
-                        </span>
-                        <span class="text-white/40 text-xs">#PRO-102</span>
-                    </div>
-                    <p class="text-white text-sm font-semibold">Draft initial landing page copy</p>
-                    <p class="text-white/50 text-xs">Create the hero section and feature highlights for the main product</p>
-                    <div class="flex items-center justify-between mt-1">
-                        <div class="flex flex-col gap-0.5">
-                            <span class="text-[9px] text-white/40 uppercase tracking-wider font-semibold">Due date</span>
-                            <span class="flex items-center gap-1.5 text-white font-medium text-xs">
-                                <i class="fa-regular fa-calendar text-xs"></i> 18 Sept 2026
-                            </span>
-                        </div>
-                        <div class="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center text-[10px] font-bold text-white">S</div>
-                    </div>
-                </div>
-
-                    <div onclick="window.location.href='{{ url('/task-log?title=Draft+initial+landing+page+copy&key=PRO-105&status=Done') }}'" class="bg-[#000000] border border-white/10 rounded-xl p-3 flex flex-col gap-2 cursor-pointer hover:border-[#C7FF3D] hover:bg-white/5 transition">
-                    <div class="flex items-center justify-between">
-                        <span class="flex items-center gap-1 text-red-500 text-xs font-semibold">
-                            <i class="fa-solid fa-angle-up"></i> High
-                        </span>
-                        <span class="text-white/40 text-xs">#PRO-105</span>
-                    </div>
-                    <p class="text-white text-sm font-semibold">Draft initial landing page copy</p>
-                    <p class="text-white/50 text-xs">Create the hero section and feature highlights for the main product</p>
-                    <div class="flex items-center justify-between mt-1">
-                        <div class="flex flex-col gap-0.5">
-                            <span class="text-[9px] text-white/40 uppercase tracking-wider font-semibold">Due date</span>
-                            <span class="flex items-center gap-1.5 text-white font-medium text-xs">
-                                <i class="fa-regular fa-calendar text-xs"></i> 18 Sept 2026
-                            </span>
-                        </div>
-                        <div class="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center text-[10px] font-bold text-white">S</div>
-                    </div>
-                </div>
-
-                    <div onclick="window.location.href='{{ url('/task-log?title=Draft+initial+landing+page+copy&key=PRO-106&status=Done') }}'" class="bg-[#000000] border border-white/10 rounded-xl p-3 flex flex-col gap-2 cursor-pointer hover:border-[#C7FF3D] hover:bg-white/5 transition">
-                    <div class="flex items-center justify-between">
-                        <span class="flex items-center gap-1 text-green-500 text-xs font-semibold">
-                            <i class="fa-solid fa-angle-down"></i> Low
-                        </span>
-                        <span class="text-white/40 text-xs">#PRO-106</span>
-                    </div>
-                    <p class="text-white text-sm font-semibold">Draft initial landing page copy</p>
-                    <p class="text-white/50 text-xs">Create the hero section and feature highlights for the main product</p>
-                    <div class="flex items-center justify-between mt-1">
-                        <div class="flex flex-col gap-0.5">
-                            <span class="text-[9px] text-white/40 uppercase tracking-wider font-semibold">Due date</span>
-                            <span class="flex items-center gap-1.5 text-white font-medium text-xs">
-                                <i class="fa-regular fa-calendar text-xs"></i> 18 Sept 2026
-                            </span>
-                        </div>
-                        <div class="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center text-[10px] font-bold text-white">S</div>
-                    </div>
-                </div>
-
-                    <div onclick="window.location.href='{{ url('/task-log?title=Draft+initial+landing+page+copy&key=PRO-106&status=Done') }}'" class="bg-[#000000] border border-white/10 rounded-xl p-3 flex flex-col gap-2 cursor-pointer hover:border-[#C7FF3D] hover:bg-white/5 transition">
-                    <div class="flex items-center justify-between">
-                        <span class="flex items-center gap-1 text-green-500 text-xs font-semibold">
-                            <i class="fa-solid fa-angles-down"></i> Lowest
-                        </span>
-                        <span class="text-white/40 text-xs">#PRO-106</span>
-                    </div>
-                    <p class="text-white text-sm font-semibold">Draft initial landing page copy</p>
-                    <p class="text-white/50 text-xs">Create the hero section and feature highlights for the main product</p>
-                    <div class="flex items-center justify-between mt-1">
-                        <div class="flex flex-col gap-0.5">
-                            <span class="text-[9px] text-white/40 uppercase tracking-wider font-semibold">Due date</span>
-                            <span class="flex items-center gap-1.5 text-white font-medium text-xs">
-                                <i class="fa-regular fa-calendar text-xs"></i> 18 Sept 2026
-                            </span>
-                        </div>
-                        <div class="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center text-[10px] font-bold text-white">S</div>
-                    </div>
-                </div>
-
-                <button onclick="openInlineTask('todo')" id="btn-todo"
-                    class="w-full text-white/40 text-xs border border-white/10 rounded-xl py-2 hover:border-[#C7FF3D] hover:text-white transition mt-1">
-                    + Add Task
-                </button>
-
-                <div id="form-todo" class="hidden bg-[#000000] border-2 border-[#C7FF3D]/40 rounded-xl p-3 mt-1">
-
-                    <textarea rows="3" placeholder="What needs to be done?"
-                        oninput="toggleSubmitBtn('todo', this.value)"
-                        class="w-full bg-transparent text-xs text-white placeholder-white/40 focus:outline-none resize-none mb-2">
-                    </textarea>
-
-                    
-                    <input type="date" id="todo-date" 
-                        onchange="setDate('todo', this.value)"
-                        class="absolute opacity-0 w-0 h-0 pointer-events-none">
-
-                    <div id="todo-assign" class="hidden mb-2">
-                        <div class="bg-[#111] border border-white/10 rounded-lg overflow-hidden">
-                            
-                            <div onclick="setAssign('todo', 'Elvin Alfabian')"
-                                class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition">
-                                <div class="w-6 h-6 rounded-full bg-blue-500 ...">E</div>
-                                <span class="text-white text-xs">Elvin Alfabian</span>
-                            </div>
-
-                            <div onclick="setAssign('todo', 'Ibom Gans')"
-                                class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition">
-                                <div class="w-6 h-6 rounded-full bg-green-500 ...">I</div>
-                                <span class="text-white text-xs">Ibom Gans</span>
-                            </div>
-
-                            <div onclick="setAssign('todo', 'Syafiq Khayru')"
-                                class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition">
-                                <div class="w-6 h-6 rounded-full bg-purple-500 ...">S</div>
-                                <span class="text-white text-xs">Syafiq Khayru</span>
-                            </div>
-
-
-                        </div>
-                    </div>
-
-                    <div id="todo-priority" class="hidden mb-2">
-                        <div class="bg-[#111] border border-white/10 rounded-lg overflow-hidden">
-        
-                            <div onclick="setPriority('todo', 'highest', 'fa-angles-up', 'text-red-500')"
-                                class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition">
+                                onclick="selectFilter('priority_highest')"
+                                class="flex items-center gap-3 pl-10 pr-4 py-2.5 hover:bg-white/5 cursor-pointer transition group">
                                 <i class="fa-solid fa-angles-up text-red-500 text-xs"></i>
                                 <span class="text-red-500 text-xs font-semibold">Highest</span>
                             </div>
-
-                            <div onclick="setPriority('todo', 'high', 'fa-angle-up', 'text-orange-400')"
-                                class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition">
-                                <i class="fa-solid fa-angle-up text-orange-400 text-xs"></i>
-                                <span class="text-orange-400 text-xs font-semibold">High</span>
+                            <div
+                                onclick="selectFilter('priority_high')"
+                                class="flex items-center gap-3 pl-10 pr-4 py-2.5 hover:bg-white/5 cursor-pointer transition group border-t border-white/5">
+                                <i class="fa-solid fa-angle-up text-red-500 text-xs"></i>
+                                <span class="text-red-500 text-xs font-semibold">High</span>
                             </div>
-
-                            <div onclick="setPriority('todo', 'medium', 'fa-minus', 'text-orange-400')"
-                                class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition">
+                            <div
+                                onclick="selectFilter('priority_medium')"
+                                class="flex items-center gap-3 pl-10 pr-4 py-2.5 hover:bg-white/5 cursor-pointer transition group border-t border-white/5">
                                 <i class="fa-solid fa-minus text-orange-400 text-xs"></i>
                                 <span class="text-orange-400 text-xs font-semibold">Medium</span>
                             </div>
-
-                            <div onclick="setPriority('todo', 'low', 'fa-angle-down', 'text-gray-400')"
-                                class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition">
+                            <div
+                                onclick="selectFilter('priority_low')"
+                                class="flex items-center gap-3 pl-10 pr-4 py-2.5 hover:bg-white/5 cursor-pointer transition group border-t border-white/5">
                                 <i class="fa-solid fa-angle-down text-green-500 text-xs"></i>
                                 <span class="text-green-500 text-xs font-semibold">Low</span>
                             </div>
-
-                            <div onclick="setPriority('todo', 'lowest', 'fa-angles-down', 'text-gray-500')"
-                                class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition">
+                            <div
+                                onclick="selectFilter('priority_lowest')"
+                                class="flex items-center gap-3 pl-10 pr-4 py-2.5 hover:bg-white/5 cursor-pointer transition group border-t border-white/5">
                                 <i class="fa-solid fa-angles-down text-green-500 text-xs"></i>
                                 <span class="text-green-500 text-xs font-semibold">Lowest</span>
                             </div>
+                        </div>
 
+                        <div
+                            id="filter-duedate-trigger"
+                            onclick="toggleDueDateSub(event)"
+                            class="flex items-center justify-between gap-3 px-4 py-3 hover:bg-white/5 cursor-pointer transition group border-t border-white/5">
+                            <div class="flex items-center gap-3">
+                                <i class="fa-regular fa-calendar text-white/50 text-xs group-hover:text-[#C7FF3D] transition"></i>
+                                <span class="text-white text-xs">Due Date</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-down text-white/30 text-[10px] transition-transform duration-200" id="duedate-chevron"></i>
+                        </div>
+
+                        <div
+                            id="duedate-sub"
+                            class="hidden border-t border-white/5 bg-[#0a0a0a]">
+                            <div
+                                onclick="selectFilter('duedate_newest')"
+                                class="flex items-center gap-3 pl-10 pr-4 py-2.5 hover:bg-white/5 cursor-pointer transition group">
+                                <i class="fa-solid fa-arrow-up text-white/40 text-xs group-hover:text-[#C7FF3D] transition"></i>
+                                <span class="text-white/80 text-xs">Terbaru ke Terlama</span>
+                            </div>
+                            <div
+                                onclick="selectFilter('duedate_oldest')"
+                                class="flex items-center gap-3 pl-10 pr-4 py-2.5 hover:bg-white/5 cursor-pointer transition group border-t border-white/5">
+                                <i class="fa-solid fa-arrow-down text-white/40 text-xs group-hover:text-[#C7FF3D] transition"></i>
+                                <span class="text-white/80 text-xs">Terlama ke Terbaru</span>
+                            </div>
+                        </div>
+
+                        <div
+                            onclick="clearFilter()"
+                            class="flex items-center gap-3 px-4 py-3 hover:bg-red-500/10 cursor-pointer transition group border-t border-white/10 rounded-b-xl">
+                            <i class="fa-solid fa-xmark text-red-400/70 text-xs group-hover:text-red-400 transition"></i>
+                            <span class="text-red-400/70 text-xs group-hover:text-red-400 transition">Clear Filter</span>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="flex flex-row items-start gap-4 mt-6 overflow-x-auto pb-4 custom-scroll">
+            @foreach($statuses as $status)
+            @php
+            $tasksInCol = $project->tasks->where('status_id', $status->id);
+            $dotColor = match($status->nama_status) {
+            'In Progress' => 'bg-blue-400',
+            'Review' => 'bg-purple-400',
+            'Done' => 'bg-[#C7FF3D]',
+            default => 'bg-gray-400',
+            };
+            $colId = 'col-' . $status->id;
+            @endphp
+            <div class="w-[295px] bg-[#151515] border border-white/10 rounded-2xl p-4 flex flex-col gap-3 shrink-0"
+                ondragover="event.preventDefault(); this.classList.add('border-[#C7FF3D]/50')"
+                ondragleave="this.classList.remove('border-[#C7FF3D]/50')"
+                ondrop="dropTask(event, {{ $status->id }}); this.classList.remove('border-[#C7FF3D]/50')">
+
+                {{-- Header kolom --}}
+                <div class="flex items-center justify-between mb-1">
+                    <div class="flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full {{ $dotColor }}"></span>
+                        <p class="text-white text-sm font-semibold">{{ $status->nama_status }}</p>
+                        <span class="text-xs bg-white/10 text-white/60 px-2 py-0.5 rounded-full">{{ $tasksInCol->count() }}</span>
+                    </div>
+                    <i class="fa-solid fa-ellipsis text-white/40 text-sm"></i>
+                </div>
+
+                {{-- Loop kartu task dari database --}}
+                @forelse($tasksInCol as $task)
+                @php
+                $priorityColor = match($task->priority) {
+                'Highest' => 'text-red-500',
+                'High' => 'text-red-400',
+                'Low' => 'text-green-500',
+                'Lowest' => 'text-green-400',
+                default => 'text-orange-400', // Medium
+                };
+                $priorityIcon = match($task->priority) {
+                'Highest' => 'fa-angles-up',
+                'High' => 'fa-angle-up',
+                'Low' => 'fa-angle-down',
+                'Lowest' => 'fa-angles-down',
+                default => 'fa-minus', // Medium
+                };
+                $assigneeInitial = strtoupper(substr($task->assignee->name ?? '?', 0, 1));
+                $avatarColor = match($assigneeInitial) {
+                'E' => 'bg-blue-500',
+                'I' => 'bg-green-500',
+                'S' => 'bg-purple-500',
+                default => 'bg-gray-500',
+                };
+                @endphp
+                <div draggable="true"
+                    ondragstart="dragStart(event, {{ $task->id }})"
+                    onclick="window.location.href='{{ route('tasks.show', $task->id) }}'"
+                    class="bg-[#000000] border border-white/10 rounded-xl p-3 flex flex-col gap-2 cursor-grab hover:border-[#C7FF3D] hover:bg-white/5 transition active:opacity-50">
+                    <div class="flex items-center justify-between">
+                        <span class="flex items-center gap-1 {{ $priorityColor }} text-xs font-semibold">
+                            <i class="fa-solid {{ $priorityIcon }}"></i> {{ $task->priority ?? 'Medium' }}
+                        </span>
+                        <span class="text-white/40 text-xs">#{{ $task->formatted_key }}</span>
+                    </div>
+                    <p class="text-white text-sm font-semibold">{{ $task->judul_task }}</p>
+                    @if($task->deskripsi)
+                    <p class="text-white/50 text-xs">{{ Str::limit($task->deskripsi, 70) }}</p>
+                    @endif
+                    <div class="flex items-center justify-between mt-1">
+                        <div class="flex flex-col gap-0.5">
+                            <span class="text-[9px] text-white/40 uppercase tracking-wider font-semibold">Due date</span>
+                            <span class="flex items-center gap-1.5 text-white font-medium text-xs">
+                                <i class="fa-regular fa-calendar text-xs"></i>
+                                @if($task->deadline)
+                                {{ \Carbon\Carbon::parse($task->deadline)->format('d M Y') }}
+                                @else
+                                <span class="text-white/30">No deadline</span>
+                                @endif
+                            </span>
+                        </div>
+                        <div class="w-6 h-6 rounded-full {{ $avatarColor }} flex items-center justify-center text-[10px] font-bold text-white">
+                            {{ $assigneeInitial }}
+                        </div>
+                    </div>
+                </div>
+                @empty
+                <p class="text-white/20 text-xs text-center py-2">No tasks yet</p>
+                @endforelse
+
+                {{-- Tombol & Form Add Task --}}
+                <button onclick="openInlineTask('{{ $colId }}')" id="btn-{{ $colId }}"
+                    class="w-full text-white/40 text-xs border border-white/10 rounded-xl py-2 hover:border-[#C7FF3D] hover:text-white transition mt-1">
+                    + Add Task
+                </button>
+
+                <form id="form-{{ $colId }}" class="hidden bg-[#000000] border-2 border-[#C7FF3D]/40 rounded-xl p-3 mt-1"
+                    action="{{ route('tasks.store', $project->id) }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="status_id" value="{{ $status->id }}">
+                    <input type="hidden" name="priority" id="{{ $colId }}-priority-val" value="Medium">
+                    <input type="hidden" name="deadline" id="{{ $colId }}-deadline-val" value="">
+
+                    <textarea name="judul_task" rows="3" placeholder="What needs to be done?"
+                        oninput="toggleSubmitBtn('{{ $colId }}', this.value)"
+                        class="w-full bg-transparent text-xs text-white placeholder-white/40 focus:outline-none resize-none mb-2">
+                    </textarea>
+
+                    <input type="date" id="{{ $colId }}-date"
+                        onchange="setDate('{{ $colId }}', this.value)"
+                        class="absolute opacity-0 w-0 h-0 pointer-events-none">
+
+                    <div id="{{ $colId }}-priority-dropdown" class="hidden mb-2">
+                        <div class="bg-[#111] border border-white/10 rounded-lg overflow-hidden">
+                            <div onclick="setPriority('{{ $colId }}', 'Highest', 'fa-angles-up', 'text-red-500')" class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition"><i class="fa-solid fa-angles-up text-red-500 text-xs"></i><span class="text-red-500 text-xs font-semibold">Highest</span></div>
+                            <div onclick="setPriority('{{ $colId }}', 'High', 'fa-angle-up', 'text-orange-400')" class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition"><i class="fa-solid fa-angle-up text-orange-400 text-xs"></i><span class="text-orange-400 text-xs font-semibold">High</span></div>
+                            <div onclick="setPriority('{{ $colId }}', 'Medium', 'fa-minus', 'text-orange-400')" class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition"><i class="fa-solid fa-minus text-orange-400 text-xs"></i><span class="text-orange-400 text-xs font-semibold">Medium</span></div>
+                            <div onclick="setPriority('{{ $colId }}', 'Low', 'fa-angle-down', 'text-green-500')" class="flex items-center gap-2 px-3 py-2 hover:bg-white/5 cursor-pointer transition"><i class="fa-solid fa-angle-down text-green-500 text-xs"></i><span class="text-green-500 text-xs font-semibold">Low</span></div>
                         </div>
                     </div>
 
                     <div class="flex items-center justify-between mt-1">
                         <div class="flex items-center gap-3">
-                            <i onclick="openDatePicker('todo')" 
-                               class="fa-regular fa-calendar text-white/40 text-sm cursor-pointer hover:text-[#C7FF3D] transition"></i>
-                            <i onclick="toggleField('todo-assign')" 
-                               class="fa-regular fa-user text-white/40 text-sm cursor-pointer hover:text-[#C7FF3D] transition"></i>
-                            <i onclick="toggleField('todo-priority')" 
-                               class="fa-solid fa-flag text-white/40 text-sm cursor-pointer hover:text-[#C7FF3D] transition"></i>
+                            <i onclick="openDatePicker('{{ $colId }}')"
+                                class="fa-regular fa-calendar text-white/40 text-sm cursor-pointer hover:text-[#C7FF3D] transition"></i>
+                            <i onclick="toggleField('{{ $colId }}-priority-dropdown')"
+                                class="fa-solid fa-flag text-white/40 text-sm cursor-pointer hover:text-[#C7FF3D] transition"></i>
                         </div>
                         <div class="flex items-center gap-2">
-                            <button onclick="closeInlineTask('todo')"
+                            <button type="button" onclick="closeInlineTask('{{ $colId }}')"
                                 class="w-7 h-7 flex items-center justify-center bg-white/10 rounded-lg hover:bg-red-500/30 hover:text-red-400 transition text-white/40 text-xs">
                                 <i class="fa-solid fa-xmark"></i>
                             </button>
-                            <button id="btn-submit-todo" onclick="submitTask('todo')" disabled
+                            <button type="submit" id="btn-submit-{{ $colId }}" disabled
                                 class="w-7 h-7 flex items-center justify-center bg-white/10 rounded-lg transition text-white/20 text-xs cursor-not-allowed">
                                 <i class="fa-solid fa-arrow-turn-down rotate-90"></i>
                             </button>
                         </div>
                     </div>
-                </div>
-
+                </form>
 
             </div>
-
+            @endforeach
         </div>
-
         <script>
+            // Auto-reload board saat user balik dari TaskLog setelah ubah status
+            function checkAndReload() {
+                if (localStorage.getItem('boardNeedsReload') === '1') {
+                    localStorage.removeItem('boardNeedsReload');
+                    location.reload();
+                }
+            }
+            // Cover: balik via URL/breadcrumb (fresh load)
+            document.addEventListener('DOMContentLoaded', checkAndReload);
+            // Cover: balik via back button (bfcache restore)
+            window.addEventListener('pageshow', function(e) {
+                if (e.persisted) checkAndReload();
+            });
 
-        function toggleFilterDropdown() {
-            const dd = document.getElementById('filter-dropdown');
-            const chevron = document.getElementById('filter-chevron');
-            const isHidden = dd.classList.toggle('hidden');
-            chevron.style.transform = isHidden ? '' : 'rotate(180deg)';
-            if (isHidden) {
-                closeAssignSub();
+            function toggleFilterDropdown() {
+                const dd = document.getElementById('filter-dropdown');
+                const chevron = document.getElementById('filter-chevron');
+                const isHidden = dd.classList.toggle('hidden');
+                chevron.style.transform = isHidden ? '' : 'rotate(180deg)';
+                if (isHidden) {
+                    closeAssignSub();
+                    closePrioritySub();
+                    closeDueDateSub();
+                }
+            }
+
+            function toggleAssignSub(e) {
+                e.stopPropagation();
+                const sub = document.getElementById('assign-sub');
+                const chevron = document.getElementById('assign-chevron');
+                const isHidden = sub.classList.toggle('hidden');
+                chevron.style.transform = isHidden ? '' : 'rotate(180deg)';
                 closePrioritySub();
                 closeDueDateSub();
             }
-        }
 
-        function toggleAssignSub(e) {   
-            e.stopPropagation();
-            const sub = document.getElementById('assign-sub');
-            const chevron = document.getElementById('assign-chevron');
-            const isHidden = sub.classList.toggle('hidden');
-            chevron.style.transform = isHidden ? '' : 'rotate(180deg)';
-            closePrioritySub();
-            closeDueDateSub();
-        }
+            function closeAssignSub() {
+                const sub = document.getElementById('assign-sub');
+                const chevron = document.getElementById('assign-chevron');
+                if (sub) sub.classList.add('hidden');
+                if (chevron) chevron.style.transform = '';
+            }
 
-        function closeAssignSub() {
-            const sub = document.getElementById('assign-sub');
-            const chevron = document.getElementById('assign-chevron');
-            if (sub) sub.classList.add('hidden');
-            if (chevron) chevron.style.transform = '';
-        }
+            function toggleDueDateSub(e) {
+                e.stopPropagation();
+                const sub = document.getElementById('duedate-sub');
+                const chevron = document.getElementById('duedate-chevron');
+                const isHidden = sub.classList.toggle('hidden');
+                chevron.style.transform = isHidden ? '' : 'rotate(180deg)';
+                // Close other subs if open
+                closeAssignSub();
+                closePrioritySub();
+            }
 
-        function toggleDueDateSub(e) {
-            e.stopPropagation();
-            const sub = document.getElementById('duedate-sub');
-            const chevron = document.getElementById('duedate-chevron');
-            const isHidden = sub.classList.toggle('hidden');
-            chevron.style.transform = isHidden ? '' : 'rotate(180deg)';
-            // Close other subs if open
-            closeAssignSub();
-            closePrioritySub();
-        }
+            function closeDueDateSub() {
+                const sub = document.getElementById('duedate-sub');
+                const chevron = document.getElementById('duedate-chevron');
+                if (sub) sub.classList.add('hidden');
+                if (chevron) chevron.style.transform = '';
+            }
 
-        function closeDueDateSub() {
-            const sub = document.getElementById('duedate-sub');
-            const chevron = document.getElementById('duedate-chevron');
-            if (sub) sub.classList.add('hidden');
-            if (chevron) chevron.style.transform = '';
-        }
+            function togglePrioritySub(e) {
+                e.stopPropagation();
+                const sub = document.getElementById('priority-sub');
+                const chevron = document.getElementById('priority-chevron');
+                const isHidden = sub.classList.toggle('hidden');
+                chevron.style.transform = isHidden ? '' : 'rotate(180deg)';
+                // Close other subs if open
+                closeAssignSub();
+                closeDueDateSub();
+            }
 
-        function togglePrioritySub(e) {
-            e.stopPropagation();
-            const sub = document.getElementById('priority-sub');
-            const chevron = document.getElementById('priority-chevron');
-            const isHidden = sub.classList.toggle('hidden');
-            chevron.style.transform = isHidden ? '' : 'rotate(180deg)';
-            // Close other subs if open
-            closeAssignSub();
-            closeDueDateSub();
-        }
+            function closePrioritySub() {
+                const sub = document.getElementById('priority-sub');
+                const chevron = document.getElementById('priority-chevron');
+                if (sub) sub.classList.add('hidden');
+                if (chevron) chevron.style.transform = '';
+            }
 
-        function closePrioritySub() {
-            const sub = document.getElementById('priority-sub');
-            const chevron = document.getElementById('priority-chevron');
-            if (sub) sub.classList.add('hidden');
-            if (chevron) chevron.style.transform = '';
-        }
+            function selectFilter(type) {
+                const label = {
+                    assign_elvin: 'Assign: Elvin Alfabian',
+                    assign_ibom: 'Assign: Ibom Gans',
+                    assign_syafiq: 'Assign: Syafiq Khayru',
+                    priority_highest: 'Priority: Highest',
+                    priority_high: 'Priority: High',
+                    priority_medium: 'Priority: Medium',
+                    priority_low: 'Priority: Low',
+                    priority_lowest: 'Priority: Lowest',
+                    duedate_newest: 'Due Date â†‘',
+                    duedate_oldest: 'Due Date â†“'
+                } [type] || 'Filter';
 
-        function selectFilter(type) {
-            const label = {
-                assign_elvin: 'Assign: Elvin Alfabian',
-                assign_ibom: 'Assign: Ibom Gans',
-                assign_syafiq: 'Assign: Syafiq Khayru',
-                priority_highest: 'Priority: Highest',
-                priority_high: 'Priority: High',
-                priority_medium: 'Priority: Medium',
-                priority_low: 'Priority: Low',
-                priority_lowest: 'Priority: Lowest',
-                duedate_newest: 'Due Date ↑',
-                duedate_oldest: 'Due Date ↓'
-            }[type] || 'Filter';
+                const btn = document.getElementById('btn-filter');
+                btn.querySelector('span').textContent = label;
+                btn.classList.add('border-[#C7FF3D]');
+                btn.classList.remove('border-white/30');
 
-            const btn = document.getElementById('btn-filter');
-            btn.querySelector('span').textContent = label;
-            btn.classList.add('border-[#C7FF3D]');
-            btn.classList.remove('border-white/30');
+                document.getElementById('filter-chevron').style.transform = '';
+                document.getElementById('filter-dropdown').classList.add('hidden');
+                closeAssignSub();
+                closeDueDateSub();
+                closePrioritySub();
+            }
 
-            document.getElementById('filter-chevron').style.transform = '';
-            document.getElementById('filter-dropdown').classList.add('hidden');
-            closeAssignSub();
-            closeDueDateSub();
-            closePrioritySub();
-        }
-
-        function clearFilter() {
-            const btn = document.getElementById('btn-filter');
-            btn.querySelector('span').textContent = 'Filter';
-            btn.classList.remove('border-[#C7FF3D]');
-            btn.classList.add('border-white/30');
-            document.getElementById('filter-dropdown').classList.add('hidden');
-            document.getElementById('filter-chevron').style.transform = '';
-            closeAssignSub();
-            closeDueDateSub();
-            closePrioritySub();
-        }
-
-        // Close filter when clicking outside
-        document.addEventListener('click', function(e) {
-            const wrapper = document.getElementById('filter-wrapper');
-            if (wrapper && !wrapper.contains(e.target)) {
+            function clearFilter() {
+                const btn = document.getElementById('btn-filter');
+                btn.querySelector('span').textContent = 'Filter';
+                btn.classList.remove('border-[#C7FF3D]');
+                btn.classList.add('border-white/30');
                 document.getElementById('filter-dropdown').classList.add('hidden');
                 document.getElementById('filter-chevron').style.transform = '';
                 closeAssignSub();
                 closeDueDateSub();
                 closePrioritySub();
             }
-        });
 
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            const backdrop = document.getElementById('sidebar-backdrop');
+            // Close filter when clicking outside
+            document.addEventListener('click', function(e) {
+                const wrapper = document.getElementById('filter-wrapper');
+                if (wrapper && !wrapper.contains(e.target)) {
+                    document.getElementById('filter-dropdown').classList.add('hidden');
+                    document.getElementById('filter-chevron').style.transform = '';
+                    closeAssignSub();
+                    closeDueDateSub();
+                    closePrioritySub();
+                }
+            });
 
-            sidebar.classList.toggle('-translate-x-full');
-            backdrop.classList.toggle('hidden');
-        }
+            function toggleSidebar() {
+                const sidebar = document.getElementById('sidebar');
+                const backdrop = document.getElementById('sidebar-backdrop');
 
-        function openInlineTask(col) {
-            document.getElementById('btn-' + col).classList.add('hidden');
-            document.getElementById('form-' + col).classList.remove('hidden');
-        }
-        function closeInlineTask(col) {
-            document.getElementById('form-' + col).classList.add('hidden');
-            document.getElementById('btn-' + col).classList.remove('hidden');
-        }
-
-        function toggleField(id) {
-            const el = document.getElementById(id);
-            el.classList.toggle('hidden');
-            if (!el.classList.contains('hidden')) {
-                el.focus();
-                if (el.type === 'date') el.showPicker(); 
+                sidebar.classList.toggle('-translate-x-full');
+                backdrop.classList.toggle('hidden');
             }
-        }
 
-        function setPriority(col, value, icon, color) {
-            const flagIcon = document.querySelector(`#form-${col} .fa-flag`);
-            flagIcon.className = `fa-solid fa-flag text-sm cursor-pointer hover:text-[#C7FF3D] transition ${color}`;
-    
-            document.getElementById(`${col}-priority`).classList.add('hidden');
-        }
-
-
-
-        function setAssign(col, name) {
-            const form = document.getElementById('form-' + col);
-            form.dataset.assigned = name;
-
-            const userIcon = document.querySelector(`#form-${col} .fa-user`);
-            userIcon.className = `fa-regular fa-user text-sm cursor-pointer hover:text-[#C7FF3D] transition text-[#C7FF3D]`;
-    
-            document.getElementById(`${col}-assign`).classList.add('hidden');
-        }
-
-        function toggleSubmitBtn(col, value) {
-            const btn = document.getElementById('btn-submit-' + col);
-            if (value.trim()) {
-                btn.disabled = false;
-                btn.className = 'w-7 h-7 flex items-center justify-center bg-[#C7FF3D] rounded-lg hover:bg-[#dfff6f] transition text-black text-xs cursor-pointer';
-            } else {
-                btn.disabled = true;
-                btn.className = 'w-7 h-7 flex items-center justify-center bg-white/10 rounded-lg transition text-white/20 text-xs cursor-not-allowed';
+            // ─── Drag & Drop ───────────────────────────────────────────────
+            function dragStart(event, taskId) {
+                event.dataTransfer.setData('taskId', taskId);
+                event.dataTransfer.effectAllowed = 'move';
             }
-        }
+
+            function dropTask(event, newStatusId) {
+                event.preventDefault();
+                const taskId = event.dataTransfer.getData('taskId');
+                if (!taskId) return;
+
+                fetch(`/tasks/${taskId}/status`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                        },
+                        body: JSON.stringify({
+                            status_id: newStatusId
+                        })
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) location.reload();
+                    })
+                    .catch(err => console.error('Drag drop error:', err));
+            }
+
+            function openInlineTask(col) {
+                document.getElementById('btn-' + col).classList.add('hidden');
+                document.getElementById('form-' + col).classList.remove('hidden');
+            }
+
+            function closeInlineTask(col) {
+                document.getElementById('form-' + col).classList.add('hidden');
+                document.getElementById('btn-' + col).classList.remove('hidden');
+            }
+
+            function toggleField(id) {
+                const el = document.getElementById(id);
+                el.classList.toggle('hidden');
+                if (!el.classList.contains('hidden')) {
+                    el.focus();
+                    if (el.type === 'date') el.showPicker();
+                }
+            }
+
+            function setPriority(col, value, icon, color) {
+                // Update hidden input yang di-submit ke backend
+                const priorityVal = document.getElementById(col + '-priority-val');
+                if (priorityVal) priorityVal.value = value;
+
+                // Update warna icon flag
+                const flagIcon = document.querySelector(`#form-${col} .fa-flag`);
+                if (flagIcon) flagIcon.className = `fa-solid fa-flag text-sm cursor-pointer hover:text-[#C7FF3D] transition ${color}`;
+
+                // Tutup dropdown priority (ID sekarang: col-priority-dropdown)
+                const dropdown = document.getElementById(col + '-priority-dropdown');
+                if (dropdown) dropdown.classList.add('hidden');
+            }
 
 
-        function submitTask(col) {
-            const form = document.getElementById('form-' + col);
-            const textarea = form.querySelector('textarea');
-            const dateInput = document.getElementById(col + '-date');
-            const text = textarea.value.trim();
 
-            if (!text) return;
+            function setAssign(col, name) {
+                const form = document.getElementById('form-' + col);
+                form.dataset.assigned = name;
 
-            const dateVal = dateInput.value 
-                ? new Date(dateInput.value).toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'})
-                : '—';
+                const userIcon = document.querySelector(`#form-${col} .fa-user`);
+                userIcon.className = `fa-regular fa-user text-sm cursor-pointer hover:text-[#C7FF3D] transition text-[#C7FF3D]`;
 
-            const assignedName = form.dataset.assigned || '—';
-            const assignedInitial = (assignedName && assignedName !== '—') ? assignedName[0].toUpperCase() : 'S';
+                document.getElementById(`${col}-assign`).classList.add('hidden');
+            }
 
-            const card = document.createElement('div');
-            card.className = 'bg-[#000000] border border-white/10 rounded-xl p-3 flex flex-col gap-2';
-            card.innerHTML = `
+            function toggleSubmitBtn(col, value) {
+                const btn = document.getElementById('btn-submit-' + col);
+                if (value.trim()) {
+                    btn.disabled = false;
+                    btn.className = 'w-7 h-7 flex items-center justify-center bg-[#C7FF3D] rounded-lg hover:bg-[#dfff6f] transition text-black text-xs cursor-pointer';
+                } else {
+                    btn.disabled = true;
+                    btn.className = 'w-7 h-7 flex items-center justify-center bg-white/10 rounded-lg transition text-white/20 text-xs cursor-not-allowed';
+                }
+            }
+
+
+            function submitTask(col) {
+                const form = document.getElementById('form-' + col);
+                const textarea = form.querySelector('textarea');
+                const dateInput = document.getElementById(col + '-date');
+                const text = textarea.value.trim();
+
+                if (!text) return;
+
+                const dateVal = dateInput.value ?
+                    new Date(dateInput.value).toLocaleDateString('en-GB', {
+                        day: 'numeric',
+                        month: 'short',
+                        year: 'numeric'
+                    }) :
+                    'â€”';
+
+                const assignedName = form.dataset.assigned || 'â€”';
+                const assignedInitial = (assignedName && assignedName !== 'â€”') ? assignedName[0].toUpperCase() : 'S';
+
+                const card = document.createElement('div');
+                card.className = 'bg-[#000000] border border-white/10 rounded-xl p-3 flex flex-col gap-2';
+                card.innerHTML = `
                              <div class="flex items-center justify-between">
                                  <span class="flex items-center gap-1 text-white/40 text-xs font-semibold">
                                      <i class="fa-solid fa-flag"></i> New
@@ -1055,47 +756,53 @@
                             </div>
                         `;
 
-            const btn = document.getElementById('btn-' + col);
-            btn.parentNode.insertBefore(card, btn);
+                const btn = document.getElementById('btn-' + col);
+                btn.parentNode.insertBefore(card, btn);
 
-            textarea.value = '';
-            form.dataset.assigned = '';
-            closeInlineTask(col);
-            toggleSubmitBtn(col, '');
-            
-            const flagIcon = form.querySelector('.fa-flag');
-            const userIcon = form.querySelector('.fa-user');
-            const calIcon = form.querySelector('.fa-calendar');
-            if (flagIcon) flagIcon.className = 'fa-solid fa-flag text-white/40 text-sm cursor-pointer hover:text-[#C7FF3D] transition';
-            if (userIcon) userIcon.className = 'fa-regular fa-user text-white/40 text-sm cursor-pointer hover:text-[#C7FF3D] transition';
-            if (calIcon) calIcon.className = 'fa-regular fa-calendar text-white/40 text-sm cursor-pointer hover:text-[#C7FF3D] transition';
-            
-            if (dateInput.value && fpInstances[col]) fpInstances[col].clear();
-        }
+                textarea.value = '';
+                form.dataset.assigned = '';
+                closeInlineTask(col);
+                toggleSubmitBtn(col, '');
 
-        const fpInstances = {};
+                const flagIcon = form.querySelector('.fa-flag');
+                const userIcon = form.querySelector('.fa-user');
+                const calIcon = form.querySelector('.fa-calendar');
+                if (flagIcon) flagIcon.className = 'fa-solid fa-flag text-white/40 text-sm cursor-pointer hover:text-[#C7FF3D] transition';
+                if (userIcon) userIcon.className = 'fa-regular fa-user text-white/40 text-sm cursor-pointer hover:text-[#C7FF3D] transition';
+                if (calIcon) calIcon.className = 'fa-regular fa-calendar text-white/40 text-sm cursor-pointer hover:text-[#C7FF3D] transition';
 
-        function openDatePicker(col) {
-            const input = document.getElementById(col + '-date');
-    
-            if (!fpInstances[col]) {
-                fpInstances[col] = flatpickr(input, {
-                    dateFormat: "Y-m-d",
-                    theme: "dark",
-                    onClose: function(selectedDates, dateStr) {
-                        if (dateStr) setDate(col, dateStr);
-                    }
-                });
+                if (dateInput.value && fpInstances[col]) fpInstances[col].clear();
             }
-            fpInstances[col].open();
-        }
 
-        function setDate(col, value) {
-            if (!value) return;
-            const calIcon = document.querySelector(`#form-${col} .fa-calendar`);
-            calIcon.className = `fa-regular fa-calendar text-sm cursor-pointer hover:text-[#C7FF3D] transition text-[#C7FF3D]`;
-        }
 
+            const fpInstances = {};
+
+            // Buka date picker dengan flatpickr
+            function openDatePicker(col) {
+                const input = document.getElementById(col + '-date');
+                if (!input) return;
+
+                if (!fpInstances[col]) {
+                    fpInstances[col] = flatpickr(input, {
+                        dateFormat: "Y-m-d",
+                        theme: "dark",
+                        onClose: function(selectedDates, dateStr) {
+                            if (dateStr) setDate(col, dateStr);
+                        }
+                    });
+                }
+                fpInstances[col].open();
+            }
+
+            function setDate(col, value) {
+                if (!value) return;
+                // Simpan ke hidden input yang di-submit ke backend
+                const hiddenInput = document.getElementById(col + '-deadline-val');
+                if (hiddenInput) hiddenInput.value = value;
+                // Tandai icon kalender jadi hijau
+                const calIcon = document.querySelector(`#form-${col} .fa-calendar`);
+                if (calIcon) calIcon.className = 'fa-regular fa-calendar text-sm cursor-pointer hover:text-[#C7FF3D] transition text-[#C7FF3D]';
+            }
         </script>
         @else
         <div class="mb-6">
@@ -1103,77 +810,77 @@
             <p class="text-xs sm:text-sm text-gray-400 mt-1">Pilih salah satu proyek di bawah ini untuk membuka tampilan papan tugas Kanban.</p>
         </div>
 
-        <div class="flex flex-col lg:flex-row gap-6 items-start"> 
+        <div class="flex flex-col lg:flex-row gap-6 items-start">
 
-         
+
             <div class="flex-1 w-full grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-5" id="projectGrid">
                 @forelse($projects ?? [] as $p)
-                    @php
-                        $status = $p->calculated_status ?? 'Active';
-                        $progress = $p->calculated_progress ?? 0;
-                        $taskCount = $p->tasks->count();
-                        $priority = $p->priority ?? 'Medium';
-                        $dueDate = $p->deadline ? \Carbon\Carbon::parse($p->deadline)->format('M d') : 'Dec 15';
+                @php
+                $status = $p->calculated_status ?? 'Active';
+                $progress = $p->calculated_progress ?? 0;
+                $taskCount = $p->tasks->count();
+                $priority = $p->priority ?? 'Medium';
+                $dueDate = $p->deadline ? \Carbon\Carbon::parse($p->deadline)->format('M d') : 'Dec 15';
 
-                        // Badge Styling
-                        $badgeClasses = match($status) {
-                            'Active'    => 'bg-emerald-950/60 text-emerald-400 border-emerald-500/30',
-                            'In Review' => 'bg-blue-950/60 text-blue-400 border-blue-500/30',
-                            'Planning'  => 'bg-neutral-800 text-neutral-300 border-neutral-600',
-                            'On Hold'   => 'bg-amber-950/60 text-amber-400 border-amber-500/30',
-                            default     => 'bg-emerald-950/60 text-emerald-400 border-emerald-500/30',
-                        };
+                // Badge Styling
+                $badgeClasses = match($status) {
+                'Active' => 'bg-emerald-950/60 text-emerald-400 border-emerald-500/30',
+                'In Review' => 'bg-blue-950/60 text-blue-400 border-blue-500/30',
+                'Planning' => 'bg-neutral-800 text-neutral-300 border-neutral-600',
+                'On Hold' => 'bg-amber-950/60 text-amber-400 border-amber-500/30',
+                default => 'bg-emerald-950/60 text-emerald-400 border-emerald-500/30',
+                };
 
-                        // Priority Styling
-                        $priorityClasses = match(strtolower($priority)) {
-                            'critical', 'urgent' => ['text' => 'text-red-400', 'dot' => 'bg-red-500'],
-                            'high'               => ['text' => 'text-orange-400', 'dot' => 'bg-orange-400'],
-                            'low'                => ['text' => 'text-emerald-400', 'dot' => 'bg-emerald-400'],
-                            default              => ['text' => 'text-purple-400', 'dot' => 'bg-purple-400'],
-                        };
-                    @endphp
+                // Priority Styling
+                $priorityClasses = match(strtolower($priority)) {
+                'critical', 'urgent' => ['text' => 'text-red-400', 'dot' => 'bg-red-500'],
+                'high' => ['text' => 'text-orange-400', 'dot' => 'bg-orange-400'],
+                'low' => ['text' => 'text-emerald-400', 'dot' => 'bg-emerald-400'],
+                default => ['text' => 'text-purple-400', 'dot' => 'bg-purple-400'],
+                };
+                @endphp
 
-                    <a href="{{ url('/projects/' . $p->id) }}" 
-                       class="project-card group relative bg-[#131515] border border-[#262626] rounded-2xl p-5 hover:border-[#C7FF3D]/70 hover:bg-[#181a1a] transition-all duration-200 shadow-xl flex flex-col justify-between cursor-pointer"
-                       data-name="{{ strtolower($p->nama_project) }}"
-                       data-key="{{ strtolower($p->key) }}">
-                        
-                        <div>
-                            <div class="flex items-start justify-between gap-3">
-                                <div>
-                                    <h3 class="text-base font-bold text-white group-hover:text-[#C7FF3D] transition line-clamp-1">
-                                        {{ $p->nama_project }}
-                                    </h3>
-                                    <p class="text-xs text-gray-400 font-mono mt-0.5">{{ $p->key }}</p>
-                                </div>
-                                
-                                <span class="px-2.5 py-0.5 text-xs font-semibold rounded-full border {{ $badgeClasses }} shrink-0">
-                                    {{ $status }}
-                                </span>
+                <a href="{{ url('/projects/' . $p->id) }}"
+                    class="project-card group relative bg-[#131515] border border-[#262626] rounded-2xl p-5 hover:border-[#C7FF3D]/70 hover:bg-[#181a1a] transition-all duration-200 shadow-xl flex flex-col justify-between cursor-pointer"
+                    data-name="{{ strtolower($p->nama_project) }}"
+                    data-key="{{ strtolower($p->key) }}">
+
+                    <div>
+                        <div class="flex items-start justify-between gap-3">
+                            <div>
+                                <h3 class="text-base font-bold text-white group-hover:text-[#C7FF3D] transition line-clamp-1">
+                                    {{ $p->nama_project }}
+                                </h3>
+                                <p class="text-xs text-gray-400 font-mono mt-0.5">{{ $p->key }}</p>
                             </div>
+
+                            <span class="px-2.5 py-0.5 text-xs font-semibold rounded-full border {{ $badgeClasses }} shrink-0">
+                                {{ $status }}
+                            </span>
                         </div>
-
-                        <div class="flex items-center justify-between text-xs text-gray-400 mt-5 pt-3 border-t border-white/5">
-                            <div class="flex items-center gap-1.5 {{ $priorityClasses['text'] }} font-medium">
-                                <span class="w-2 h-2 rounded-full {{ $priorityClasses['dot'] }}"></span>
-                                <span>{{ ucfirst($priority) }} Priority</span>
-                            </div>
-
-                            <div class="flex items-center gap-1.5 text-gray-300">
-                                <i class="fa-regular fa-calendar text-gray-400"></i>
-                                <span>Due {{ $dueDate }}</span>
-                            </div>
-                        </div>
-                    </a>
-                @empty
-                    <div class="col-span-2 text-center py-12 bg-[#131515] border border-[#262626] rounded-2xl">
-                        <i class="fa-regular fa-folder-open text-4xl text-gray-600 mb-3 block"></i>
-                        <h4 class="text-base font-bold text-white mb-1">Belum Ada Proyek</h4>
-                        <p class="text-xs text-gray-400 mb-4">Buat proyek baru terlebih dahulu untuk melihat kanban board.</p>
-                        <a href="{{ url('/projects') }}" class="inline-flex items-center gap-2 bg-[#C7FF3D] text-black font-semibold text-xs px-4 py-2 rounded-xl hover:bg-[#d4ff33] transition">
-                            <i class="fa-solid fa-plus"></i> Buat Proyek
-                        </a>
                     </div>
+
+                    <div class="flex items-center justify-between text-xs text-gray-400 mt-5 pt-3 border-t border-white/5">
+                        <div class="flex items-center gap-1.5 {{ $priorityClasses['text'] }} font-medium">
+                            <span class="w-2 h-2 rounded-full {{ $priorityClasses['dot'] }}"></span>
+                            <span>{{ ucfirst($priority) }} Priority</span>
+                        </div>
+
+                        <div class="flex items-center gap-1.5 text-gray-300">
+                            <i class="fa-regular fa-calendar text-gray-400"></i>
+                            <span>Due {{ $dueDate }}</span>
+                        </div>
+                    </div>
+                </a>
+                @empty
+                <div class="col-span-2 text-center py-12 bg-[#131515] border border-[#262626] rounded-2xl">
+                    <i class="fa-regular fa-folder-open text-4xl text-gray-600 mb-3 block"></i>
+                    <h4 class="text-base font-bold text-white mb-1">Belum Ada Proyek</h4>
+                    <p class="text-xs text-gray-400 mb-4">Buat proyek baru terlebih dahulu untuk melihat kanban board.</p>
+                    <a href="{{ url('/projects') }}" class="inline-flex items-center gap-2 bg-[#C7FF3D] text-black font-semibold text-xs px-4 py-2 rounded-xl hover:bg-[#d4ff33] transition">
+                        <i class="fa-solid fa-plus"></i> Buat Proyek
+                    </a>
+                </div>
                 @endforelse
             </div>
 
@@ -1212,7 +919,7 @@
                         </div>
                     </div>
                 </div>
-                
+
             </div>
         </div>
 
@@ -1234,5 +941,5 @@
         @endif
 
     </main>
- 
-</body>    
+
+</body>
