@@ -21,8 +21,16 @@ class LoginController extends Controller
         $user = $authService->verifyLogin($validated);
 
         if ($user) {
+            // Load relasi role
+            $user->load('role');
+
             // Simpan data user ke session
             $request->session()->put('user', $user);
+
+            if ($user->role->name === 'superadmin') {
+                return redirect('/admin/dashboard');
+            }
+
             return redirect('/dashboard');
         }
 
