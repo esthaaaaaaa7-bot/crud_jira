@@ -83,4 +83,16 @@ class DashboardController extends Controller
             'myTasks',
         ));
     }
+
+    public function admin()
+    {
+        $user = session('user');
+
+        // Proteksi: hanya superadmin yang boleh akses
+        if ($user->role->name !== 'superadmin') {
+            return redirect('/dashboard');
+        }
+
+        return view('users.admin');
+    }
 }
