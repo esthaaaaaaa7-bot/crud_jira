@@ -334,7 +334,10 @@
                             </div>
                         </a>
                         @empty
-                        <p class="text-xs text-gray-500">Tidak ada task</p>
+                        <div class="bg-[#151515] border border-white/10 rounded-xl p-4 mb-3 flex flex-col items-center justify-center gap-2 min-h-[80px]">
+                            <i class="fa-regular fa-circle-check text-gray-600 text-lg"></i>
+                            <p class="text-xs text-gray-500">Tidak ada task</p>
+                        </div>
                         @endforelse
 
                     </div>

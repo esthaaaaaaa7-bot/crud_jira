@@ -58,4 +58,20 @@ Route::middleware([CheckAuth::class])->group(function () {
     Route::get('/task-log', function () {
         return view('TaskLog');
     })->name('task.log');
+
+    Route::get('/user/management', [UserController::class, 'user_management'])->name('user.management');
+    Route::get('/admin/roles', function () {
+        $user = session('user');
+        if ($user?->role?->name !== 'superadmin') {
+            return redirect('/dashboard');
+        }
+        return view('superadmin.role_management');
+    })->name('admin.roles');
+    Route::get('/admin/permissions', function () {
+        $user = session('user');
+        if ($user?->role?->name !== 'superadmin') {
+            return redirect('/dashboard');
+        }
+        return view('superadmin.permission_schemes');
+    })->name('admin.permissions');
 });
