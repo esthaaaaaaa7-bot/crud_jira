@@ -180,64 +180,6 @@ html.light aside a:not(.active-nav):not(.sidebar-active):hover i {
     color: #0f172a !important;
 }
 
-/* ── ONLY Active Sidebar Item (Signature Lime #C7FF3D Theme) ── */
-/* Dark Mode Active */
-aside a.active-nav,
-aside a.sidebar-active {
-    background-color: rgba(199, 255, 61, 0.12) !important;
-    border: 1.5px solid rgba(199, 255, 61, 0.35) !important;
-    border-radius: 12px !important;
-    color: #C7FF3D !important;
-}
-aside a.active-nav span,
-aside a.sidebar-active span {
-    color: #C7FF3D !important;
-    font-weight: 600 !important;
-}
-aside a.active-nav i,
-aside a.sidebar-active i {
-    color: #C7FF3D !important;
-}
-aside a.active-nav:hover,
-aside a.sidebar-active:hover {
-    background-color: rgba(199, 255, 61, 0.18) !important;
-    border-color: #C7FF3D !important;
-}
-
-/* Light Mode Active (matches #C7FF3D brand color) */
-html.light aside a.active-nav,
-html.light aside a.sidebar-active {
-    background-color: rgba(199, 255, 61, 0.22) !important;
-    border: 1.5px solid #99db12 !important;
-    border-radius: 12px !important;
-    color: #5a8a00 !important;
-}
-
-html.light aside a.active-nav span,
-html.light aside a.sidebar-active span {
-    color: #5a8a00 !important;
-    font-weight: 600 !important;
-}
-
-html.light aside a.active-nav i,
-html.light aside a.sidebar-active i {
-    color: #5a8a00 !important;
-}
-
-/* Keep active styling on hover in light mode */
-html.light aside a.active-nav:hover,
-html.light aside a.sidebar-active:hover {
-    background-color: rgba(199, 255, 61, 0.3) !important;
-    border: 1.5px solid #82bc09 !important;
-}
-html.light aside a.active-nav:hover span,
-html.light aside a.sidebar-active:hover span {
-    color: #5a8a00 !important;
-}
-html.light aside a.active-nav:hover i,
-html.light aside a.sidebar-active:hover i {
-    color: #5a8a00 !important;
-}
 
 /* Click / pressed state */
 html.light aside a:active {

@@ -93,6 +93,6 @@ class DashboardController extends Controller
             return redirect('/dashboard');
         }
 
-        return view('users.admin');
+        return view('superadmin.admin_dashboard');
     }
 }

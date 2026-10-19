@@ -21,4 +21,9 @@ class UserController extends Controller
         $userService->createUser($validated);
         return redirect('/login')->with('success', 'Akun berhasil dibuat! Silakan login.');
     }
+
+    public function user_management()
+    {
+        return view('superadmin.user_management');
+    }
 }
