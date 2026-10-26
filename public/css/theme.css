@@ -159,10 +159,12 @@ html.light aside a:not(.active-nav):not(.sidebar-active) {
     border: 1.5px solid transparent !important;
     color: #475569 !important;
 }
+
 html.light aside a:not(.active-nav):not(.sidebar-active) span {
     color: #475569 !important;
     font-weight: 500 !important;
 }
+
 html.light aside a:not(.active-nav):not(.sidebar-active) i {
     color: #64748b !important;
 }
@@ -173,9 +175,11 @@ html.light aside a:not(.active-nav):not(.sidebar-active):hover {
     border: 1.5px solid transparent !important;
     color: #0f172a !important;
 }
+
 html.light aside a:not(.active-nav):not(.sidebar-active):hover span {
     color: #0f172a !important;
 }
+
 html.light aside a:not(.active-nav):not(.sidebar-active):hover i {
     color: #0f172a !important;
 }
@@ -186,6 +190,7 @@ html.light aside a:active {
     background-color: rgba(199, 255, 61, 0.35) !important;
     border: 1.5px solid #72a607 !important;
 }
+
 html.light aside a:active span,
 html.light aside a:active i {
     color: #497000 !important;
